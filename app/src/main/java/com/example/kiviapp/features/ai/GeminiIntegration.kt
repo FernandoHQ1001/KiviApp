@@ -15,10 +15,10 @@ import java.net.URL
 
 class GeminiIntegration {
 
-    // TU CLAVE (La que termina en ...b0Nk)
-    private val apiKey = "AIzaSyCue6WumJ0EAKOeRhZZGiiAnw3aiGeb0Nk".trim()
+    // CLAVE
+    private val apiKey = "CLAVE API".trim()
 
-    // MODELO: Usamos el 2.5 Flash que es el que te funciona
+    // MODELO: Usamos el 2.5 Flash
     private val modelName = "gemini-2.5-flash"
 
     // --- FUNCIONES PÚBLICAS ---
@@ -28,7 +28,7 @@ class GeminiIntegration {
         return sendRequest(prompt, null)
     }
 
-    // 2. Para ver (Texto + Imagen) -> ¡ESTA ES LA NUEVA!
+    // 2. Para ver (Texto + Imagen)
     suspend fun getImageResponse(prompt: String, image: Bitmap): String {
         return sendRequest(prompt, image)
     }
