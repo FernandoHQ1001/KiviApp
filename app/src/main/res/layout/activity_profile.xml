@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1A232E"
@@ -29,6 +30,7 @@
                 android:contentDescription="Volver" />
 
             <TextView
+                android:id="@+id/tvTituloPerfil"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -52,6 +54,7 @@
 
         <!-- Tarjeta principal de usuario -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="#2C3A47"
@@ -67,6 +70,7 @@
                 android:gravity="center_vertical">
 
                 <View
+                    android:id="@+id/viewAvatar"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:background="#1A232E"
@@ -101,6 +105,7 @@
 
         <!-- Sección Cuenta -->
         <TextView
+            android:id="@+id/tvCuentaLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cuenta"
@@ -125,6 +130,7 @@
                 android:gravity="center_vertical">
 
                 <ImageView
+                    android:id="@+id/iconInfoPersonal"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@android:drawable/ic_menu_myplaces"
@@ -139,6 +145,7 @@
                     android:layout_marginStart="16dp">
 
                     <TextView
+                        android:id="@+id/tvInfoTitulo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Información Personal"
@@ -147,6 +154,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvInfoDescripcion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nombre, email, teléfono y más"
@@ -155,6 +163,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iconInfoNext"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@android:drawable/ic_media_next"
