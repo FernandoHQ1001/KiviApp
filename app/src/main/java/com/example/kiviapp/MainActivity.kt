@@ -14,7 +14,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.kiviapp.core.KiviOrchestrator // Importamos el nuevo jefe
+import com.example.kiviapp.core.KiviOrchestrator
+import android.widget.ImageButton
+import com.example.kiviapp.ProfileActivity
+import com.example.kiviapp.SettingsActivity
+
+
 
 class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
@@ -60,6 +65,20 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         btnEscuchar = findViewById(R.id.btnEscuchar)
         btnCamara = findViewById(R.id.btnCamara)
         imgFoto = findViewById(R.id.imgFoto)
+
+        val btnPerfil = findViewById<ImageButton>(R.id.btnPerfil)
+        val btnSettings = findViewById<ImageButton>(R.id.btnSettings)
+
+        btnPerfil.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnSettings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
 
         // 2. Iniciar Orquestador
         orquestador = KiviOrchestrator(this)
