@@ -1,50 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#121212"> <ImageView
-    android:id="@+id/imgFoto"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:background="#333333"
-    android:contentDescription="Vista previa de la foto"
-    android:layout_marginBottom="20dp"
-    android:scaleType="fitCenter"/>
+    android:background="#1A232E"
+    android:padding="24dp">
 
     <TextView
-        android:id="@+id/txtEstado"
-        android:layout_width="match_parent"
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hola, soy Kivi"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textColor="#FFEB3B"
-        android:layout_marginBottom="30dp"/>
+        android:text="Asistente Kivi"
+        android:textColor="#B0BEC5"
+        android:textSize="14sp"
+        android:letterSpacing="0.1"
+        android:textAllCaps="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"/>
 
-    <Button
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="24dp"
+        app:cardBackgroundColor="#2C3A47"
+        app:cardCornerRadius="24dp"
+        app:strokeWidth="0dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnEscuchar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgFoto"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:background="#2C3A47"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0">
+
+                <TextView
+                    android:id="@+id/txtEstado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="24dp"
+                    android:text="Hola, soy Kivi.\nPresiona el botón azul para hablar."
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="6dp" />
+            </ScrollView>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEscuchar"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:text="MICRÓFONO 🎤"
-        android:textSize="24sp"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:text="Hablar con Kivi"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:backgroundTint="#2196F3"
-        android:contentDescription="Presiona para hablar con Kivi"
-        android:layout_marginBottom="16dp" />
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#2979FF"
+        app:cornerRadius="36dp"
+        app:icon="@android:drawable/ic_btn_speak_now"
+        app:iconGravity="textStart"
+        app:iconSize="28dp"
+        app:iconTint="#FFFFFF"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCamara"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCamara"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="CÁMARA 📷"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:backgroundTint="#4CAF50"
-        android:contentDescription="Presiona para tomar una foto" />
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:text="Reconocer Objeto"
+        android:textSize="16sp"
+        android:textColor="#2979FF"
+        app:strokeColor="#2979FF"
+        app:strokeWidth="2dp"
+        app:cornerRadius="36dp"
+        app:icon="@android:drawable/ic_menu_camera"
+        app:iconGravity="textStart"
+        app:iconSize="28dp"
+        app:iconTint="#2979FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
