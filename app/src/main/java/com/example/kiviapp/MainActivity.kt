@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
             val imagen = result.data?.extras?.get("data") as? Bitmap
             if (imagen != null) {
                 fotoActual = imagen
+                imgFoto.visibility = android.view.View.VISIBLE
                 imgFoto.setImageBitmap(imagen)
 
                 // Mensaje visual
