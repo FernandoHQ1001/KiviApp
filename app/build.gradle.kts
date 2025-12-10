@@ -54,7 +54,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // La plataforma de Firebase (Controla versiones)
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation (platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation ("com.google.firebase:firebase-storage-ktx")
+
 
     // Librería para Login (Authentication)
     implementation("com.google.firebase:firebase-auth-ktx")

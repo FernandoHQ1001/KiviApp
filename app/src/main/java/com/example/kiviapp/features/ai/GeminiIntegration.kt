@@ -16,7 +16,7 @@ import java.net.URL
 class GeminiIntegration {
 
     // CLAVE
-    private val apiKey = "Pn".trim()
+    private val apiKey = "CLAVE".trim()
 
     // MODELO: Usamos el 2.5 Flash
     private val modelName = "gemini-2.5-flash"
