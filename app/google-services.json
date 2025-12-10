@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "926105205340",
+    "project_id": "kiviapp-46af4",
+    "storage_bucket": "kiviapp-46af4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926105205340:android:9312dce00be4c528a8c499",
+        "android_client_info": {
+          "package_name": "com.example.kiviapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXZSDaighS8OaiX0RkOhiaLK0Z_C1k4Ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
