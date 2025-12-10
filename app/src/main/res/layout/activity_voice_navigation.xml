@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootVoiceNav"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A232E"
+    android:padding="24dp">
+
+    <!-- BOTÓN VOLVER -->
+    <ImageButton
+        android:id="@+id/btnBackVoiceNav"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@android:drawable/ic_menu_revert"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Volver"
+        app:tint="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- TÍTULO -->
+    <TextView
+        android:id="@+id/tvVoiceNavTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Navegación por Voz"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBackVoiceNav"
+        android:layout_marginTop="24dp" />
+
+    <!-- SUBRAYADO DEL TÍTULO -->
+    <View
+        android:id="@+id/viewVoiceNavDivider"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#2C3A47"
+        app:layout_constraintTop_toBottomOf="@id/tvVoiceNavTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- CARD 1: ASISTENCIA DE MOVILIDAD -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardVoiceMobility"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:cardBackgroundColor="#1A232E"
+        app:cardCornerRadius="999dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="#2979FF"
+        app:layout_constraintTop_toBottomOf="@id/viewVoiceNavDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            android:gravity="center_vertical">
+
+            <!-- ICONO -->
+            <ImageView
+                android:id="@+id/iconVoiceMobility"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_btn_speak_now"
+                app:tint="#2979FF" />
+
+            <!-- TEXTOS -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:id="@+id/tvVoiceMobilityTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Asistencia de movilidad"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvVoiceMobilitySubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Voz de Kivi y feedback háptico"
+                    android:textColor="#90A4AE"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- FLECHA -->
+            <ImageView
+                android:id="@+id/iconVoiceMobilityNext"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_next"
+                app:tint="#2979FF" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- CARD 2: DETECCIÓN DE OBSTÁCULOS -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardVoiceObstacles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#1A232E"
+        app:cardCornerRadius="999dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="#2979FF"
+        app:layout_constraintTop_toBottomOf="@id/cardVoiceMobility"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            android:gravity="center_vertical">
+
+            <!-- ICONO -->
+            <ImageView
+                android:id="@+id/iconVoiceObstacles"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_menu_compass"
+                app:tint="#2979FF" />
+
+            <!-- TEXTOS -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:id="@+id/tvVoiceObstaclesTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Detección de obstáculos"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvVoiceObstaclesSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alertas futuras sobre tu camino"
+                    android:textColor="#90A4AE"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- FLECHA -->
+            <ImageView
+                android:id="@+id/iconVoiceObstaclesNext"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_next"
+                app:tint="#2979FF" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

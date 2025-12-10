@@ -121,6 +121,38 @@ object KiviSettings {
 
 
     // --------------------------------------------------------------
+    // MOVILIDAD
+    // --------------------------------------------------------------
+    private const val KEY_VOICE_ENABLED = "voice_enabled"
+    private const val KEY_HAPTIC_ENABLED = "haptic_enabled"
+    private const val KEY_OBSTACLE_ALERT = "obstacle_alert"
+
+    // ----- Voz de Kivi ON/OFF -----
+    fun setVoiceEnabled(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_VOICE_ENABLED, enabled).apply()
+    }
+
+    fun isVoiceEnabled(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_VOICE_ENABLED, true)   // por defecto activada
+
+    // ----- Feedback háptico -----
+    fun setHapticEnabled(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_HAPTIC_ENABLED, enabled).apply()
+    }
+
+    fun isHapticEnabled(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_HAPTIC_ENABLED, true)  // por defecto activado
+
+    // ----- Alerta de obstáculos (para vibrar con peligro) -----
+    fun setObstacleAlertEnabled(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_OBSTACLE_ALERT, enabled).apply()
+    }
+
+    fun isObstacleAlertEnabled(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_OBSTACLE_ALERT, true)  // por defecto activado
+
+
+    // --------------------------------------------------------------
     // RESETEAR CONFIG DE USUARIO (OPCIONAL)
     // --------------------------------------------------------------
     fun resetCurrentUserSettings(context: Context) {

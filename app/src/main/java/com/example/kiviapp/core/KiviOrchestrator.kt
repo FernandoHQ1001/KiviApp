@@ -2,14 +2,17 @@ package com.example.kiviapp.core
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
+import com.example.kiviapp.KiviSettings
 import com.example.kiviapp.features.ai.GeminiIntegration
 import com.example.kiviapp.features.speech.TextToSpeechManager
 import com.example.kiviapp.features.speech.VoiceRecognitionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class KiviOrchestrator(private val context: Context) {
 
@@ -45,6 +48,51 @@ class KiviOrchestrator(private val context: Context) {
         }
     }
 
+    // Detectar palabras de peligro en la respuesta de la IA
+    private fun detectarPeligro(texto: String): Boolean {
+        val alertas = listOf(
+            "peligro",
+            "cuidado",
+            "riesgo",
+            "obstáculo",
+            "obstaculo",
+            "auto",
+            "carro",
+            "vehículo",
+            "vehiculo",
+            "hueco",
+            "agujero",
+            "escalera",
+            "perro",
+            "caída",
+            "caida"
+        )
+
+        val lower = texto.lowercase()
+        return alertas.any { palabra -> lower.contains(palabra) }
+    }
+
+    // Vibración (suave o fuerte)
+    private fun vibrar(fuerte: Boolean = false) {
+        // Si el usuario desactivó el feedback háptico, no vibra
+        if (!KiviSettings.isHapticEnabled(context)) return
+
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val duracion: Long = if (fuerte) 180L else 60L
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(
+                VibrationEffect.createOneShot(
+                    duracion,
+                    VibrationEffect.DEFAULT_AMPLITUDE
+                )
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(duracion)
+        }
+    }
+
     fun empezarEscucha(alEscuchar: (String) -> Unit) {
         listener?.onEstadoCambiado("👂 Escuchando...")
         oido.startListening { texto ->
@@ -77,7 +125,7 @@ class KiviOrchestrator(private val context: Context) {
                     respuesta = cerebro.getResponse(textoUsuario)
                 }
 
-                // Limpieza
+                // Limpieza de formato
                 val limpia = respuesta.replace("*", "").replace("#", "")
                 comunicarRespuesta(limpia)
 
@@ -89,6 +137,12 @@ class KiviOrchestrator(private val context: Context) {
     }
 
     private fun comunicarRespuesta(texto: String) {
+
+        // 🔎 Si el usuario activó "Alerta de obstáculos" y el texto parece peligroso:
+        if (KiviSettings.isObstacleAlertEnabled(context) && detectarPeligro(texto)) {
+            vibrar(true)  // vibración intensa
+        }
+
         listener?.onEstadoCambiado("KIVI: $texto")
         boca.speak(texto)
         listener?.onKiviHablando(texto)

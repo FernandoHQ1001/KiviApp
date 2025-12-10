@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         val btnPerfil = findViewById<ImageButton>(R.id.btnPerfil)
         val btnSettings = findViewById<ImageButton>(R.id.btnSettings)
         val btnLogout = findViewById<ImageButton>(R.id.btnLogout)
+        val btnVoiceNav = findViewById<ImageButton>(R.id.btnVoiceNav)
 
         btnPerfil.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
@@ -89,6 +90,10 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
         btnLogout.setOnClickListener {
             mostrarDialogoCerrarSesion()
+        }
+
+        btnVoiceNav.setOnClickListener {
+            startActivity(Intent(this, VoiceNavigationActivity::class.java))
         }
 
         // 2. Iniciar Orquestador
@@ -165,13 +170,19 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         tvHeader.setTextColor(colorSecundario)
         txtEstado.setTextColor(colorTexto)
 
-        // Iconos superiores
+        // Iconos superiores (incluye el nuevo btnVoiceNav)
         val iconColor = KiviSettings.getIconColor(this)
         val iconState = ColorStateList.valueOf(iconColor)
 
-        findViewById<ImageButton>(R.id.btnPerfil).imageTintList = iconState
-        findViewById<ImageButton>(R.id.btnSettings).imageTintList = iconState
-        findViewById<ImageButton>(R.id.btnLogout).imageTintList = iconState
+        val btnPerfil = findViewById<ImageButton>(R.id.btnPerfil)
+        val btnSettings = findViewById<ImageButton>(R.id.btnSettings)
+        val btnLogout = findViewById<ImageButton>(R.id.btnLogout)
+        val btnVoiceNav = findViewById<ImageButton>(R.id.btnVoiceNav)
+
+        btnPerfil.imageTintList = iconState
+        btnSettings.imageTintList = iconState
+        btnLogout.imageTintList = iconState
+        btnVoiceNav.imageTintList = iconState
 
         // Botón escuchar
         (btnEscuchar as MaterialButton).backgroundTintList = temaState

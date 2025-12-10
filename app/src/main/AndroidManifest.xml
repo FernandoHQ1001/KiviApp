@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -47,6 +49,12 @@
             android:exported="false" />
         <activity
             android:name=".PersonalInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VoiceNavigationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MobilityAssistanceSettingsActivity"
             android:exported="false" />
         <activity
             android:name=".WelcomeActivity"
