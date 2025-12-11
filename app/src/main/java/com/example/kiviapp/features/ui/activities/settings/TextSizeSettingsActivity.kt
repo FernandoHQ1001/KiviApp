@@ -1,10 +1,11 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.kiviapp.R
 import com.google.android.material.card.MaterialCardView
 
@@ -55,7 +56,7 @@ class TextSizeSettingsActivity : AppCompatActivity() {
 
     private fun aplicarTema() {
 
-        val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootTextSize)
+        val root = findViewById<ConstraintLayout>(R.id.rootTextSize)
         val card = findViewById<MaterialCardView>(R.id.cardTextSizeRoot)
 
         // Colores desde KiviSettings

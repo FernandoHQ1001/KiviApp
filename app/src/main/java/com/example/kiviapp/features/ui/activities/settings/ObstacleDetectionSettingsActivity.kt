@@ -1,10 +1,12 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.kiviapp.R
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 
@@ -94,7 +96,7 @@ class ObstacleDetectionSettingsActivity : AppCompatActivity() {
         cardHead.strokeColor  = colorTema
 
         // Divider
-        val divider = findViewById<android.view.View>(R.id.viewObstacleDivider)
+        val divider = findViewById<View>(R.id.viewObstacleDivider)
         divider.setBackgroundColor(colorSecundario)
 
         // Títulos

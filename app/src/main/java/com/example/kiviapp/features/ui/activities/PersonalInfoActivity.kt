@@ -1,8 +1,9 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities
 
-import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,6 +15,8 @@ import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
+import com.example.kiviapp.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.ktx.auth
@@ -80,7 +83,7 @@ class PersonalInfoActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_IMAGE_CODE && resultCode == RESULT_OK) {
             val uri = data?.data ?: return
             subirFotoBase64(uri)
         }
@@ -138,7 +141,7 @@ class PersonalInfoActivity : AppCompatActivity() {
                     if (!base64Foto.isNullOrEmpty()) {
                         try {
                             val bytes = Base64.decode(base64Foto, Base64.DEFAULT)
-                            val bmp = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                             imgPerfil.setImageBitmap(bmp)
                         } catch (_: Exception) {
                             imgPerfil.setImageResource(android.R.drawable.ic_menu_camera)
@@ -193,7 +196,7 @@ class PersonalInfoActivity : AppCompatActivity() {
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
         val colorSecundario = KiviSettings.getSecondaryTextColor(this)
         val colorTema = KiviSettings.getThemeColor(this)
-        val temaState = android.content.res.ColorStateList.valueOf(colorTema)
+        val temaState = ColorStateList.valueOf(colorTema)
 
         root.setBackgroundColor(colorFondo)
         card.setCardBackgroundColor(colorCard)

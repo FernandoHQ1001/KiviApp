@@ -1,13 +1,15 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.kiviapp.R
 import com.google.android.material.card.MaterialCardView
 
 class VoiceNavigationActivity : AppCompatActivity() {
@@ -46,7 +48,7 @@ class VoiceNavigationActivity : AppCompatActivity() {
     }
 
     private fun aplicarTema() {
-        val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootVoiceNav)
+        val root = findViewById<ConstraintLayout>(R.id.rootVoiceNav)
 
         val cardMobility = findViewById<MaterialCardView>(R.id.cardVoiceMobility)
         val cardObstacles = findViewById<MaterialCardView>(R.id.cardVoiceObstacles)
@@ -66,7 +68,7 @@ class VoiceNavigationActivity : AppCompatActivity() {
         tvTitle.setTextColor(colorTexto)
         findViewById<ImageButton>(R.id.btnBackVoiceNav).imageTintList = iconState
 
-        val divider = findViewById<android.view.View>(R.id.viewVoiceNavDivider)
+        val divider = findViewById<View>(R.id.viewVoiceNavDivider)
         divider.setBackgroundColor(colorSecundario)
 
         // Cards

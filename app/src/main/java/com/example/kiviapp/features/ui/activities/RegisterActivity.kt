@@ -1,4 +1,4 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
+import com.example.kiviapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore

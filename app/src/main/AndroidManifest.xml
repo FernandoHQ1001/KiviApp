@@ -24,49 +24,49 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KiviApp">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".features.ui.activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".features.ui.activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".features.ui.activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".features.ui.activities.settings.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".features.ui.activities.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".AppearanceSettingsActivity"
+            android:name=".features.ui.activities.settings.AppearanceSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".TextSizeSettingsActivity"
+            android:name=".features.ui.activities.settings.TextSizeSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".SoundSettingsActivity"
+            android:name=".features.ui.activities.settings.SoundSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".PersonalInfoActivity"
+            android:name=".features.ui.activities.PersonalInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".VoiceNavigationActivity"
+            android:name=".features.ui.activities.settings.VoiceNavigationActivity"
             android:exported="false" />
         <activity
-            android:name=".MobilityAssistanceSettingsActivity"
+            android:name=".features.ui.activities.settings.MobilityAssistanceSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ObstacleDetectionSettingsActivity"
+            android:name=".features.ui.activities.settings.ObstacleDetectionSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".LanguageSettingsActivity"
+            android:name=".features.ui.activities.settings.LanguageSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".VoiceLanguageActivity"
+            android:name=".features.ui.activities.settings.VoiceLanguageActivity"
             android:exported="false" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".features.ui.activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

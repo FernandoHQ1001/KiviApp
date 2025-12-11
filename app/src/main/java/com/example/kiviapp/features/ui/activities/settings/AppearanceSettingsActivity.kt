@@ -1,4 +1,4 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.kiviapp.R
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -81,7 +82,7 @@ class AppearanceSettingsActivity : AppCompatActivity() {
     }
 
     private fun aplicarTema() {
-        val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootAppearance)
+        val root = findViewById<ConstraintLayout>(R.id.rootAppearance)
         val card = findViewById<MaterialCardView>(R.id.cardAppearanceRoot)
 
         val colorFondo = KiviSettings.getBackgroundColor(this)

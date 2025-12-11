@@ -1,4 +1,4 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities
 
 import android.Manifest
 import android.content.DialogInterface
@@ -21,6 +21,13 @@ import com.example.kiviapp.core.KiviOrchestrator
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import android.content.res.ColorStateList
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
+import com.example.kiviapp.features.ui.activities.settings.LanguageSettingsActivity
+import com.example.kiviapp.R
+import com.example.kiviapp.features.ui.activities.settings.SettingsActivity
+import com.example.kiviapp.features.ui.activities.settings.VoiceNavigationActivity
 
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
@@ -53,7 +60,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
                 val imagen = result.data?.extras?.get("data") as? Bitmap
                 if (imagen != null) {
                     fotoActual = imagen
-                    imgFoto.visibility = android.view.View.VISIBLE
+                    imgFoto.visibility = View.VISIBLE
                     imgFoto.setImageBitmap(imagen)
 
                     txtEstado.text = "Foto lista. Pregúntame."
@@ -163,7 +170,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
     // ---------------------------------------------------------------------------------------------
     // TEMA
     private fun aplicarTema() {
-        val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootMain)
+        val root = findViewById<ConstraintLayout>(R.id.rootMain)
 
         val colorFondo = KiviSettings.getBackgroundColor(this)
         val colorCard = KiviSettings.getCardColor(this)

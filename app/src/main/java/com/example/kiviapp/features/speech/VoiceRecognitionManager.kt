@@ -7,7 +7,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
-import com.example.kiviapp.KiviSettings
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 
 // Escucha al usuario y convierte su voz en texto para enviárselo a la IA
 class VoiceRecognitionManager(context: Context) {

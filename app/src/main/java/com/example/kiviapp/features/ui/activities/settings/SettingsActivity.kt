@@ -1,4 +1,4 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.Intent
 import android.content.res.ColorStateList

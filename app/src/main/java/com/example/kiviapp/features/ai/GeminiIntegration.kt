@@ -2,7 +2,6 @@ package com.example.kiviapp.features.ai
 
 import android.graphics.Bitmap
 import android.util.Base64
-import com.example.kiviapp.KiviSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray

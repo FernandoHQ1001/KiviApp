@@ -1,4 +1,4 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.Context
 import androidx.annotation.ColorInt

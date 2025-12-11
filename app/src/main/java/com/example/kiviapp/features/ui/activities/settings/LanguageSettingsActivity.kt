@@ -1,12 +1,14 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kiviapp.R
 import com.google.android.material.card.MaterialCardView
 
 class LanguageSettingsActivity : AppCompatActivity() {
@@ -64,7 +66,7 @@ class LanguageSettingsActivity : AppCompatActivity() {
         val btnBack = findViewById<ImageButton>(R.id.btnBackLanguage)
 
         tvTitulo.setTextColor(colorTexto)
-        btnBack.imageTintList = android.content.res.ColorStateList.valueOf(iconColor)
+        btnBack.imageTintList = ColorStateList.valueOf(iconColor)
 
         // Sección idioma
         val tvSeccionIdioma = findViewById<TextView>(R.id.tvSeccionIdioma)
@@ -77,8 +79,8 @@ class LanguageSettingsActivity : AppCompatActivity() {
 
         val iconInterfaz = findViewById<ImageView>(R.id.iconIdiomaInterfaz)
         val iconInterfazNext = findViewById<ImageView>(R.id.iconIdiomaInterfazNext)
-        iconInterfaz.imageTintList = android.content.res.ColorStateList.valueOf(colorTema)
-        iconInterfazNext.imageTintList = android.content.res.ColorStateList.valueOf(colorTema)
+        iconInterfaz.imageTintList = ColorStateList.valueOf(colorTema)
+        iconInterfazNext.imageTintList = ColorStateList.valueOf(colorTema)
 
         findViewById<TextView>(R.id.tvIdiomaInterfazTitulo).setTextColor(colorTexto)
         findViewById<TextView>(R.id.tvIdiomaInterfazDescripcion).setTextColor(colorSecundario)
@@ -90,8 +92,8 @@ class LanguageSettingsActivity : AppCompatActivity() {
 
         val iconVoz = findViewById<ImageView>(R.id.iconIdiomaVoz)
         val iconVozNext = findViewById<ImageView>(R.id.iconIdiomaVozNext)
-        iconVoz.imageTintList = android.content.res.ColorStateList.valueOf(colorTema)
-        iconVozNext.imageTintList = android.content.res.ColorStateList.valueOf(colorTema)
+        iconVoz.imageTintList = ColorStateList.valueOf(colorTema)
+        iconVozNext.imageTintList = ColorStateList.valueOf(colorTema)
 
         findViewById<TextView>(R.id.tvIdiomaVozTitulo).setTextColor(colorTexto)
         findViewById<TextView>(R.id.tvIdiomaVozDescripcion).setTextColor(colorSecundario)

@@ -1,5 +1,6 @@
-package com.example.kiviapp
+package com.example.kiviapp.features.ui.activities.settings
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.kiviapp.R
 import com.google.android.material.card.MaterialCardView
 
 class VoiceLanguageActivity : AppCompatActivity() {
@@ -106,7 +108,7 @@ class VoiceLanguageActivity : AppCompatActivity() {
 
         val iconDrop = findViewById<ImageView>(R.id.iconDropIdiomaVoz)
         iconDrop.imageTintList =
-            android.content.res.ColorStateList.valueOf(colorTema)
+            ColorStateList.valueOf(colorTema)
     }
 
     // --------------------------------------------------------------

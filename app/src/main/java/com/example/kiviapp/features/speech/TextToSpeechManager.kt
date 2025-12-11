@@ -3,7 +3,7 @@ package com.example.kiviapp.features.speech
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import com.example.kiviapp.KiviSettings
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import java.util.Locale
 
 // Se encarga de convertir el texto de la IA en audio

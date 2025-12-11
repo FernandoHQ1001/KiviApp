@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
-import com.example.kiviapp.KiviSettings
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.features.ai.GeminiIntegration
 import com.example.kiviapp.features.speech.TextToSpeechManager
 import com.example.kiviapp.features.speech.VoiceRecognitionManager
