@@ -40,13 +40,27 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "¡Bienvenido de nuevo!", Toast.LENGTH_SHORT).show()
-                            irAInicio()
+
+                            // 1) Cargar configuraciones desde Firebase
+                            KiviSettings.loadFromCloud(this) {
+                                // 2) Vayas o no con settings remotos, pasamos al inicio
+                                irAInicio()
+                            }
+
                         } else {
-                            Toast.makeText(this, "Error: Correo o contraseña incorrectos", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this,
+                                "Error: Correo o contraseña incorrectos",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
             } else {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Por favor completa todos los campos",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

@@ -1,10 +1,12 @@
 package com.example.kiviapp
 
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.card.MaterialCardView
 
 class VoiceLanguageActivity : AppCompatActivity() {
@@ -38,6 +40,15 @@ class VoiceLanguageActivity : AppCompatActivity() {
         cardSelector.setOnClickListener {
             mostrarDialogoIdiomas()
         }
+
+        aplicarTema()
+        aplicarTamanos()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        aplicarTema()
+        aplicarTamanos()
     }
 
     private fun mostrarDialogoIdiomas() {
@@ -58,5 +69,55 @@ class VoiceLanguageActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancelar", null)
             .show()
+    }
+
+    // --------------------------------------------------------------
+    // TEMA / COLORES
+    // --------------------------------------------------------------
+    private fun aplicarTema() {
+        val root = findViewById<ConstraintLayout>(R.id.rootVoiceLanguage)
+        val cardRoot = findViewById<MaterialCardView>(R.id.cardVoiceLanguageRoot)
+        val cardSelector = findViewById<MaterialCardView>(R.id.cardSelectorIdiomaVoz)
+
+        val colorFondo = KiviSettings.getBackgroundColor(this)
+        val colorCard = KiviSettings.getCardColor(this)
+        val colorTexto = KiviSettings.getPrimaryTextColor(this)
+        val colorSecundario = KiviSettings.getSecondaryTextColor(this)
+        val colorTema = KiviSettings.getThemeColor(this)
+
+        root.setBackgroundColor(colorFondo)
+        cardRoot.setCardBackgroundColor(colorCard)
+
+        // Header
+        val tvTitulo = findViewById<TextView>(R.id.tvTituloVoiceLanguage)
+        val tvCerrar = findViewById<TextView>(R.id.tvCerrarVoiceLanguage)
+        tvTitulo.setTextColor(colorTexto)
+        tvCerrar.setTextColor(colorTexto)
+
+        // Descripción
+        val tvDescripcion = findViewById<TextView>(R.id.tvDescripcionVoiceLanguage)
+        tvDescripcion.setTextColor(colorSecundario)
+
+        // Selector de idioma
+        cardSelector.setCardBackgroundColor(KiviSettings.getBackgroundColor(this))
+        cardSelector.strokeColor = colorTema
+
+        tvIdiomaActual.setTextColor(colorTexto)
+
+        val iconDrop = findViewById<ImageView>(R.id.iconDropIdiomaVoz)
+        iconDrop.imageTintList =
+            android.content.res.ColorStateList.valueOf(colorTema)
+    }
+
+    // --------------------------------------------------------------
+    // TAMAÑO DE TEXTO
+    // --------------------------------------------------------------
+    private fun aplicarTamanos() {
+        fun size(base: Float): Float = KiviSettings.getScaledTextSize(this, base)
+
+        findViewById<TextView>(R.id.tvTituloVoiceLanguage).textSize = size(20f)
+        findViewById<TextView>(R.id.tvCerrarVoiceLanguage).textSize = size(18f)
+        findViewById<TextView>(R.id.tvDescripcionVoiceLanguage).textSize = size(14f)
+        findViewById<TextView>(R.id.tvIdiomaActualVoz).textSize = size(16f)
     }
 }

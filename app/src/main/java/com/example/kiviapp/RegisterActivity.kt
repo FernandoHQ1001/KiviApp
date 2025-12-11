@@ -56,10 +56,15 @@ class RegisterActivity : AppCompatActivity() {
 
             // Validaciones
             if (nombre.isNotEmpty() && apellido.isNotEmpty() && email.isNotEmpty() &&
-                fecha.isNotEmpty() && telefono.isNotEmpty() && pass.isNotEmpty()) {
+                fecha.isNotEmpty() && telefono.isNotEmpty() && pass.isNotEmpty()
+            ) {
 
                 if (pass.length < 6) {
-                    Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "La contraseña debe tener al menos 6 caracteres",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
 
@@ -85,22 +90,45 @@ class RegisterActivity : AppCompatActivity() {
                                 db.collection("usuarios").document(userId)
                                     .set(datosUsuario)
                                     .addOnSuccessListener {
-                                        Toast.makeText(this, "¡Bienvenido, $nombre!", Toast.LENGTH_SHORT).show()
+                                        // C. Sincronizar settings iniciales del usuario a Firebase
+                                        KiviSettings.syncToCloud(this)
+
+                                        Toast.makeText(
+                                            this,
+                                            "¡Bienvenido, $nombre!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                         irAInicio()
                                     }
                                     .addOnFailureListener {
                                         // Si falla guardar datos, igual entramos pero avisamos
-                                        Toast.makeText(this, "Cuenta creada, pero hubo error guardando datos.", Toast.LENGTH_LONG).show()
+                                        Toast.makeText(
+                                            this,
+                                            "Cuenta creada, pero hubo error guardando datos.",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+
+                                        // Igual subimos settings para que estén en la nube
+                                        KiviSettings.syncToCloud(this)
+
                                         irAInicio()
                                     }
                             }
                         } else {
                             // Error al crear cuenta (ej: correo ya existe)
-                            Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this,
+                                "Error: ${task.exception?.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
             } else {
-                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Por favor completa todos los campos",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

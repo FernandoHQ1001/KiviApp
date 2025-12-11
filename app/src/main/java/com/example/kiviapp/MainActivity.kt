@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.kiviapp.core.KiviOrchestrator
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import android.content.res.ColorStateList
 
 import com.google.firebase.ktx.Firebase
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
             startActivity(Intent(this, VoiceNavigationActivity::class.java))
         }
 
-        // 🆕 Botón Idioma → abre pantalla de Idioma y región
+        // 🆕 Botón Idioma → abre pantalla de Idioma
         btnIdioma.setOnClickListener {
             startActivity(Intent(this, LanguageSettingsActivity::class.java))
         }
@@ -162,6 +163,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootMain)
 
         val colorFondo = KiviSettings.getBackgroundColor(this)
+        val colorCard = KiviSettings.getCardColor(this)
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
         val colorSecundario = KiviSettings.getSecondaryTextColor(this)
         val colorTema = KiviSettings.getThemeColor(this)
@@ -169,10 +171,19 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
         root.setBackgroundColor(colorFondo)
 
+        // 🔹 Card principal (imagen + texto)
+        val cardMain = findViewById<MaterialCardView>(R.id.cardMain)
+        cardMain.setCardBackgroundColor(colorCard)
+
+        // Imagen dentro del card (fondo acorde al tema)
+        imgFoto.setBackgroundColor(colorCard)
+
+        // Texto dentro del card
+        txtEstado.setTextColor(colorTexto)
+
         // Header
         val tvHeader = findViewById<TextView>(R.id.tvHeader)
         tvHeader.setTextColor(colorSecundario)
-        txtEstado.setTextColor(colorTexto)
 
         // Iconos superiores
         val iconColor = KiviSettings.getIconColor(this)
