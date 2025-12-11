@@ -88,6 +88,11 @@ class ObstacleDetectionSettingsActivity : AppCompatActivity() {
         cardFloor.setCardBackgroundColor(colorFondo)
         cardHead.setCardBackgroundColor(colorFondo)
 
+        // 👉 BORDES usando el color de tema
+        cardMain.strokeColor  = colorTema
+        cardFloor.strokeColor = colorTema
+        cardHead.strokeColor  = colorTema
+
         // Divider
         val divider = findViewById<android.view.View>(R.id.viewObstacleDivider)
         divider.setBackgroundColor(colorSecundario)
