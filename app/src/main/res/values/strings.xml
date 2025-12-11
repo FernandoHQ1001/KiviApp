@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">KiviApp</string>
+
+    <!-- ID generado por Firebase para Google Sign In -->
+    <string name="default_web_client_id">
+        926105205340-to33jlll3nl8mfb4lj05lcjj8u4bkb71.apps.googleusercontent.com
+    </string>
 </resources>

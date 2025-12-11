@@ -24,6 +24,9 @@ import android.content.res.ColorStateList
 
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+
 
 class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
@@ -274,13 +277,27 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
             .setTitle("Cerrar sesión")
             .setMessage("¿Seguro que deseas cerrar sesión?")
             .setPositiveButton("Sí") { _: DialogInterface, _: Int ->
+
+                // 1) Cerrar sesión en Google (si estaba usando Google)
+                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build()
+
+                val googleClient = GoogleSignIn.getClient(this, gso)
+                googleClient.signOut()
+
+                // 2) Cerrar sesión en Firebase
                 Firebase.auth.signOut()
+
+                // 3) Volver a la pantalla de bienvenida
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             }
             .setNegativeButton("Cancelar", null)
             .show()
     }
+
 
     // ---------------------------------------------------------------------------------------------
     override fun onDestroy() {

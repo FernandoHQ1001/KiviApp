@@ -40,6 +40,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="40dp"/>
 
+        <!-- Email -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,6 +61,7 @@
             android:inputType="textEmailAddress"
             android:layout_marginBottom="20dp"/>
 
+        <!-- Contraseña -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,6 +82,7 @@
             android:inputType="textPassword"
             android:layout_marginBottom="10dp"/>
 
+        <!-- Botón iniciar sesión normal -->
         <Button
             android:id="@+id/btnLoginAction"
             android:layout_width="match_parent"
@@ -91,26 +94,44 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"/>
 
+        <!-- Separador -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginBottom="20dp">
-            <View android:layout_width="50dp" android:layout_height="1dp" android:background="#546E7A"/>
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="1dp"
+                android:background="#546E7A"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" O continúa con "
                 android:textColor="#90A4AE"/>
-            <View android:layout_width="50dp" android:layout_height="1dp" android:background="#546E7A"/>
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="1dp"
+                android:background="#546E7A"/>
         </LinearLayout>
 
+        <!-- Botón Google -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
-            <Button android:layout_width="80dp" android:layout_height="60dp" android:text="G" android:textSize="20sp" android:backgroundTint="#2C3A47" android:layout_marginEnd="10dp"/>
-            <Button android:layout_width="80dp" android:layout_height="60dp" android:text="f" android:textSize="20sp" android:backgroundTint="#2C3A47"/>
+
+            <Button
+                android:id="@+id/btnGoogleSignIn"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:text="G"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2C3A47" />
         </LinearLayout>
 
     </LinearLayout>

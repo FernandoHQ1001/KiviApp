@@ -1,8 +1,11 @@
 plugins {
+
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 
     id("com.google.gms.google-services")
+
+
 }
 
 android {
@@ -63,4 +66,8 @@ dependencies {
 
     // Librería para Base de Datos (Firestore)
     implementation("com.google.firebase:firebase-firestore-ktx")
+
+    //Inicio de sesion con google
+    implementation ("com.google.android.gms:play-services-auth:21.0.0")
+
 }
