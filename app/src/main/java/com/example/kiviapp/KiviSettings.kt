@@ -2,7 +2,6 @@ package com.example.kiviapp
 
 import android.content.Context
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -19,7 +18,7 @@ object KiviSettings {
         return if (user != null) {
             "kivi_prefs_${user.uid}"       // preferencias personales del usuario
         } else {
-            "kivi_prefs_default"           // antes de iniciar sesión (welcome/login)
+            "kivi_prefs_default"           // antes de iniciar sesión
         }
     }
 
@@ -34,7 +33,6 @@ object KiviSettings {
 
     fun isDarkMode(context: Context): Boolean =
         prefs(context).getBoolean(KEY_DARK_MODE, true) // por defecto oscuro
-
 
     // --------------------------------------------------------------
     // COLOR PRINCIPAL (tema)
@@ -51,12 +49,11 @@ object KiviSettings {
     @ColorInt
     fun getThemeColor(context: Context): Int {
         return when (getThemeColorName(context)) {
-            "Morado" -> 0xFF7E57C2.toInt()     // morado suave
-            "Verde"  -> 0xFF43A047.toInt()     // verde material
-            else     -> 0xFF2979FF.toInt()     // azul por defecto
+            "Morado" -> 0xFF7E57C2.toInt()
+            "Verde"  -> 0xFF43A047.toInt()
+            else     -> 0xFF2979FF.toInt()   // Azul por defecto
         }
     }
-
 
     // --------------------------------------------------------------
     // COLORES SEGÚN MODO OSCURO
@@ -76,7 +73,6 @@ object KiviSettings {
     fun getIconColor(context: Context): Int =
         if (isDarkMode(context)) 0xFFFFFFFF.toInt() else 0xFF37474F.toInt()
 
-
     // --------------------------------------------------------------
     // TAMAÑO DE TEXTO
     // --------------------------------------------------------------
@@ -89,7 +85,6 @@ object KiviSettings {
     fun getTextSizeLevel(context: Context): Int =
         prefs(context).getInt(KEY_TEXT_SIZE, 1)
 
-    /** Devuelve un tamaño escalado a partir del base */
     fun getScaledTextSize(context: Context, baseSize: Float): Float {
         return when (getTextSizeLevel(context)) {
             0 -> baseSize * 0.80f    // pequeño
@@ -97,7 +92,6 @@ object KiviSettings {
             else -> baseSize         // mediano
         }
     }
-
 
     // --------------------------------------------------------------
     // VOLUMEN GENERAL / VOLUMEN VOZ
@@ -119,41 +113,59 @@ object KiviSettings {
     fun getVolVoz(context: Context): Int =
         prefs(context).getInt(KEY_VOL_VOZ, 70)
 
-
     // --------------------------------------------------------------
-    // MOVILIDAD
+    // MOVILIDAD: voz / háptico
     // --------------------------------------------------------------
     private const val KEY_VOICE_ENABLED = "voice_enabled"
     private const val KEY_HAPTIC_ENABLED = "haptic_enabled"
-    private const val KEY_OBSTACLE_ALERT = "obstacle_alert"
 
-    // ----- Voz de Kivi ON/OFF -----
     fun setVoiceEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_VOICE_ENABLED, enabled).apply()
     }
 
     fun isVoiceEnabled(context: Context): Boolean =
-        prefs(context).getBoolean(KEY_VOICE_ENABLED, true)   // por defecto activada
+        prefs(context).getBoolean(KEY_VOICE_ENABLED, true)
 
-    // ----- Feedback háptico -----
     fun setHapticEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_HAPTIC_ENABLED, enabled).apply()
     }
 
     fun isHapticEnabled(context: Context): Boolean =
-        prefs(context).getBoolean(KEY_HAPTIC_ENABLED, true)  // por defecto activado
+        prefs(context).getBoolean(KEY_HAPTIC_ENABLED, true)
 
-    // ----- Alerta de obstáculos (para vibrar con peligro) -----
+    // --------------------------------------------------------------
+    // DETECCIÓN DE OBSTÁCULOS
+    // --------------------------------------------------------------
+    private const val KEY_OBSTACLE_ALERT = "obstacle_alert_main"
+    private const val KEY_OBSTACLE_FLOOR = "obstacle_floor"
+    private const val KEY_OBSTACLE_HEAD  = "obstacle_head"
+
+    // ON/OFF general
     fun setObstacleAlertEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_OBSTACLE_ALERT, enabled).apply()
     }
 
     fun isObstacleAlertEnabled(context: Context): Boolean =
-        prefs(context).getBoolean(KEY_OBSTACLE_ALERT, true)  // por defecto activado
+        prefs(context).getBoolean(KEY_OBSTACLE_ALERT, true)
 
+    // Obstáculos a nivel del suelo
+    fun setObstacleFloorEnabled(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_OBSTACLE_FLOOR, enabled).apply()
+    }
+
+    fun isObstacleFloorEnabled(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_OBSTACLE_FLOOR, true)
+
+    // Obstáculos a la altura de la cabeza
+    fun setObstacleHeadEnabled(context: Context, enabled: Boolean) {
+        prefs(context).edit().putBoolean(KEY_OBSTACLE_HEAD, enabled).apply()
+    }
+
+    fun isObstacleHeadEnabled(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_OBSTACLE_HEAD, true)
 
     // --------------------------------------------------------------
-    // RESETEAR CONFIG DE USUARIO (OPCIONAL)
+    // RESET
     // --------------------------------------------------------------
     fun resetCurrentUserSettings(context: Context) {
         prefs(context).edit().clear().apply()

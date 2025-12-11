@@ -31,7 +31,8 @@ class VoiceNavigationActivity : AppCompatActivity() {
         }
 
         cardObstacles.setOnClickListener {
-            Toast.makeText(this, "Configuración de detección de obstáculos (próximamente)", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ObstacleDetectionSettingsActivity::class.java)
+            startActivity(intent)
         }
 
         aplicarTema()

@@ -57,6 +57,9 @@
             android:name=".MobilityAssistanceSettingsActivity"
             android:exported="false" />
         <activity
+            android:name=".ObstacleDetectionSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
