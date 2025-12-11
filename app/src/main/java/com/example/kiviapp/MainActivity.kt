@@ -21,10 +21,8 @@ import com.example.kiviapp.core.KiviOrchestrator
 import com.google.android.material.button.MaterialButton
 import android.content.res.ColorStateList
 
-
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
-
 
 class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
@@ -79,6 +77,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         val btnSettings = findViewById<ImageButton>(R.id.btnSettings)
         val btnLogout = findViewById<ImageButton>(R.id.btnLogout)
         val btnVoiceNav = findViewById<ImageButton>(R.id.btnVoiceNav)
+        val btnIdioma = findViewById<ImageButton>(R.id.btnIdioma)
 
         btnPerfil.setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
@@ -94,6 +93,11 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
         btnVoiceNav.setOnClickListener {
             startActivity(Intent(this, VoiceNavigationActivity::class.java))
+        }
+
+        // 🆕 Botón Idioma → abre pantalla de Idioma y región
+        btnIdioma.setOnClickListener {
+            startActivity(Intent(this, LanguageSettingsActivity::class.java))
         }
 
         // 2. Iniciar Orquestador
@@ -170,7 +174,7 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         tvHeader.setTextColor(colorSecundario)
         txtEstado.setTextColor(colorTexto)
 
-        // Iconos superiores (incluye el nuevo btnVoiceNav)
+        // Iconos superiores
         val iconColor = KiviSettings.getIconColor(this)
         val iconState = ColorStateList.valueOf(iconColor)
 
@@ -178,11 +182,13 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         val btnSettings = findViewById<ImageButton>(R.id.btnSettings)
         val btnLogout = findViewById<ImageButton>(R.id.btnLogout)
         val btnVoiceNav = findViewById<ImageButton>(R.id.btnVoiceNav)
+        val btnIdioma = findViewById<ImageButton>(R.id.btnIdioma)
 
         btnPerfil.imageTintList = iconState
         btnSettings.imageTintList = iconState
         btnLogout.imageTintList = iconState
         btnVoiceNav.imageTintList = iconState
+        btnIdioma.imageTintList = iconState
 
         // Botón escuchar
         (btnEscuchar as MaterialButton).backgroundTintList = temaState

@@ -140,7 +140,6 @@ object KiviSettings {
     private const val KEY_OBSTACLE_FLOOR = "obstacle_floor"
     private const val KEY_OBSTACLE_HEAD  = "obstacle_head"
 
-    // ON/OFF general
     fun setObstacleAlertEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_OBSTACLE_ALERT, enabled).apply()
     }
@@ -148,7 +147,6 @@ object KiviSettings {
     fun isObstacleAlertEnabled(context: Context): Boolean =
         prefs(context).getBoolean(KEY_OBSTACLE_ALERT, true)
 
-    // Obstáculos a nivel del suelo
     fun setObstacleFloorEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_OBSTACLE_FLOOR, enabled).apply()
     }
@@ -156,13 +154,25 @@ object KiviSettings {
     fun isObstacleFloorEnabled(context: Context): Boolean =
         prefs(context).getBoolean(KEY_OBSTACLE_FLOOR, true)
 
-    // Obstáculos a la altura de la cabeza
     fun setObstacleHeadEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_OBSTACLE_HEAD, enabled).apply()
     }
 
     fun isObstacleHeadEnabled(context: Context): Boolean =
         prefs(context).getBoolean(KEY_OBSTACLE_HEAD, true)
+
+    // --------------------------------------------------------------
+    // IDIOMA DE VOZ (AHORA SÍ POR USUARIO)
+    // --------------------------------------------------------------
+    private const val KEY_VOICE_LANGUAGE = "voice_language"
+
+    // "es" por defecto
+    fun getVoiceLanguage(context: Context): String =
+        prefs(context).getString(KEY_VOICE_LANGUAGE, "es") ?: "es"
+
+    fun setVoiceLanguage(context: Context, langCode: String) {
+        prefs(context).edit().putString(KEY_VOICE_LANGUAGE, langCode).apply()
+    }
 
     // --------------------------------------------------------------
     // RESET

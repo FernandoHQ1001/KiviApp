@@ -7,23 +7,27 @@ import com.example.kiviapp.KiviSettings
 import java.util.Locale
 
 // Se encarga de convertir el texto de la IA en audio
-class TextToSpeechManager(private val context: Context) {   // <- guardamos context
+class TextToSpeechManager(private val context: Context) {
 
     private var tts: TextToSpeech? = null
     private var isReady = false
-    private var pendingText: String? = null                 // <- texto pendiente opcional
+    private var pendingText: String? = null
 
     init {
-        // Inicializamos el motor de voz de Android
         tts = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                // Configuramos el idioma a Español
-                val result = tts?.setLanguage(Locale("es", "ES"))
+
+                val langCode = KiviSettings.getVoiceLanguage(context) // "es" o "en"
+                val locale = when (langCode) {
+                    "en" -> Locale("en", "US")
+                    else -> Locale("es", "ES")
+                }
+                val result = tts?.setLanguage(locale)
 
                 if (result == TextToSpeech.LANG_MISSING_DATA ||
                     result == TextToSpeech.LANG_NOT_SUPPORTED
                 ) {
-                    Log.e("KIVI_TTS", "El idioma español no está instalado en este celular.")
+                    Log.e("KIVI_TTS", "El idioma seleccionado no está instalado en este celular.")
                 } else {
                     isReady = true
 

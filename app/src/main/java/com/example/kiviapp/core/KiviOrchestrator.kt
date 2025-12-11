@@ -39,8 +39,10 @@ class KiviOrchestrator(private val context: Context) {
         listener?.onEstadoCambiado("Iniciando Kivi...")
         CoroutineScope(Dispatchers.Main).launch {
             try {
+                val langCode = KiviSettings.getVoiceLanguage(context)
                 val saludo = cerebro.getResponse(
-                    "Saluda. Eres Kivi, un asistente pensado para ayudar a personas con discapacidad visual."
+                    "Saluda. Eres Kivi, un asistente pensado para ayudar a personas con discapacidad visual.",
+                    langCode
                 )
                 comunicarRespuesta(saludo)
             } catch (e: Exception) {
@@ -71,27 +73,17 @@ class KiviOrchestrator(private val context: Context) {
         }
     }
 
-    // ----------------------------------------------------------
-    // CÓDIGOS / PALABRAS DE PELIGRO EN LA RESPUESTA
-    // ----------------------------------------------------------
     private data class DangerFlags(
         val suelo: Boolean,
         val cabeza: Boolean
     )
 
-    /**
-     * Lee la respuesta de la IA y detecta si hay peligro en suelo / cabeza
-     * usando:
-     * - las marcas PELIGRO_SUELO, PELIGRO_CABEZA, AMBOS_PELIGROS
-     * - y también algunas palabras clave como "hueco", "escalera", etc.
-     */
     private fun detectarPeligroEnTexto(respuestaIA: String): DangerFlags {
         val lower = respuestaIA.lowercase()
 
         var peligroSuelo = false
         var peligroCabeza = false
 
-        // 1) Por CÓDIGOS
         if (lower.contains("ambos_peligros")) {
             peligroSuelo = true
             peligroCabeza = true
@@ -103,8 +95,6 @@ class KiviOrchestrator(private val context: Context) {
             peligroCabeza = true
         }
 
-        // 2) Por PALABRAS CLAVE (fallback si la IA no puso todos los códigos bien)
-        // Suelo
         if (lower.contains("hueco") ||
             lower.contains("bache") ||
             lower.contains("escalera") ||
@@ -117,7 +107,6 @@ class KiviOrchestrator(private val context: Context) {
             peligroSuelo = true
         }
 
-        // Cabeza
         if (lower.contains("rama") ||
             lower.contains("ramas") ||
             lower.contains("letrero") ||
@@ -135,9 +124,6 @@ class KiviOrchestrator(private val context: Context) {
         )
     }
 
-    // ----------------------------------------------------------
-    // ESCUCHA
-    // ----------------------------------------------------------
     fun empezarEscucha(alEscuchar: (String) -> Unit) {
         listener?.onEstadoCambiado("👂 Escuchando...")
         oido.startListening { texto ->
@@ -158,13 +144,14 @@ class KiviOrchestrator(private val context: Context) {
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
+                val langCode = KiviSettings.getVoiceLanguage(context)
+
                 val respuesta: String = if (foto != null) {
 
-                    // PROMPT ESTRUCTURADO
                     val prompt = """
                         Eres Kivi, un asistente para personas con discapacidad visual.
-                        Analiza esta imagen y responde en español, de forma breve y clara.
-
+                        Analiza esta imagen y responde en el idioma configurado para el usuario.
+                        
                         1) Describe lo más importante que veas en la escena.
                         2) Si existe algún riesgo u obstáculo para caminar, descríbelo claramente
                            (por ejemplo: "hay un hueco delante", "hay una escalera hacia abajo",
@@ -174,20 +161,18 @@ class KiviOrchestrator(private val context: Context) {
                            - PELIGRO_CABEZA  → si hay ramas, letreros, marcos bajos u objetos a la altura de la cabeza.
                            - AMBOS_PELIGROS  → si hay peligro tanto en el suelo como a la altura de la cabeza.
                            - SIN_PELIGRO     → si no ves ningún riesgo para la persona.
-
+                        
                         Es MUY IMPORTANTE que pongas SOLO UNA de estas marcas exactamente al final de la respuesta.
                         No expliques la marca, solo escríbela en una nueva línea al final.
-
+                        
                         Pregunta del usuario: "$textoUsuario"
                     """.trimIndent()
 
-                    cerebro.getImageResponse(prompt, foto)
+                    cerebro.getImageResponse(prompt, foto, langCode)
                 } else {
-                    // Solo texto
-                    cerebro.getResponse(textoUsuario)
+                    cerebro.getResponse(textoUsuario, langCode)
                 }
 
-                // 1) Detectar peligro
                 val flags = detectarPeligroEnTexto(respuesta)
 
                 val alertasActivadas = KiviSettings.isObstacleAlertEnabled(context)
@@ -200,7 +185,6 @@ class KiviOrchestrator(private val context: Context) {
                 var advertencia: String? = null
 
                 if (hayPeligroSuelo || hayPeligroCabeza) {
-                    // Vibración fuerte
                     vibrar(true)
 
                     advertencia = when {
@@ -217,7 +201,6 @@ class KiviOrchestrator(private val context: Context) {
                     }
                 }
 
-                // 2) Limpiar códigos antes de mostrar al usuario
                 val sinCodigos = respuesta
                     .replace("PELIGRO_SUELO", "", ignoreCase = true)
                     .replace("PELIGRO_CABEZA", "", ignoreCase = true)
@@ -227,13 +210,10 @@ class KiviOrchestrator(private val context: Context) {
                     .replace("#", "")
                     .trim()
 
-                // 3) Construir texto final: primero la advertencia "Cuidado..."
                 val textoFinal = if (advertencia != null) {
                     if (sinCodigos.isNotBlank()) {
-                        // Muestra advertencia + descripción
                         "$advertencia\n\n$sinCodigos"
                     } else {
-                        // Solo la advertencia
                         advertencia
                     }
                 } else {
@@ -250,12 +230,9 @@ class KiviOrchestrator(private val context: Context) {
         }
     }
 
-    // ----------------------------------------------------------
-    // MOSTRAR Y LEER RESPUESTA
-    // ----------------------------------------------------------
     private fun comunicarRespuesta(texto: String) {
         listener?.onEstadoCambiado("KIVI: $texto")
-        boca.speak(texto)   // aquí la voz empieza leyendo "Cuidado..." si lo hay
+        boca.speak(texto)
         listener?.onKiviHablando(texto)
     }
 
