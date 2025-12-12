@@ -8,7 +8,8 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kiviapp.R   // <-- import explícito de R
+import com.example.kiviapp.R
+import com.example.kiviapp.features.ui.activities.TutorialActivity // 👈 Importante para conectar con la Activity del video
 import com.google.android.material.card.MaterialCardView
 
 class SettingsActivity : AppCompatActivity() {
@@ -33,6 +34,11 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<MaterialCardView>(R.id.cardApariencia).setOnClickListener {
             startActivity(Intent(this, AppearanceSettingsActivity::class.java))
+        }
+
+        // 🆕 NUEVO: Click en ver Tutorial
+        findViewById<MaterialCardView>(R.id.cardTutorial).setOnClickListener {
+            startActivity(Intent(this, TutorialActivity::class.java))
         }
 
         aplicarTema()
@@ -64,17 +70,19 @@ class SettingsActivity : AppCompatActivity() {
         // Botón atrás
         findViewById<ImageButton>(R.id.btnBackSettings).imageTintList = iconColor
 
-        // Títulos de sección
+        // Títulos de sección (Agregamos tvAyuda)
         findViewById<TextView>(R.id.tvTituloConfig).setTextColor(colorTexto)
         findViewById<TextView>(R.id.tvMultimedia).setTextColor(colorSecundario)
         findViewById<TextView>(R.id.tvAccesibilidad).setTextColor(colorSecundario)
         findViewById<TextView>(R.id.tvPersonalizacion).setTextColor(colorSecundario)
+        findViewById<TextView>(R.id.tvAyuda).setTextColor(colorSecundario) // 🆕 Nuevo título
 
-        // Cards
+        // Cards (Agregamos cardTutorial a la lista)
         val cards = listOf(
             findViewById<MaterialCardView>(R.id.cardSonidoVolumen),
             findViewById<MaterialCardView>(R.id.cardTamanoTexto),
-            findViewById<MaterialCardView>(R.id.cardApariencia)
+            findViewById<MaterialCardView>(R.id.cardApariencia),
+            findViewById<MaterialCardView>(R.id.cardTutorial) // 🆕 Nueva card
         )
 
         cards.forEach {
@@ -92,6 +100,11 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.iconApariencia).imageTintList = temaState
         findViewById<ImageView>(R.id.iconAparienciaNext).imageTintList = temaState
 
+        // 🆕 Íconos del Tutorial
+        findViewById<ImageView>(R.id.iconTutorial).imageTintList = temaState
+        findViewById<ImageView>(R.id.iconTutorialNext).imageTintList = temaState
+
+
         // Textos dentro de las cards
         findViewById<TextView>(R.id.tvSonidoTitulo).setTextColor(colorTexto)
         findViewById<TextView>(R.id.tvSonidoDescripcion).setTextColor(colorSecundario)
@@ -101,6 +114,10 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.tvAparienciaTitulo).setTextColor(colorTexto)
         findViewById<TextView>(R.id.tvAparienciaDescripcion).setTextColor(colorSecundario)
+
+        // 🆕 Textos del Tutorial
+        findViewById<TextView>(R.id.tvTutorialTitulo).setTextColor(colorTexto)
+        findViewById<TextView>(R.id.tvTutorialDescripcion).setTextColor(colorSecundario)
     }
 
     private fun aplicarTamanos() {
@@ -112,6 +129,7 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvMultimedia).textSize = size(14f)
         findViewById<TextView>(R.id.tvAccesibilidad).textSize = size(14f)
         findViewById<TextView>(R.id.tvPersonalizacion).textSize = size(14f)
+        findViewById<TextView>(R.id.tvAyuda).textSize = size(14f) // 🆕
 
         // CARDS — TÍTULOS Y DESCRIPCIONES
         findViewById<TextView>(R.id.tvSonidoTitulo).textSize = size(16f)
@@ -122,6 +140,10 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.tvAparienciaTitulo).textSize = size(16f)
         findViewById<TextView>(R.id.tvAparienciaDescripcion).textSize = size(12f)
+
+        // 🆕 Tamaños Tutorial
+        findViewById<TextView>(R.id.tvTutorialTitulo).textSize = size(16f)
+        findViewById<TextView>(R.id.tvTutorialDescripcion).textSize = size(12f)
 
         // ICONO "T" (tamaño de texto)
         findViewById<TextView>(R.id.iconTexto).textSize = size(22f)
