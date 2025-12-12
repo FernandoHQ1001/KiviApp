@@ -161,7 +161,19 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun irAInicio() {
-        val intent = Intent(this, MainActivity::class.java)
+        // Verificar si ya vio el tutorial
+        val prefs = getSharedPreferences("KiviPrefs", MODE_PRIVATE)
+        val tutorialVisto = prefs.getBoolean("tutorial_visto", false)
+
+        val intent: Intent
+        if (!tutorialVisto) {
+            // Si NO lo ha visto, vamos al Tutorial
+            intent = Intent(this, TutorialActivity::class.java)
+        } else {
+            // Si YA lo vio, vamos directo al Main
+            intent = Intent(this, MainActivity::class.java)
+        }
+
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }

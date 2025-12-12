@@ -30,6 +30,10 @@
             android:name=".features.ui.activities.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".features.ui.activities.TutorialActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".features.ui.activities.MainActivity"
             android:exported="false" />
         <activity
