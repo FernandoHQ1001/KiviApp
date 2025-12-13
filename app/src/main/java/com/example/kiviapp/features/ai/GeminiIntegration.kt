@@ -16,7 +16,8 @@ import java.net.URL
 class GeminiIntegration {
 
     // CLAVE
-    private val apiKey = "clave".trim()
+    // TODO: REEMPLAZA "TU_API_KEY_AQUI" POR TU CLAVE REAL DE GOOGLE AI STUDIO
+    private val apiKey = "TU_API_KEY_AQUI"
 
     // MODELO: Usamos el 2.5 Flash
     private val modelName = "gemini-2.5-flash"
@@ -46,6 +47,11 @@ class GeminiIntegration {
         langCode: String
     ): String = withContext(Dispatchers.IO) {
         try {
+
+            if (apiKey == "TU_API_KEY_AQUI") {
+                return@withContext "API key no válida. Reemplaza el texto en GeminiIntegration.kt"
+            }
+
             val url = URL("https://generativelanguage.googleapis.com/v1beta/models/$modelName:generateContent?key=$apiKey")
 
             val conn = url.openConnection() as HttpURLConnection

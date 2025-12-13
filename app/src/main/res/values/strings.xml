@@ -1,8 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">KiviApp</string>
 
     <!-- ID generado por Firebase para Google Sign In -->
-    <string name="default_web_client_id">
-        926105205340-to33jlll3nl8mfb4lj05lcjj8u4bkb71.apps.googleusercontent.com
-    </string>
+    <string name="default_web_client_id">926105205340-to33jlll3nl8mfb4lj05lcjj8u4bkb71.apps.googleusercontent.com</string>
+
+    <!-- Main Activity -->
+    <string name="app_title">Asistente Kivi</string>
+    <string name="btn_settings">Configuración</string>
+    <string name="btn_language">Idioma</string>
+    <string name="btn_voice_nav">Navegación por voz</string>
+    <string name="btn_profile">Perfil</string>
+    <string name="btn_logout">Cerrar sesión</string>
+    <string name="welcome_message">Hola, soy Kivi.\nPresiona el botón azul para hablar.</string>
+    <string name="btn_speak">Hablar con Kivi</string>
+    <string name="btn_camera">Reconocer Objeto</string>
+
+    <!-- Login Activity -->
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_subtitle">Accede con tu cuenta de KIVI</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_button">Entrar</string>
+    <string name="register_link">¿No tienes cuenta? Regístrate</string>
+    <string name="google_login">Continuar con Google</string>
+    <string name="or_continue_with">O continúa con</string>
+    <string name="google_sign_in">Iniciar con Google</string>
+
+    <!-- Register Activity -->
+    <string name="register_title">Crear Cuenta</string>
+    <string name="name_hint">Nombre completo</string>
+    <string name="register_lastname">Apellidos</string>
+    <string name="phone_hint">Teléfono</string>
+    <string name="register_birthdate">Fecha de nacimiento</string>
+    <string name="register_phone_example">(+51) 999 999 999</string>
+    <string name="register_button">Registrarse</string>
+    <string name="login_link">¿Ya tienes cuenta? Inicia sesión</string>
+
+    <!-- Profile Activity -->
+    <string name="profile_title">Mi Perfil</string>
+    <string name="personal_info">Información Personal</string>
+    <string name="settings">Configuración</string>
+    <string name="back_button">Atrás</string>
+    <string name="profile_photo">Foto de perfil</string>
+    <string name="change_photo">Cambiar foto</string>
+    <string name="profile_username">Nombre de usuario</string>
+    <string name="profile_email_example">correousuario@gmail.com</string>
+    <string name="profile_account">Cuenta</string>
+    <string name="profile_info_description">Nombre, correo, teléfono y más</string>
+    <string name="go_to_personal_info">Ir a Información personal</string>
+
+    <!-- Settings Activity -->
+    <string name="settings_title">Configuración</string>
+    <string name="appearance">Apariencia</string>
+    <string name="language">Idioma</string>
+    <string name="sound">Sonido</string>
+    <string name="text_size">Tamaño de texto</string>
+    <string name="voice_navigation">Navegación por voz</string>
+    <string name="mobility_assistance">Asistencia de movilidad</string>
+    <string name="obstacle_detection">Detección de obstáculos</string>
+    <string name="settings_multimedia">Multimedia</string>
+    <string name="settings_sound_volume">Sonido y Volumen</string>
+    <string name="settings_sound_description">Ajusta el volumen y notificaciones de sonido</string>
+    <string name="settings_accessibility">Accesibilidad</string>
+    <string name="settings_text_size">Tamaño de Texto</string>
+    <string name="settings_text_description">Cambia el tamaño de la fuente para mejor lectura</string>
+    <string name="settings_personalization">Personalización</string>
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_appearance_description">Tema claro, oscuro o azul</string>
+    <string name="settings_help">Ayuda</string>
+    <string name="settings_tutorial">Ver Tutorial de Inicio</string>
+    <string name="settings_tutorial_description">Repasa cómo funciona Kivi</string>
+
+    <!-- Language Settings -->
+    <string name="language_settings">Configuración de idioma</string>
+    <string name="interface_language">Idioma de la interfaz</string>
+    <string name="interface_language_desc">Idioma actual: %1$s</string>
+    <string name="voice_language">Idioma de voz</string>
+    <string name="voice_language_desc">Configura el idioma en el que Kivi habla y escucha</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_portuguese">Portugués</string>
+    <string name="select_voice_language">Selecciona un idioma de voz</string>
+    <string name="select_voice_language_description">Selecciona el idioma en el que quieres que Kivi hable y escuche.</string>
+
+    <!-- Sound Settings -->
+    <string name="sound_settings_title">Sonido y Volumen</string>
+    <string name="general_volume">Volumen general</string>
+    <string name="voice_volume">Volumen de voz</string>
+
+    <!-- Voice Navigation Settings -->
+    <string name="voice_nav_title">Navegación por Voz</string>
+    <string name="mobility_assistance_subtitle">Voz de Kivi y feedback háptico</string>
+    <string name="obstacle_detection_subtitle">Alertas futuras sobre tu camino</string>
+
+    <!-- Mobility Assistance Settings -->
+    <string name="kivi_voice">Voz de Kivi</string>
+    <string name="kivi_voice_subtitle">Activar o desactivar la voz</string>
+    <string name="haptic_feedback">Feedback háptico</string>
+    <string name="haptic_feedback_subtitle">Vibraciones de alerta</string>
+
+    <!-- Obstacle Detection Settings -->
+    <string name="obstacle_alert">Alerta de obstáculos</string>
+    <string name="obstacle_alert_subtitle">Detecta obstáculos en tu camino</string>
+    <string name="alert_types">Tipos de alerta</string>
+    <string name="ground_level_obstacles">Obstáculos a nivel del suelo</string>
+    <string name="ground_level_obstacles_subtitle">Escalones, baches, huecos y objetos bajos</string>
+    <string name="head_level_obstacles">Obstáculos a la altura de la cabeza</string>
+    <string name="head_level_obstacles_subtitle">Ramas, señales, marcos de puerta bajos</string>
+
+    <!-- Text Size Settings -->
+    <string name="text_size_title">Tamaño de Texto</string>
+    <string name="font_size">Tamaño de fuente</string>
+    <string name="text_size_small">Pequeño</string>
+    <string name="text_size_medium">Mediano</string>
+    <string name="text_size_large">Grande</string>
+
+    <!-- Appearance Settings -->
+    <string name="appearance_title">Apariencia</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="color_theme">Tema de color</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_purple">Morado</string>
+    <string name="color_green">Verde</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial_title">Tutorial de Inicio</string>
+    <string name="tutorial_button">Comenzar a usar Kivi</string>
+
+    <!-- Common Buttons -->
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="add">Agregar</string>
+    <string name="search">Buscar</string>
+    <string name="close">Cerrar</string>
+
+    <!-- Messages -->
+    <string name="loading">Cargando...</string>
+    <string name="error">Error</string>
+    <string name="success">Éxito</string>
+    <string name="no_internet">Sin conexión a internet</string>
+    <string name="retry">Reintentar</string>
+    <string name="save_success">Datos guardados correctamente</string>
+    <string name="delete_confirm">¿Está seguro de eliminar este elemento?</string>
+
+    <!-- Main Activity -->
+    <string name="btn_stop">🛑 DETENER</string>
+    <string name="btn_talk">HABLAR CON KIVI 🎤</string>
+    <string name="photo_ready">Foto lista. Pregúntame.</string>
+    <string name="you_said">Tú: %s</string>
+    <string name="error_format">Error: %s</string>
+    <string name="logout_title">Cerrar sesión</string>
+    <string name="logout_message">¿Seguro que deseas cerrar sesión?</string>
+    <string name="btn_yes">Sí</string>
+    <string name="btn_cancel">Cancelar</string>
 </resources>
