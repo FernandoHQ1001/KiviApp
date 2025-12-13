@@ -12,7 +12,20 @@
           "package_name": "com.example.kiviapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "926105205340-139jk2j7ej3m6rg2ehbgq1trbo65rt07.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kiviapp",
+            "certificate_hash": "93900eb4e4fda94d00dd3bff043229268e6531fe"
+          }
+        },
+        {
+          "client_id": "926105205340-to33jlll3nl8mfb4lj05lcjj8u4bkb71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBXZSDaighS8OaiX0RkOhiaLK0Z_C1k4Ns"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926105205340-to33jlll3nl8mfb4lj05lcjj8u4bkb71.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
