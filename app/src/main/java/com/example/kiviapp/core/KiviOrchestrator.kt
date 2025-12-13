@@ -28,6 +28,14 @@ class KiviOrchestrator(private val context: Context) {
 
     private var listener: KiviListener? = null
 
+    init {
+        // ✅ Escuchamos cuando el TTS esté listo
+        boca.onTtsReady = {
+            Log.d("KIVI", "✅ TTS está listo para hablar")
+            decir("Hola, soy Kivi. Estoy lista para ayudarte.")
+        }
+    }
+
     fun setListener(nuevoListener: KiviListener) {
         listener = nuevoListener
     }
@@ -36,19 +44,8 @@ class KiviOrchestrator(private val context: Context) {
     // SALUDO
     // ----------------------------------------------------------
     fun saludar() {
-        listener?.onEstadoCambiado("Iniciando Kivi...")
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val langCode = KiviSettings.getVoiceLanguage(context)
-                val saludo = cerebro.getResponse(
-                    "Saluda. Eres Kivi, un asistente pensado para ayudar a personas con discapacidad visual.",
-                    langCode
-                )
-                comunicarRespuesta(saludo)
-            } catch (e: Exception) {
-                listener?.onError("Error inicio: ${e.message}")
-            }
-        }
+        listener?.onEstadoCambiado("Kivi lista")
+        decir("Hola, soy Kivi. Estoy lista para ayudarte.")
     }
 
     // ----------------------------------------------------------
@@ -225,15 +222,14 @@ class KiviOrchestrator(private val context: Context) {
             } catch (e: Exception) {
                 Log.e("KIVI", "Error procesando pregunta: ${e.message}", e)
                 listener?.onError(e.message ?: "Error desconocido")
-                boca.speak("Tuve un problema.")
+                decir("Tuve un problema.")
             }
         }
     }
 
     private fun comunicarRespuesta(texto: String) {
-        listener?.onEstadoCambiado("KIVI: $texto")
-        boca.speak(texto)
         listener?.onKiviHablando(texto)
+        boca.speak(texto)
     }
 
     fun liberarRecursos() {

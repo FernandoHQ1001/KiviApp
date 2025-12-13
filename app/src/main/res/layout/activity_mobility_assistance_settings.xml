@@ -38,7 +38,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Asistencia de movilidad"
+                    android:text="@string/mobility_assistance"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:id="@+id/tvCerrarMobility"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="✕"
+                    android:text="@string/close"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -94,7 +94,7 @@
                                 android:id="@+id/tvLabelVoz"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Voz de Kivi"
+                                android:text="@string/kivi_voice"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -103,7 +103,7 @@
                                 android:id="@+id/tvSubLabelVoz"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Activar o desactivar la voz"
+                                android:text="@string/kivi_voice_subtitle"
                                 android:textColor="#90A4AE"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -137,7 +137,7 @@
                                 android:id="@+id/tvLabelHaptico"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Feedback háptico"
+                                android:text="@string/haptic_feedback"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -146,7 +146,7 @@
                                 android:id="@+id/tvSubLabelHaptico"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Vibraciones de alerta"
+                                android:text="@string/haptic_feedback_subtitle"
                                 android:textColor="#90A4AE"
                                 android:textSize="12sp" />
                         </LinearLayout>

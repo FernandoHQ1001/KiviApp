@@ -4,12 +4,12 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.kiviapp.R
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
-class TextSizeSettingsActivity : AppCompatActivity() {
+class TextSizeSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +49,9 @@ class TextSizeSettingsActivity : AppCompatActivity() {
     }
 
     private fun textoNivel(nivel: Int): String = when (nivel) {
-        0 -> "Pequeño"
-        2 -> "Grande"
-        else -> "Mediano"
+        0 -> getString(R.string.text_size_small)
+        2 -> getString(R.string.text_size_large)
+        else -> getString(R.string.text_size_medium)
     }
 
     private fun aplicarTema() {

@@ -5,12 +5,12 @@ import android.media.AudioManager
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.kiviapp.R
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
-class SoundSettingsActivity : AppCompatActivity() {
+class SoundSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

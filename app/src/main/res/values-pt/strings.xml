@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KiviApp</string>
+
+    <!-- ID generado por Firebase para Google Sign In -->
+    <string name="default_web_client_id">926105205340-to33jlll3nl8mfb4lj05lcjj8u4bkb71.apps.googleusercontent.com</string>
+
+    <!-- Main Activity -->
+    <string name="app_title">Assistente Kivi</string>
+    <string name="btn_settings">Configurações</string>
+    <string name="btn_language">Idioma</string>
+    <string name="btn_voice_nav">Navegação por voz</string>
+    <string name="btn_profile">Perfil</string>
+    <string name="btn_logout">Sair</string>
+    <string name="welcome_message">Olá, sou o Kivi.\nPressione o botão azul para falar.</string>
+    <string name="btn_speak">Falar com Kivi</string>
+    <string name="btn_camera">Reconhecer Objeto</string>
+
+    <!-- Login Activity -->
+    <string name="login_title">Entrar</string>
+    <string name="login_subtitle">Entre na sua conta KIVI</string>
+    <string name="email_hint">E-mail</string>
+    <string name="password_hint">Senha</string>
+    <string name="login_button">Entrar</string>
+    <string name="register_link">Não tem uma conta? Cadastre-se</string>
+    <string name="google_login">Continuar com Google</string>
+    <string name="or_continue_with">Ou continuar com</string>
+    <string name="google_sign_in">Entrar com Google</string>
+
+    <!-- Register Activity -->
+    <string name="register_title">Criar Conta</string>
+    <string name="name_hint">Nome completo</string>
+    <string name="register_lastname">Sobrenome</string>
+    <string name="phone_hint">Telefone</string>
+    <string name="register_birthdate">Data de nascimento</string>
+    <string name="register_phone_example">(+55) 999 999 999</string>
+    <string name="register_button">Cadastrar</string>
+    <string name="login_link">Já tem uma conta? Entrar</string>
+
+    <!-- Profile Activity -->
+    <string name="profile_title">Meu Perfil</string>
+    <string name="personal_info">Informação Pessoal</string>
+    <string name="settings">Configurações</string>
+    <string name="back_button">Voltar</string>
+    <string name="profile_photo">Foto de perfil</string>
+    <string name="change_photo">Mudar foto</string>
+    <string name="profile_username">Nome de usuário</string>
+    <string name="profile_email_example">usuarioemail@gmail.com</string>
+    <string name="profile_account">Conta</string>
+    <string name="profile_info_description">Nome, email, telefone e mais</string>
+    <string name="go_to_personal_info">Ir para Informação Pessoal</string>
+
+    <!-- Settings Activity -->
+    <string name="settings_title">Configurações</string>
+    <string name="appearance">Aparência</string>
+    <string name="language">Idioma</string>
+    <string name="sound">Som</string>
+    <string name="text_size">Tamanho do texto</string>
+    <string name="voice_navigation">Navegação por voz</string>
+    <string name="mobility_assistance">Assistência de mobilidade</string>
+    <string name="obstacle_detection">Detecção de obstáculos</string>
+    <string name="settings_multimedia">Multimídia</string>
+    <string name="settings_sound_volume">Som e Volume</string>
+    <string name="settings_sound_description">Ajuste o volume e notificações de som</string>
+    <string name="settings_accessibility">Acessibilidade</string>
+    <string name="settings_text_size">Tamanho do Texto</string>
+    <string name="settings_text_description">Mude o tamanho da fonte para melhor leitura</string>
+    <string name="settings_personalization">Personalização</string>
+    <string name="settings_appearance">Aparência</string>
+    <string name="settings_appearance_description">Tema claro, escuro ou azul</string>
+    <string name="settings_help">Ajuda</string>
+    <string name="settings_tutorial">Ver Tutorial de Início</string>
+    <string name="settings_tutorial_description">Revise como funciona o Kivi</string>
+
+    <!-- Language Settings -->
+    <string name="language_settings">Configurações de idioma</string>
+    <string name="interface_language">Idioma da interface</string>
+    <string name="interface_language_desc">Idioma atual: %1$s</string>
+    <string name="voice_language">Idioma de voz</string>
+    <string name="voice_language_desc">Configure o idioma em que Kivi fala e ouve</string>
+    <string name="language_spanish">Espanhol</string>
+    <string name="language_english">Inglês</string>
+    <string name="language_portuguese">Português</string>
+    <string name="select_voice_language">Selecione um idioma de voz</string>
+    <string name="select_voice_language_description">Selecione o idioma em que você deseja que Kivi fale e ouça.</string>
+
+    <!-- Sound Settings -->
+    <string name="sound_settings_title">Som e Volume</string>
+    <string name="general_volume">Volume Geral</string>
+    <string name="voice_volume">Volume da Voz</string>
+
+    <!-- Voice Navigation Settings -->
+    <string name="voice_nav_title">Navegação por Voz</string>
+    <string name="mobility_assistance_subtitle">Voz Kivi e feedback tátil</string>
+    <string name="obstacle_detection_subtitle">Alertas futuros sobre o seu caminho</string>
+
+    <!-- Mobility Assistance Settings -->
+    <string name="kivi_voice">Voz de Kivi</string>
+    <string name="kivi_voice_subtitle">Ativar ou desativar a voz</string>
+    <string name="haptic_feedback">Feedback tátil</string>
+    <string name="haptic_feedback_subtitle">Vibrações de alerta</string>
+
+    <!-- Obstacle Detection Settings -->
+    <string name="obstacle_alert">Alerta de obstáculo</string>
+    <string name="obstacle_alert_subtitle">Detectar obstáculos em seu caminho</string>
+    <string name="alert_types">Tipos de Alerta</string>
+    <string name="ground_level_obstacles">Obstáculos ao nível do solo</string>
+    <string name="ground_level_obstacles_subtitle">Degraus, buracos, buracos e objetos baixos</string>
+    <string name="head_level_obstacles">Obstáculos na altura da cabeça</string>
+    <string name="head_level_obstacles_subtitle">Galhos, sinais, batentes de porta baixos</string>
+
+    <!-- Text Size Settings -->
+    <string name="text_size_title">Tamanho do Texto</string>
+    <string name="font_size">Tamanho da fonte</string>
+    <string name="text_size_small">Pequeno</string>
+    <string name="text_size_medium">Médio</string>
+    <string name="text_size_large">Grande</string>
+
+    <!-- Appearance Settings -->
+    <string name="appearance_title">Aparência</string>
+    <string name="dark_mode">Modo escuro</string>
+    <string name="color_theme">Tema de cores</string>
+    <string name="color_blue">Azul</string>
+    <string name="color_purple">Roxo</string>
+    <string name="color_green">Verde</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial_title">Tutorial de Início</string>
+    <string name="tutorial_button">Comece a usar o Kivi</string>
+
+    <!-- Common Buttons -->
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceitar</string>
+    <string name="delete">Excluir</string>
+    <string name="edit">Editar</string>
+    <string name="add">Adicionar</string>
+    <string name="search">Buscar</string>
+    <string name="close">Fechar</string>
+
+    <!-- Messages -->
+    <string name="loading">Carregando...</string>
+    <string name="error">Erro</string>
+    <string name="success">Sucesso</string>
+    <string name="no_internet">Sem conexão com a internet</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="save_success">Dados salvos com sucesso</string>
+    <string name="delete_confirm">Tem certeza de que deseja excluir este item?</string>
+
+    <!-- Main Activity -->
+    <string name="btn_stop">🛑 PARAR</string>
+    <string name="btn_talk">FALAR COM KIVI 🎤</string>
+    <string name="photo_ready">Foto pronta. Pergunte-me.</string>
+    <string name="you_said">Você: %s</string>
+    <string name="error_format">Erro: %s</string>
+    <string name="logout_title">Sair</string>
+    <string name="logout_message">Tem certeza de que deseja sair?</string>
+    <string name="btn_yes">Sim</string>
+    <string name="btn_cancel">Cancelar</string>
+</resources>

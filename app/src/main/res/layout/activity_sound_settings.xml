@@ -38,7 +38,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sonido y Volumen"
+                    android:text="@string/sound_settings_title"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:id="@+id/tvCerrarSonido"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="✕"
+                    android:text="@string/close"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -65,7 +65,7 @@
                 android:id="@+id/tvTituloVolGeneral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Volumen general"
+                android:text="@string/general_volume"
                 android:textColor="#FFFFFF" />
 
             <LinearLayout
@@ -99,7 +99,7 @@
                 android:id="@+id/tvTituloVolVoz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Volumen de voz"
+                android:text="@string/voice_volume"
                 android:textColor="#FFFFFF" />
 
             <LinearLayout

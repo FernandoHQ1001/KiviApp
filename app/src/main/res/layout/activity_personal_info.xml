@@ -27,7 +27,7 @@
                 android:layout_height="40dp"
                 android:src="@android:drawable/ic_menu_revert"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Volver"
+                android:contentDescription="@string/back_button"
                 app:tint="#FFFFFF" />
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Información Personal"
+                android:text="@string/personal_info"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -79,13 +79,13 @@
                     android:scaleType="centerCrop"
                     android:background="#1A232E"
                     android:padding="20dp"
-                    android:contentDescription="Foto de perfil" />
+                    android:contentDescription="@string/profile_photo" />
 
                 <TextView
                     android:id="@+id/tvCambiarFoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cambiar foto"
+                    android:text="@string/change_photo"
                     android:textColor="#2979FF"
                     android:textSize="14sp"
                     android:gravity="center"
@@ -97,102 +97,86 @@
                     android:layout_height="16dp"/>
 
                 <!-- NOMBRE -->
-                <TextView
-                    android:id="@+id/tvLabelNombre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre"
-                    android:textColor="#90A4AE"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="4dp"/>
-
-                <EditText
-                    android:id="@+id/etNombrePersonal"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:hint="Ingresa tu nombre"
-                    android:textColorHint="#90A4AE"/>
+                    android:hint="@string/name_hint"
+                    android:textColorHint="#90A4AE">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNombrePersonal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="16dp" />
 
                 <!-- APELLIDO -->
-                <TextView
-                    android:id="@+id/tvLabelApellido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apellido"
-                    android:textColor="#90A4AE"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="4dp"/>
-
-                <EditText
-                    android:id="@+id/etApellidoPersonal"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:hint="Ingresa tu apellido"
-                    android:textColorHint="#90A4AE"/>
+                    android:hint="@string/register_lastname"
+                    android:textColorHint="#90A4AE">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etApellidoPersonal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="16dp" />
 
                 <!-- TELÉFONO -->
-                <TextView
-                    android:id="@+id/tvLabelTelefono"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Teléfono"
-                    android:textColor="#90A4AE"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="4dp"/>
-
-                <EditText
-                    android:id="@+id/etTelefonoPersonal"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:inputType="phone"
-                    android:hint="Ingresa tu teléfono"
-                    android:textColorHint="#90A4AE"/>
+                    android:hint="@string/phone_hint"
+                    android:textColorHint="#90A4AE">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etTelefonoPersonal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:inputType="phone"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="16dp" />
 
                 <!-- FECHA DE NACIMIENTO -->
-                <TextView
-                    android:id="@+id/tvLabelFecha"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha de nacimiento"
-                    android:textColor="#90A4AE"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="4dp"/>
-
-                <EditText
-                    android:id="@+id/etFechaPersonal"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:inputType="date"
-                    android:hint="dd/mm/aaaa"
-                    android:textColorHint="#90A4AE"/>
+                    android:hint="@string/register_birthdate"
+                    android:textColorHint="#90A4AE">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaPersonal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="12dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:inputType="date"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -203,7 +187,7 @@
                     android:id="@+id/tvLabelEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Correo"
+                    android:text="@string/email_hint"
                     android:textColor="#90A4AE"
                     android:textSize="14sp"
                     android:layout_marginBottom="4dp"/>
@@ -224,7 +208,7 @@
             android:id="@+id/btnGuardarPersonal"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Guardar cambios"
+            android:text="@string/save"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"

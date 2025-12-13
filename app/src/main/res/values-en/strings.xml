@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KiviApp</string>
+
+    <!-- ID generado por Firebase para Google Sign In -->
+    <string name="default_web_client_id">926105205340-to33jlll3nl8mfb4lj05lcjj8u4bkb71.apps.googleusercontent.com</string>
+
+    <!-- Main Activity -->
+    <string name="app_title">Kivi Assistant</string>
+    <string name="btn_settings">Settings</string>
+    <string name="btn_language">Language</string>
+    <string name="btn_voice_nav">Voice Navigation</string>
+    <string name="btn_profile">Profile</string>
+    <string name="btn_logout">Logout</string>
+    <string name="welcome_message">Hello, I\'m Kivi.\nPress the blue button to talk.</string>
+    <string name="btn_speak">Talk to Kivi</string>
+    <string name="btn_camera">Recognize Object</string>
+
+    <!-- Login Activity -->
+    <string name="login_title">Login</string>
+    <string name="login_subtitle">Sign in to your KIVI account</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Enter</string>
+    <string name="register_link">Don\'t have an account? Register</string>
+    <string name="google_login">Continue with Google</string>
+    <string name="or_continue_with">Or continue with</string>
+    <string name="google_sign_in">Sign in with Google</string>
+
+    <!-- Register Activity -->
+    <string name="register_title">Create Account</string>
+    <string name="name_hint">Full name</string>
+    <string name="register_lastname">Last name</string>
+    <string name="phone_hint">Phone</string>
+    <string name="register_birthdate">Date of birth</string>
+    <string name="register_phone_example">(+1) 999 999 999</string>
+    <string name="register_button">Register</string>
+    <string name="login_link">Already have an account? Login</string>
+
+    <!-- Profile Activity -->
+    <string name="profile_title">My Profile</string>
+    <string name="personal_info">Personal Information</string>
+    <string name="settings">Settings</string>
+    <string name="back_button">Back</string>
+    <string name="profile_photo">Profile photo</string>
+    <string name="change_photo">Change photo</string>
+    <string name="profile_username">Username</string>
+    <string name="profile_email_example">useremail@gmail.com</string>
+    <string name="profile_account">Account</string>
+    <string name="profile_info_description">Name, email, phone and more</string>
+    <string name="go_to_personal_info">Go to Personal Information</string>
+
+    <!-- Settings Activity -->
+    <string name="settings_title">Settings</string>
+    <string name="appearance">Appearance</string>
+    <string name="language">Language</string>
+    <string name="sound">Sound</string>
+    <string name="text_size">Text size</string>
+    <string name="voice_navigation">Voice navigation</string>
+    <string name="mobility_assistance">Mobility assistance</string>
+    <string name="obstacle_detection">Obstacle detection</string>
+    <string name="settings_multimedia">Multimedia</string>
+    <string name="settings_sound_volume">Sound and Volume</string>
+    <string name="settings_sound_description">Adjust volume and sound notifications</string>
+    <string name="settings_accessibility">Accessibility</string>
+    <string name="settings_text_size">Text Size</string>
+    <string name="settings_text_description">Change font size for better reading</string>
+    <string name="settings_personalization">Personalization</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_appearance_description">Light, dark or blue theme</string>
+    <string name="settings_help">Help</string>
+    <string name="settings_tutorial">View Getting Started Tutorial</string>
+    <string name="settings_tutorial_description">Review how Kivi works</string>
+
+    <!-- Language Settings -->
+    <string name="language_settings">Language Settings</string>
+    <string name="interface_language">Interface Language</string>
+    <string name="interface_language_desc">Current language: %1$s</string>
+    <string name="voice_language">Voice Language</string>
+    <string name="voice_language_desc">Change voice navigation language</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_english">English</string>
+    <string name="language_portuguese">Portuguese</string>
+    <string name="select_voice_language">Select a voice language</string>
+    <string name="select_voice_language_description">Select the language you want Kivi to speak and listen in.</string>
+
+    <!-- Sound Settings -->
+    <string name="sound_settings_title">Sound and Volume</string>
+    <string name="general_volume">General Volume</string>
+    <string name="voice_volume">Voice Volume</string>
+
+    <!-- Voice Navigation Settings -->
+    <string name="voice_nav_title">Voice Navigation</string>
+    <string name="mobility_assistance_subtitle">Kivi voice and haptic feedback</string>
+    <string name="obstacle_detection_subtitle">Future alerts about your path</string>
+
+    <!-- Mobility Assistance Settings -->
+    <string name="kivi_voice">Kivi Voice</string>
+    <string name="kivi_voice_subtitle">Enable or disable voice</string>
+    <string name="haptic_feedback">Haptic Feedback</string>
+    <string name="haptic_feedback_subtitle">Alert vibrations</string>
+
+    <!-- Obstacle Detection Settings -->
+    <string name="obstacle_alert">Obstacle Alert</string>
+    <string name="obstacle_alert_subtitle">Detect obstacles in your path</string>
+    <string name="alert_types">Alert Types</string>
+    <string name="ground_level_obstacles">Ground-level obstacles</string>
+    <string name="ground_level_obstacles_subtitle">Steps, potholes, holes and low objects</string>
+    <string name="head_level_obstacles">Head-level obstacles</string>
+    <string name="head_level_obstacles_subtitle">Branches, signs, low door frames</string>
+
+    <!-- Text Size Settings -->
+    <string name="text_size_title">Text Size</string>
+    <string name="font_size">Font size</string>
+    <string name="text_size_small">Small</string>
+    <string name="text_size_medium">Medium</string>
+    <string name="text_size_large">Large</string>
+
+    <!-- Appearance Settings -->
+    <string name="appearance_title">Appearance</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="color_theme">Color theme</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string>
+    <string name="color_green">Green</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial_title">Getting Started Tutorial</string>
+    <string name="tutorial_button">Start using Kivi</string>
+
+    <!-- Common Buttons -->
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="accept">Accept</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="add">Add</string>
+    <string name="search">Search</string>
+    <string name="close">Close</string>
+
+    <!-- Messages -->
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="retry">Retry</string>
+    <string name="save_success">Data saved successfully</string>
+    <string name="delete_confirm">Are you sure you want to delete this item?</string>
+
+    <!-- Main Activity -->
+    <string name="btn_stop">🛑 STOP</string>
+    <string name="btn_talk">TALK TO KIVI 🎤</string>
+    <string name="photo_ready">Photo ready. Ask me.</string>
+    <string name="you_said">You: %s</string>
+    <string name="error_format">Error: %s</string>
+    <string name="logout_title">Logout</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_cancel">Cancel</string>
+</resources>
