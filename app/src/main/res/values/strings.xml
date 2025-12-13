@@ -12,7 +12,7 @@
     <string name="btn_voice_nav">Navegación por voz</string>
     <string name="btn_profile">Perfil</string>
     <string name="btn_logout">Cerrar sesión</string>
-    <string name="welcome_message">Hola, soy Kivi.\nPresiona el botón azul para hablar.</string>
+    <string name="welcome_message">Hola, soy Kivi.\nPresiona el botón para hablar.</string>
     <string name="btn_speak">Hablar con Kivi</string>
     <string name="btn_camera">Reconocer Objeto</string>
 

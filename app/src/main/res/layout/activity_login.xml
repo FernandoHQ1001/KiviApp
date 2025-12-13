@@ -124,14 +124,22 @@
             android:layout_height="wrap_content"
             android:gravity="center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGoogleSignIn"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="60dp"
+                android:minWidth="220dp"
                 android:text="@string/google_sign_in"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="#2C3A47" />
+                android:backgroundTint="#2C3A47"
+                app:icon="@drawable/ic_google"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"
+                app:iconTint="@null"
+                android:contentDescription="@string/google_sign_in"/>
+
         </LinearLayout>
 
     </LinearLayout>
