@@ -7,12 +7,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.TutorialActivity // 👈 Importante para conectar con la Activity del video
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

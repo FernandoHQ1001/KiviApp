@@ -14,7 +14,7 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.R
 import com.google.android.material.button.MaterialButton
@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import java.io.ByteArrayOutputStream
 
-class PersonalInfoActivity : AppCompatActivity() {
+class PersonalInfoActivity : BaseActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = Firebase.auth
@@ -205,10 +205,6 @@ class PersonalInfoActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvPersonalHeader).setTextColor(colorTexto)
 
         // Labels
-        findViewById<TextView>(R.id.tvLabelNombre).setTextColor(colorSecundario)
-        findViewById<TextView>(R.id.tvLabelApellido).setTextColor(colorSecundario)
-        findViewById<TextView>(R.id.tvLabelFecha).setTextColor(colorSecundario)
-        findViewById<TextView>(R.id.tvLabelTelefono).setTextColor(colorSecundario)
         findViewById<TextView>(R.id.tvLabelEmail).setTextColor(colorSecundario)
 
         // Campos
@@ -237,10 +233,6 @@ class PersonalInfoActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvPersonalHeader).textSize = size(22f)
 
         // Labels
-        findViewById<TextView>(R.id.tvLabelNombre).textSize = size(14f)
-        findViewById<TextView>(R.id.tvLabelApellido).textSize = size(14f)
-        findViewById<TextView>(R.id.tvLabelFecha).textSize = size(14f)
-        findViewById<TextView>(R.id.tvLabelTelefono).textSize = size(14f)
         findViewById<TextView>(R.id.tvLabelEmail).textSize = size(14f)
 
         // Campos

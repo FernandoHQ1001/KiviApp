@@ -14,7 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.kiviapp.core.KiviOrchestrator
@@ -23,19 +22,18 @@ import com.google.android.material.card.MaterialCardView
 import android.content.res.ColorStateList
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.features.ui.activities.settings.LanguageSettingsActivity
 import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.settings.SettingsActivity
 import com.example.kiviapp.features.ui.activities.settings.VoiceNavigationActivity
-
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
-
-class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
+class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
 
     // UI
     private lateinit var txtEstado: TextView
@@ -63,13 +61,12 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
                     imgFoto.visibility = View.VISIBLE
                     imgFoto.setImageBitmap(imagen)
 
-                    txtEstado.text = "Foto lista. Pregúntame."
-                    orquestador.decir("Foto lista. Pregúntame.")
+                    txtEstado.text = getString(R.string.photo_ready)
+                    orquestador.decir(getString(R.string.photo_ready))
                 }
             }
         }
 
-    // ---------------------------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -106,7 +103,6 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
             startActivity(Intent(this, VoiceNavigationActivity::class.java))
         }
 
-        // 🆕 Botón Idioma → abre pantalla de Idioma
         btnIdioma.setOnClickListener {
             startActivity(Intent(this, LanguageSettingsActivity::class.java))
         }
@@ -138,7 +134,6 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         aplicarTamanoTexto()
     }
 
-    // ---------------------------------------------------------------------------------------------
     // RESPUESTAS DESDE EL ORQUESTADOR
     override fun onEstadoCambiado(texto: String) {
         txtEstado.text = texto
@@ -147,13 +142,11 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
     override fun onKiviHablando(texto: String) {}
 
     override fun onError(mensaje: String) {
-        txtEstado.text = "Error: $mensaje"
+        txtEstado.text = getString(R.string.error_format, mensaje)
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
         resetearBotonEscuchar()
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // TAMAÑO DE TEXTO
     private fun aplicarTamanoTexto() {
         val nivel = KiviSettings.getTextSizeLevel(this)
         val factor = when (nivel) {
@@ -167,11 +160,8 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         btnCamara.textSize = 16f * factor
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // TEMA
     private fun aplicarTema() {
         val root = findViewById<ConstraintLayout>(R.id.rootMain)
-
         val colorFondo = KiviSettings.getBackgroundColor(this)
         val colorCard = KiviSettings.getCardColor(this)
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
@@ -181,57 +171,37 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
         root.setBackgroundColor(colorFondo)
 
-        // 🔹 Card principal (imagen + texto)
         val cardMain = findViewById<MaterialCardView>(R.id.cardMain)
         cardMain.setCardBackgroundColor(colorCard)
-
-        // Imagen dentro del card (fondo acorde al tema)
         imgFoto.setBackgroundColor(colorCard)
-
-        // Texto dentro del card
         txtEstado.setTextColor(colorTexto)
 
-        // Header
         val tvHeader = findViewById<TextView>(R.id.tvHeader)
         tvHeader.setTextColor(colorSecundario)
 
-        // Iconos superiores
         val iconColor = KiviSettings.getIconColor(this)
         val iconState = ColorStateList.valueOf(iconColor)
 
-        val btnPerfil = findViewById<ImageButton>(R.id.btnPerfil)
-        val btnSettings = findViewById<ImageButton>(R.id.btnSettings)
-        val btnLogout = findViewById<ImageButton>(R.id.btnLogout)
-        val btnVoiceNav = findViewById<ImageButton>(R.id.btnVoiceNav)
-        val btnIdioma = findViewById<ImageButton>(R.id.btnIdioma)
+        findViewById<ImageButton>(R.id.btnPerfil).imageTintList = iconState
+        findViewById<ImageButton>(R.id.btnSettings).imageTintList = iconState
+        findViewById<ImageButton>(R.id.btnLogout).imageTintList = iconState
+        findViewById<ImageButton>(R.id.btnVoiceNav).imageTintList = iconState
+        findViewById<ImageButton>(R.id.btnIdioma).imageTintList = iconState
 
-        btnPerfil.imageTintList = iconState
-        btnSettings.imageTintList = iconState
-        btnLogout.imageTintList = iconState
-        btnVoiceNav.imageTintList = iconState
-        btnIdioma.imageTintList = iconState
+        if (!estaEscuchando) {
+            (btnEscuchar as MaterialButton).backgroundTintList = temaState
+            btnEscuchar.setTextColor(0xFFFFFFFF.toInt())
+        }
 
-        // Botón escuchar
-        (btnEscuchar as MaterialButton).backgroundTintList = temaState
-        btnEscuchar.setTextColor(0xFFFFFFFF.toInt())
-
-        // Botón cámara
         (btnCamara as MaterialButton).strokeColor = temaState
         btnCamara.setTextColor(colorTema)
         (btnCamara as MaterialButton).iconTint = temaState
     }
 
-    // ---------------------------------------------------------------------------------------------
     // PERMISOS
     private fun verificarPermisoMicrofono() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.RECORD_AUDIO),
-                PERMISO_MICROFONO
-            )
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), PERMISO_MICROFONO)
         } else {
             activarModoEscucha()
         }
@@ -239,11 +209,11 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
     private fun activarModoEscucha() {
         estaEscuchando = true
-        btnEscuchar.text = "🛑 DETENER"
-        btnEscuchar.setBackgroundColor(getColor(android.R.color.holo_red_light))
+        btnEscuchar.text = getString(R.string.btn_stop)
+        (btnEscuchar as MaterialButton).backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_red_light))
 
         orquestador.empezarEscucha { texto ->
-            txtEstado.text = "Tú: $texto"
+            txtEstado.text = getString(R.string.you_said, texto)
             orquestador.procesarPregunta(texto, fotoActual)
             resetearBotonEscuchar()
         }
@@ -251,23 +221,18 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
 
     private fun resetearBotonEscuchar() {
         estaEscuchando = false
-        btnEscuchar.text = "HABLAR CON KIVI 🎤"
+        btnEscuchar.text = getString(R.string.btn_talk)
 
         val colorTema = KiviSettings.getThemeColor(this)
-        (btnEscuchar as MaterialButton).backgroundTintList =
-            ColorStateList.valueOf(colorTema)
+        (btnEscuchar as MaterialButton).backgroundTintList = ColorStateList.valueOf(colorTema)
     }
 
     private fun verificarPermisoCamara() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                PERMISO_CAMARA
-            )
-        } else abrirCamara()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISO_CAMARA)
+        } else {
+            abrirCamara()
+        }
     }
 
     private fun abrirCamara() {
@@ -277,15 +242,33 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
         } catch (_: Exception) {}
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // CONFIRMACIÓN DE CERRAR SESIÓN
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISO_MICROFONO -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    activarModoEscucha()
+                } else {
+                    Toast.makeText(this, "Permiso de micrófono denegado", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+            PERMISO_CAMARA -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    abrirCamara()
+                } else {
+                    Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+        }
+    }
+
     private fun mostrarDialogoCerrarSesion() {
         AlertDialog.Builder(this)
-            .setTitle("Cerrar sesión")
-            .setMessage("¿Seguro que deseas cerrar sesión?")
-            .setPositiveButton("Sí") { _: DialogInterface, _: Int ->
-
-                // 1) Cerrar sesión en Google (si estaba usando Google)
+            .setTitle(getString(R.string.logout_title))
+            .setMessage(getString(R.string.logout_message))
+            .setPositiveButton(getString(R.string.btn_yes)) { _: DialogInterface, _: Int ->
                 val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()
@@ -294,19 +277,15 @@ class MainActivity : AppCompatActivity(), KiviOrchestrator.KiviListener {
                 val googleClient = GoogleSignIn.getClient(this, gso)
                 googleClient.signOut()
 
-                // 2) Cerrar sesión en Firebase
                 Firebase.auth.signOut()
 
-                // 3) Volver a la pantalla de bienvenida
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
-
-    // ---------------------------------------------------------------------------------------------
     override fun onDestroy() {
         orquestador.liberarRecursos()
         super.onDestroy()

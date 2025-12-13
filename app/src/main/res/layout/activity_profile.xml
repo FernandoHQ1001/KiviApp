@@ -27,7 +27,7 @@
                 android:layout_height="40dp"
                 android:src="@android:drawable/ic_menu_revert"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Volver"
+                android:contentDescription="@string/back_button"
                 app:tint="#FFFFFF" />
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mi perfil"
+                android:text="@string/profile_title"
                 android:textColor="#FFFFFF"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -78,14 +78,14 @@
                     android:scaleType="centerCrop"
                     android:background="#1A232E"
                     android:padding="20dp"
-                    android:contentDescription="Foto de perfil" />
+                    android:contentDescription="@string/profile_photo" />
 
                 <TextView
                     android:id="@+id/tvProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Nombre de usuario"
+                    android:text="@string/profile_username"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -94,7 +94,7 @@
                     android:id="@+id/tvProfileEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="correousuario@gmail.com"
+                    android:text="@string/profile_email_example"
                     android:textColor="#B0BEC5"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -105,7 +105,7 @@
             android:id="@+id/tvCuenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cuenta"
+            android:text="@string/profile_account"
             android:textColor="#90A4AE"
             android:textSize="14sp"
             android:layout_marginBottom="12dp" />
@@ -132,7 +132,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@android:drawable/ic_menu_myplaces"
-                    android:contentDescription="Información personal"
+                    android:contentDescription="@string/personal_info"
                     app:tint="#2979FF" />
 
                 <LinearLayout
@@ -146,7 +146,7 @@
                         android:id="@+id/tvInfoTitulo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Información Personal"
+                        android:text="@string/personal_info"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -155,7 +155,7 @@
                         android:id="@+id/tvInfoDescripcion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre, correo, teléfono y más"
+                        android:text="@string/profile_info_description"
                         android:textColor="#90A4AE"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -165,10 +165,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@android:drawable/ic_media_next"
-                    android:contentDescription="Ir a Información personal"
+                    android:contentDescription="@string/go_to_personal_info"
                     app:tint="#2979FF" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
     </LinearLayout>
 </ScrollView>

@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.features.ai.GeminiIntegration
 import com.example.kiviapp.features.speech.TextToSpeechManager
@@ -36,7 +37,7 @@ class KiviOrchestrator(private val context: Context) {
     // SALUDO
     // ----------------------------------------------------------
     fun saludar() {
-        listener?.onEstadoCambiado("Iniciando Kivi...")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_state_initializing))
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val langCode = KiviSettings.getVoiceLanguage(context)
@@ -125,14 +126,14 @@ class KiviOrchestrator(private val context: Context) {
     }
 
     fun empezarEscucha(alEscuchar: (String) -> Unit) {
-        listener?.onEstadoCambiado("👂 Escuchando...")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_state_listening))
         oido.startListening { texto ->
             alEscuchar(texto)
         }
     }
 
     fun detenerEscucha() {
-        listener?.onEstadoCambiado("⏳ Procesando...")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_state_processing))
         oido.stopListening()
     }
 
@@ -140,7 +141,7 @@ class KiviOrchestrator(private val context: Context) {
     // PROCESAR PREGUNTA (TEXTO + IMAGEN)
     // ----------------------------------------------------------
     fun procesarPregunta(textoUsuario: String, foto: Bitmap?) {
-        listener?.onEstadoCambiado("🧠 Pensando...")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_state_thinking))
 
         CoroutineScope(Dispatchers.Main).launch {
             try {

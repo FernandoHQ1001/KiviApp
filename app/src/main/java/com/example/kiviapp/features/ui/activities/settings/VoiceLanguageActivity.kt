@@ -6,12 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.kiviapp.R
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
-class VoiceLanguageActivity : AppCompatActivity() {
+class VoiceLanguageActivity : BaseActivity() {
 
     private lateinit var tvIdiomaActual: TextView
 
@@ -33,7 +33,11 @@ class VoiceLanguageActivity : AppCompatActivity() {
 
         // Mostrar idioma actual guardado
         val langCode = KiviSettings.getVoiceLanguage(this)
-        val nombreIdioma = idiomas.firstOrNull { it.second == langCode }?.first ?: "Español"
+        val nombreIdioma = when (langCode) {
+            "es" -> getString(R.string.language_spanish)
+            "en" -> getString(R.string.language_english)
+            else -> getString(R.string.language_spanish)
+        }
         tvIdiomaActual.text = nombreIdioma
 
         val cardSelector =
@@ -54,22 +58,22 @@ class VoiceLanguageActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoIdiomas() {
-        val nombres = idiomas.map { it.first }.toTypedArray()
+        val nombres = arrayOf(getString(R.string.language_spanish), getString(R.string.language_english))
 
         val langCodeActual = KiviSettings.getVoiceLanguage(this)
         var checkedItem = idiomas.indexOfFirst { it.second == langCodeActual }
         if (checkedItem < 0) checkedItem = 0
 
         AlertDialog.Builder(this)
-            .setTitle("Selecciona un idioma de voz")
+            .setTitle(getString(R.string.voice_language))
             .setSingleChoiceItems(nombres, checkedItem) { dialog, which ->
-                val (nombre, code) = idiomas[which]
+                val (_, code) = idiomas[which]
                 KiviSettings.setVoiceLanguage(this, code)
-                tvIdiomaActual.text = nombre
-                Toast.makeText(this, "Idioma de voz cambiado a $nombre", Toast.LENGTH_SHORT).show()
+                tvIdiomaActual.text = nombres[which]
+                Toast.makeText(this, "Idioma de voz cambiado a ${nombres[which]}", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
@@ -99,6 +103,7 @@ class VoiceLanguageActivity : AppCompatActivity() {
         // Descripción
         val tvDescripcion = findViewById<TextView>(R.id.tvDescripcionVoiceLanguage)
         tvDescripcion.setTextColor(colorSecundario)
+        tvDescripcion.text = getString(R.string.select_voice_language_description)
 
         // Selector de idioma
         cardSelector.setCardBackgroundColor(KiviSettings.getBackgroundColor(this))
