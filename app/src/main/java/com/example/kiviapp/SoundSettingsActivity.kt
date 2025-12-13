@@ -1,16 +1,15 @@
-package com.example.kiviapp.features.ui.activities.settings
+package com.example.kiviapp
 
 import android.content.res.ColorStateList
 import android.media.AudioManager
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kiviapp.R
-import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
-class SoundSettingsActivity : BaseActivity() {
+class SoundSettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +71,7 @@ class SoundSettingsActivity : BaseActivity() {
     }
 
     private fun aplicarTema() {
-        val root = findViewById<ConstraintLayout>(R.id.rootSound)
+        val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootSound)
         val card = findViewById<MaterialCardView>(R.id.cardSoundRoot)
 
         // Colores dinámicos desde KiviSettings

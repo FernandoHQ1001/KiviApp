@@ -1,14 +1,13 @@
-package com.example.kiviapp.features.ui.activities
+package com.example.kiviapp
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import com.example.kiviapp.features.ui.activities.base.BaseActivity
-import com.example.kiviapp.R
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class WelcomeActivity : BaseActivity() {
+class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

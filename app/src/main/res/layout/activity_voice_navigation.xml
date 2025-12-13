@@ -15,7 +15,7 @@
         android:layout_height="40dp"
         android:src="@android:drawable/ic_menu_revert"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Volver"
+        android:contentDescription="@string/back_button"
         app:tint="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -25,7 +25,7 @@
         android:id="@+id/tvVoiceNavTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Navegación por Voz"
+        android:text="@string/voice_nav_title"
         android:textColor="#FFFFFF"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -88,7 +88,7 @@
                     android:id="@+id/tvVoiceMobilityTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Asistencia de movilidad"
+                    android:text="@string/mobility_assistance"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -97,7 +97,7 @@
                     android:id="@+id/tvVoiceMobilitySubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Voz de Kivi y feedback háptico"
+                    android:text="@string/mobility_assistance_subtitle"
                     android:textColor="#90A4AE"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -155,7 +155,7 @@
                     android:id="@+id/tvVoiceObstaclesTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Detección de obstáculos"
+                    android:text="@string/obstacle_detection"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -164,7 +164,7 @@
                     android:id="@+id/tvVoiceObstaclesSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Alertas futuras sobre tu camino"
+                    android:text="@string/obstacle_detection_subtitle"
                     android:textColor="#90A4AE"
                     android:textSize="12sp" />
             </LinearLayout>

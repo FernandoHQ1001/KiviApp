@@ -2,48 +2,94 @@ package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.example.kiviapp.R
+import com.example.kiviapp.features.ui.activities.WelcomeActivity
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
-class LanguageSettingsActivity : AppCompatActivity() {
+class LanguageSettingsActivity : BaseActivity() {
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language_settings)
 
+        sharedPreferences = getSharedPreferences("KiviAppPrefs", MODE_PRIVATE)
+
         val btnBack = findViewById<ImageButton>(R.id.btnBackLanguage)
         btnBack.setOnClickListener { finish() }
 
-        // Idioma de la interfaz (por ahora sin lógica, solo UI)
-        val cardIdiomaInterfaz =
-            findViewById<MaterialCardView>(R.id.cardIdiomaInterfaz)
-
+        // Idioma de la interfaz
+        val cardIdiomaInterfaz = findViewById<MaterialCardView>(R.id.cardIdiomaInterfaz)
         cardIdiomaInterfaz.setOnClickListener {
-            // TODO: futuro - cambiar textos de la UI
+            showLanguageSelectionDialog()
         }
 
         // 🔊 Idioma de voz → abre el selector
-        val cardIdiomaVoz =
-            findViewById<MaterialCardView>(R.id.cardIdiomaVoz)
-
+        val cardIdiomaVoz = findViewById<MaterialCardView>(R.id.cardIdiomaVoz)
         cardIdiomaVoz.setOnClickListener {
             startActivity(Intent(this, VoiceLanguageActivity::class.java))
         }
 
         aplicarTema()
         aplicarTamanos()
+        updateCurrentLanguageDisplay()
+    }
+
+    private fun showLanguageSelectionDialog() {
+        val languages = arrayOf(
+            getString(R.string.language_spanish),
+            getString(R.string.language_english),
+            getString(R.string.language_portuguese)
+        )
+        val languageCodes = arrayOf("es", "en", "pt")
+
+        val currentLanguage = sharedPreferences.getString("app_language", "es")
+        val currentIndex = languageCodes.indexOf(currentLanguage)
+
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(getString(R.string.interface_language))
+            .setSingleChoiceItems(languages, currentIndex) { dialog, which ->
+                val selectedLanguage = languageCodes[which]
+                sharedPreferences.edit().putString("app_language", selectedLanguage).apply()
+                dialog.dismiss()
+
+                // Reiniciar la aplicación para aplicar cambios
+                val intent = Intent(this, WelcomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun updateCurrentLanguageDisplay() {
+        val currentLanguage = sharedPreferences.getString("app_language", "es")
+        val tvIdiomaInterfazDescripcion = findViewById<TextView>(R.id.tvIdiomaInterfazDescripcion)
+
+        val languageName = when (currentLanguage) {
+            "es" -> getString(R.string.language_spanish)
+            "en" -> getString(R.string.language_english)
+            "pt" -> getString(R.string.language_portuguese)
+            else -> getString(R.string.language_spanish)
+        }
+
+        tvIdiomaInterfazDescripcion.text = getString(R.string.interface_language_desc, languageName)
     }
 
     override fun onResume() {
         super.onResume()
         aplicarTema()
         aplicarTamanos()
+        updateCurrentLanguageDisplay()
     }
 
     // --------------------------------------------------------------

@@ -1,9 +1,8 @@
-package com.example.kiviapp.features.ui.activities
+package com.example.kiviapp
 
+import android.app.Activity
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,9 +13,7 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import com.example.kiviapp.features.ui.activities.base.BaseActivity
-import com.example.kiviapp.features.ui.activities.settings.KiviSettings
-import com.example.kiviapp.R
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.ktx.auth
@@ -24,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import java.io.ByteArrayOutputStream
 
-class PersonalInfoActivity : BaseActivity() {
+class PersonalInfoActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = Firebase.auth
@@ -83,7 +80,7 @@ class PersonalInfoActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_CODE && resultCode == RESULT_OK) {
+        if (requestCode == PICK_IMAGE_CODE && resultCode == Activity.RESULT_OK) {
             val uri = data?.data ?: return
             subirFotoBase64(uri)
         }
@@ -141,7 +138,7 @@ class PersonalInfoActivity : BaseActivity() {
                     if (!base64Foto.isNullOrEmpty()) {
                         try {
                             val bytes = Base64.decode(base64Foto, Base64.DEFAULT)
-                            val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            val bmp = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                             imgPerfil.setImageBitmap(bmp)
                         } catch (_: Exception) {
                             imgPerfil.setImageResource(android.R.drawable.ic_menu_camera)
@@ -196,7 +193,7 @@ class PersonalInfoActivity : BaseActivity() {
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
         val colorSecundario = KiviSettings.getSecondaryTextColor(this)
         val colorTema = KiviSettings.getThemeColor(this)
-        val temaState = ColorStateList.valueOf(colorTema)
+        val temaState = android.content.res.ColorStateList.valueOf(colorTema)
 
         root.setBackgroundColor(colorFondo)
         card.setCardBackgroundColor(colorCard)
@@ -205,6 +202,10 @@ class PersonalInfoActivity : BaseActivity() {
         findViewById<TextView>(R.id.tvPersonalHeader).setTextColor(colorTexto)
 
         // Labels
+        findViewById<TextView>(R.id.tvLabelNombre).setTextColor(colorSecundario)
+        findViewById<TextView>(R.id.tvLabelApellido).setTextColor(colorSecundario)
+        findViewById<TextView>(R.id.tvLabelFecha).setTextColor(colorSecundario)
+        findViewById<TextView>(R.id.tvLabelTelefono).setTextColor(colorSecundario)
         findViewById<TextView>(R.id.tvLabelEmail).setTextColor(colorSecundario)
 
         // Campos
@@ -233,6 +234,10 @@ class PersonalInfoActivity : BaseActivity() {
         findViewById<TextView>(R.id.tvPersonalHeader).textSize = size(22f)
 
         // Labels
+        findViewById<TextView>(R.id.tvLabelNombre).textSize = size(14f)
+        findViewById<TextView>(R.id.tvLabelApellido).textSize = size(14f)
+        findViewById<TextView>(R.id.tvLabelFecha).textSize = size(14f)
+        findViewById<TextView>(R.id.tvLabelTelefono).textSize = size(14f)
         findViewById<TextView>(R.id.tvLabelEmail).textSize = size(14f)
 
         // Campos

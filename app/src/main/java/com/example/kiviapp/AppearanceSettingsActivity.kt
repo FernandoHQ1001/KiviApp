@@ -1,4 +1,4 @@
-package com.example.kiviapp.features.ui.activities.settings
+package com.example.kiviapp
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -7,14 +7,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.kiviapp.R
-import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 
-class AppearanceSettingsActivity : BaseActivity() {
+class AppearanceSettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +40,7 @@ class AppearanceSettingsActivity : BaseActivity() {
         }
 
         // ----- Colores -----
-        val opciones = listOf(getString(R.string.color_blue), getString(R.string.color_purple), getString(R.string.color_green))
+        val opciones = listOf("Azul", "Morado", "Verde")
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -62,11 +61,7 @@ class AppearanceSettingsActivity : BaseActivity() {
                 position: Int,
                 id: Long
             ) {
-                val seleccionado = when (position) {
-                    1 -> "Morado"
-                    2 -> "Verde"
-                    else -> "Azul"
-                }
+                val seleccionado = opciones[position]
                 KiviSettings.setThemeColorName(this@AppearanceSettingsActivity, seleccionado)
                 // Reaplicar tema para que el color se vea al instante
                 aplicarTema()
@@ -86,7 +81,7 @@ class AppearanceSettingsActivity : BaseActivity() {
     }
 
     private fun aplicarTema() {
-        val root = findViewById<ConstraintLayout>(R.id.rootAppearance)
+        val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootAppearance)
         val card = findViewById<MaterialCardView>(R.id.cardAppearanceRoot)
 
         val colorFondo = KiviSettings.getBackgroundColor(this)

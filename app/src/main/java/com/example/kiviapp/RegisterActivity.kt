@@ -1,4 +1,4 @@
-package com.example.kiviapp.features.ui.activities
+package com.example.kiviapp
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,15 +7,13 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import com.example.kiviapp.features.ui.activities.base.BaseActivity
-import com.example.kiviapp.features.ui.activities.settings.KiviSettings
-import com.example.kiviapp.R
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
-class RegisterActivity : BaseActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
@@ -58,15 +56,10 @@ class RegisterActivity : BaseActivity() {
 
             // Validaciones
             if (nombre.isNotEmpty() && apellido.isNotEmpty() && email.isNotEmpty() &&
-                fecha.isNotEmpty() && telefono.isNotEmpty() && pass.isNotEmpty()
-            ) {
+                fecha.isNotEmpty() && telefono.isNotEmpty() && pass.isNotEmpty()) {
 
                 if (pass.length < 6) {
-                    Toast.makeText(
-                        this,
-                        "La contraseña debe tener al menos 6 caracteres",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
@@ -92,45 +85,22 @@ class RegisterActivity : BaseActivity() {
                                 db.collection("usuarios").document(userId)
                                     .set(datosUsuario)
                                     .addOnSuccessListener {
-                                        // C. Sincronizar settings iniciales del usuario a Firebase
-                                        KiviSettings.syncToCloud(this)
-
-                                        Toast.makeText(
-                                            this,
-                                            "¡Bienvenido, $nombre!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        Toast.makeText(this, "¡Bienvenido, $nombre!", Toast.LENGTH_SHORT).show()
                                         irAInicio()
                                     }
                                     .addOnFailureListener {
                                         // Si falla guardar datos, igual entramos pero avisamos
-                                        Toast.makeText(
-                                            this,
-                                            "Cuenta creada, pero hubo error guardando datos.",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-
-                                        // Igual subimos settings para que estén en la nube
-                                        KiviSettings.syncToCloud(this)
-
+                                        Toast.makeText(this, "Cuenta creada, pero hubo error guardando datos.", Toast.LENGTH_LONG).show()
                                         irAInicio()
                                     }
                             }
                         } else {
                             // Error al crear cuenta (ej: correo ya existe)
-                            Toast.makeText(
-                                this,
-                                "Error: ${task.exception?.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                         }
                     }
             } else {
-                Toast.makeText(
-                    this,
-                    "Por favor completa todos los campos",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
     }

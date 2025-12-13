@@ -4,8 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -24,53 +22,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KiviApp">
         <activity
-            android:name=".features.ui.activities.RegisterActivity"
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.TutorialActivity"
-            android:screenOrientation="portrait"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.MainActivity"
+            android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.settings.SettingsActivity"
+            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.ProfileActivity"
+            android:name=".AppearanceSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.settings.AppearanceSettingsActivity"
+            android:name=".TextSizeSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.settings.TextSizeSettingsActivity"
+            android:name=".SoundSettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.settings.SoundSettingsActivity"
+            android:name=".PersonalInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".features.ui.activities.PersonalInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".features.ui.activities.settings.VoiceNavigationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".features.ui.activities.settings.MobilityAssistanceSettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".features.ui.activities.settings.ObstacleDetectionSettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".features.ui.activities.settings.LanguageSettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".features.ui.activities.settings.VoiceLanguageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".features.ui.activities.WelcomeActivity"
+            android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

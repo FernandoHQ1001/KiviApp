@@ -6,10 +6,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.VideoView
-import androidx.appcompat.app.AppCompatActivity
+import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.example.kiviapp.R
 
-class TutorialActivity : AppCompatActivity() {
+class TutorialActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

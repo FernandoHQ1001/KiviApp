@@ -1,11 +1,8 @@
 plugins {
-
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 
     id("com.google.gms.google-services")
-
-
 }
 
 android {
@@ -43,6 +40,21 @@ android {
 }
 
 dependencies {
+    val camerax_version = "1.3.3"
+
+    implementation("androidx.camera:camera-core:$camerax_version")
+    implementation("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-view:$camerax_version")
+    implementation("androidx.camera:camera-extensions:$camerax_version")
+    implementation("com.google.mlkit:object-detection:17.0.0")
+    implementation("com.google.mlkit:object-detection-common:17.0.0")
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+
+    // 🔥 OBLIGATORIO: CameraX usa ListenableFuture (Guava)
+    implementation("com.google.guava:guava:32.1.2-android")
+    implementation("androidx.concurrent:concurrent-futures:1.1.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -66,8 +78,4 @@ dependencies {
 
     // Librería para Base de Datos (Firestore)
     implementation("com.google.firebase:firebase-firestore-ktx")
-
-    //Inicio de sesion con google
-    implementation ("com.google.android.gms:play-services-auth:21.0.0")
-
 }

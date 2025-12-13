@@ -1,7 +1,5 @@
-package com.example.kiviapp.features.ui.activities
+package com.example.kiviapp
 
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -10,15 +8,13 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
-import com.example.kiviapp.features.ui.activities.base.BaseActivity
-import com.example.kiviapp.features.ui.activities.settings.KiviSettings
-import com.example.kiviapp.R
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
-class ProfileActivity : BaseActivity() {
+class ProfileActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private val auth = Firebase.auth
@@ -40,7 +36,7 @@ class ProfileActivity : BaseActivity() {
 
         // Ir a Información Personal
         findViewById<MaterialCardView>(R.id.cardInfoPersonal).setOnClickListener {
-            startActivity(Intent(this, PersonalInfoActivity::class.java))
+            startActivity(android.content.Intent(this, PersonalInfoActivity::class.java))
         }
 
         cargarDatosUsuario()
@@ -100,7 +96,7 @@ class ProfileActivity : BaseActivity() {
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
         val colorSecundario = KiviSettings.getSecondaryTextColor(this)
         val colorTema = KiviSettings.getThemeColor(this)
-        val temaState = ColorStateList.valueOf(colorTema)
+        val temaState = android.content.res.ColorStateList.valueOf(colorTema)
 
         root.setBackgroundColor(colorFondo)
         cardProfile.setCardBackgroundColor(colorCard)

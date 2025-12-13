@@ -9,7 +9,7 @@
     android:background="#1A232E"
     android:padding="24dp">
 
-    <!-- 🔵 BARRA SUPERIOR: TÍTULO A LA IZQUIERDA + BOTONES A LA DERECHA -->
+    <!-- 🔵 BARRA SUPERIOR: TÍTULO A LA IZQUIERDA + 3 BOTONES A LA DERECHA -->
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="0dp"
@@ -41,28 +41,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="#FFFFFF"
             android:contentDescription="Configuración"
-            android:layout_marginStart="8dp" />
-
-        <!-- 🆕 BOTÓN IDIOMA -->
-        <ImageButton
-            android:id="@+id/btnIdioma"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#FFFFFF"
-            android:contentDescription="Idioma"
-            android:layout_marginStart="8dp" />
-
-        <!-- BOTÓN NAVEGACIÓN POR VOZ -->
-        <ImageButton
-            android:id="@+id/btnVoiceNav"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@android:drawable/ic_btn_speak_now"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#FFFFFF"
-            android:contentDescription="Navegación por voz"
             android:layout_marginStart="8dp" />
 
         <!-- BOTÓN PERFIL -->
