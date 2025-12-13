@@ -4,42 +4,35 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.R
-import com.example.kiviapp.features.ui.activities.TutorialActivity // 👈 Importante para conectar con la Activity del video
+import com.example.kiviapp.features.ui.activities.TutorialActivity
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
-import com.google.android.material.card.MaterialCardView
 
 class SettingsActivity : BaseActivity() {
+
+    private lateinit var adapter: SettingsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // Botón atrás
+        // Back
         findViewById<ImageButton>(R.id.btnBackSettings).setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Navegación a cada pantalla
-        findViewById<MaterialCardView>(R.id.cardSonidoVolumen).setOnClickListener {
-            startActivity(Intent(this, SoundSettingsActivity::class.java))
-        }
+        // Lista de filas (headers + items)
+        val rows = buildRows()
 
-        findViewById<MaterialCardView>(R.id.cardTamanoTexto).setOnClickListener {
-            startActivity(Intent(this, TextSizeSettingsActivity::class.java))
-        }
-
-        findViewById<MaterialCardView>(R.id.cardApariencia).setOnClickListener {
-            startActivity(Intent(this, AppearanceSettingsActivity::class.java))
-        }
-
-        // 🆕 NUEVO: Click en ver Tutorial
-        findViewById<MaterialCardView>(R.id.cardTutorial).setOnClickListener {
-            startActivity(Intent(this, TutorialActivity::class.java))
-        }
+        // RecyclerView
+        val rv = findViewById<RecyclerView>(R.id.rvSettings)
+        rv.layoutManager = LinearLayoutManager(this)
+        adapter = SettingsAdapter(this, rows)
+        rv.adapter = adapter
 
         aplicarTema()
         aplicarTamanos()
@@ -49,103 +42,64 @@ class SettingsActivity : BaseActivity() {
         super.onResume()
         aplicarTema()
         aplicarTamanos()
+        adapter.refreshTheme()
+    }
+
+    private fun buildRows(): List<SettingsRow> {
+        return listOf(
+            SettingsRow.Header(getString(R.string.settings_multimedia)),
+            SettingsRow.Item(
+                id = "sound",
+                iconRes = android.R.drawable.ic_lock_silent_mode_off,
+                title = getString(R.string.settings_sound_volume),
+                subtitle = getString(R.string.settings_sound_description),
+                onClick = { startActivity(Intent(this, SoundSettingsActivity::class.java)) }
+            ),
+
+            SettingsRow.Header(getString(R.string.settings_accessibility)),
+            SettingsRow.Item(
+                id = "text_size",
+                iconRes = android.R.drawable.ic_menu_sort_by_size,
+                title = getString(R.string.settings_text_size),
+                subtitle = getString(R.string.settings_text_description),
+                onClick = { startActivity(Intent(this, TextSizeSettingsActivity::class.java)) }
+            ),
+
+            SettingsRow.Header(getString(R.string.settings_personalization)),
+            SettingsRow.Item(
+                id = "appearance",
+                iconRes = android.R.drawable.ic_menu_gallery,
+                title = getString(R.string.settings_appearance),
+                subtitle = getString(R.string.settings_appearance_description),
+                onClick = { startActivity(Intent(this, AppearanceSettingsActivity::class.java)) }
+            ),
+
+            SettingsRow.Header(getString(R.string.settings_help)),
+            SettingsRow.Item(
+                id = "tutorial",
+                iconRes = android.R.drawable.ic_menu_help,
+                title = getString(R.string.settings_tutorial),
+                subtitle = getString(R.string.settings_tutorial_description),
+                onClick = { startActivity(Intent(this, TutorialActivity::class.java)) }
+            )
+        )
     }
 
     private fun aplicarTema() {
-
-        val root = findViewById<ScrollView>(R.id.rootSettings)
+        val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootSettings)
 
         val colorFondo = KiviSettings.getBackgroundColor(this)
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
-        val colorSecundario = KiviSettings.getSecondaryTextColor(this)
-        val colorTema = KiviSettings.getThemeColor(this)
-        val colorCard = KiviSettings.getCardColor(this)
-
-        val temaState = ColorStateList.valueOf(colorTema)
         val iconColor = ColorStateList.valueOf(KiviSettings.getIconColor(this))
 
-        // Fondo general
         root.setBackgroundColor(colorFondo)
 
-        // Botón atrás
         findViewById<ImageButton>(R.id.btnBackSettings).imageTintList = iconColor
-
-        // Títulos de sección (Agregamos tvAyuda)
         findViewById<TextView>(R.id.tvTituloConfig).setTextColor(colorTexto)
-        findViewById<TextView>(R.id.tvMultimedia).setTextColor(colorSecundario)
-        findViewById<TextView>(R.id.tvAccesibilidad).setTextColor(colorSecundario)
-        findViewById<TextView>(R.id.tvPersonalizacion).setTextColor(colorSecundario)
-        findViewById<TextView>(R.id.tvAyuda).setTextColor(colorSecundario) // 🆕 Nuevo título
-
-        // Cards (Agregamos cardTutorial a la lista)
-        val cards = listOf(
-            findViewById<MaterialCardView>(R.id.cardSonidoVolumen),
-            findViewById<MaterialCardView>(R.id.cardTamanoTexto),
-            findViewById<MaterialCardView>(R.id.cardApariencia),
-            findViewById<MaterialCardView>(R.id.cardTutorial) // 🆕 Nueva card
-        )
-
-        cards.forEach {
-            it.setCardBackgroundColor(colorCard)
-            it.strokeColor = colorTema
-        }
-
-        // Íconos con color de tema
-        findViewById<ImageView>(R.id.iconSonido).imageTintList = temaState
-        findViewById<ImageView>(R.id.iconSonidoNext).imageTintList = temaState
-
-        findViewById<TextView>(R.id.iconTexto).setTextColor(colorTema)
-        findViewById<ImageView>(R.id.iconTextoNext).imageTintList = temaState
-
-        findViewById<ImageView>(R.id.iconApariencia).imageTintList = temaState
-        findViewById<ImageView>(R.id.iconAparienciaNext).imageTintList = temaState
-
-        // 🆕 Íconos del Tutorial
-        findViewById<ImageView>(R.id.iconTutorial).imageTintList = temaState
-        findViewById<ImageView>(R.id.iconTutorialNext).imageTintList = temaState
-
-
-        // Textos dentro de las cards
-        findViewById<TextView>(R.id.tvSonidoTitulo).setTextColor(colorTexto)
-        findViewById<TextView>(R.id.tvSonidoDescripcion).setTextColor(colorSecundario)
-
-        findViewById<TextView>(R.id.tvTextoTitulo).setTextColor(colorTexto)
-        findViewById<TextView>(R.id.tvTextoDescripcion).setTextColor(colorSecundario)
-
-        findViewById<TextView>(R.id.tvAparienciaTitulo).setTextColor(colorTexto)
-        findViewById<TextView>(R.id.tvAparienciaDescripcion).setTextColor(colorSecundario)
-
-        // 🆕 Textos del Tutorial
-        findViewById<TextView>(R.id.tvTutorialTitulo).setTextColor(colorTexto)
-        findViewById<TextView>(R.id.tvTutorialDescripcion).setTextColor(colorSecundario)
     }
 
     private fun aplicarTamanos() {
-
         fun size(base: Float): Float = KiviSettings.getScaledTextSize(this, base)
-
-        // TÍTULOS DE SECCIÓN
         findViewById<TextView>(R.id.tvTituloConfig).textSize = size(22f)
-        findViewById<TextView>(R.id.tvMultimedia).textSize = size(14f)
-        findViewById<TextView>(R.id.tvAccesibilidad).textSize = size(14f)
-        findViewById<TextView>(R.id.tvPersonalizacion).textSize = size(14f)
-        findViewById<TextView>(R.id.tvAyuda).textSize = size(14f) // 🆕
-
-        // CARDS — TÍTULOS Y DESCRIPCIONES
-        findViewById<TextView>(R.id.tvSonidoTitulo).textSize = size(16f)
-        findViewById<TextView>(R.id.tvSonidoDescripcion).textSize = size(12f)
-
-        findViewById<TextView>(R.id.tvTextoTitulo).textSize = size(16f)
-        findViewById<TextView>(R.id.tvTextoDescripcion).textSize = size(12f)
-
-        findViewById<TextView>(R.id.tvAparienciaTitulo).textSize = size(16f)
-        findViewById<TextView>(R.id.tvAparienciaDescripcion).textSize = size(12f)
-
-        // 🆕 Tamaños Tutorial
-        findViewById<TextView>(R.id.tvTutorialTitulo).textSize = size(16f)
-        findViewById<TextView>(R.id.tvTutorialDescripcion).textSize = size(12f)
-
-        // ICONO "T" (tamaño de texto)
-        findViewById<TextView>(R.id.iconTexto).textSize = size(22f)
     }
 }

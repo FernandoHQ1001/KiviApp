@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     implementation(libs.generativeai)
+    implementation(libs.androidx.material3)
 
 
     testImplementation(libs.junit)

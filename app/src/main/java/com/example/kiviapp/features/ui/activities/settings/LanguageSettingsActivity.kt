@@ -1,21 +1,26 @@
 package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.WelcomeActivity
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
-import com.google.android.material.card.MaterialCardView
 
 class LanguageSettingsActivity : BaseActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var rv: RecyclerView
+    private lateinit var adapter: SettingsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,24 +28,65 @@ class LanguageSettingsActivity : BaseActivity() {
 
         sharedPreferences = getSharedPreferences("KiviAppPrefs", MODE_PRIVATE)
 
-        val btnBack = findViewById<ImageButton>(R.id.btnBackLanguage)
-        btnBack.setOnClickListener { finish() }
+        findViewById<ImageButton>(R.id.btnBackLanguage).setOnClickListener { finish() }
 
-        // Idioma de la interfaz
-        val cardIdiomaInterfaz = findViewById<MaterialCardView>(R.id.cardIdiomaInterfaz)
-        cardIdiomaInterfaz.setOnClickListener {
-            showLanguageSelectionDialog()
+        rv = findViewById(R.id.rvLanguageSettings)
+        rv.layoutManager = LinearLayoutManager(this)
+
+        adapter = SettingsAdapter(this, buildRows())
+        rv.adapter = adapter
+
+        aplicarTemaPantalla()
+        aplicarTamanosPantalla()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Re-crear rows para que el subtítulo muestre el idioma actual
+        adapter = SettingsAdapter(this, buildRows())
+        rv.adapter = adapter
+
+        aplicarTemaPantalla()
+        aplicarTamanosPantalla()
+    }
+
+    private fun buildRows(): List<SettingsRow> {
+        val currentLanguage = sharedPreferences.getString("app_language", "es") ?: "es"
+        val languageName = when (currentLanguage) {
+            "es" -> getString(R.string.language_spanish)
+            "en" -> getString(R.string.language_english)
+            "pt" -> getString(R.string.language_portuguese)
+            else -> getString(R.string.language_spanish)
         }
 
-        // 🔊 Idioma de voz → abre el selector
-        val cardIdiomaVoz = findViewById<MaterialCardView>(R.id.cardIdiomaVoz)
-        cardIdiomaVoz.setOnClickListener {
-            startActivity(Intent(this, VoiceLanguageActivity::class.java))
+        // IMPORTANTE: tu string interface_language_desc la estabas usando con formato.
+        // Si NO la tienes como string con %1$s, usa directamente un subtítulo fijo.
+        val interfazSubtitle = try {
+            getString(R.string.interface_language_desc, languageName)
+        } catch (_: Exception) {
+            // fallback por si ese string no es formateable
+            "$languageName"
         }
 
-        aplicarTema()
-        aplicarTamanos()
-        updateCurrentLanguageDisplay()
+        return listOf(
+            SettingsRow.Header(getString(R.string.language)),
+
+            SettingsRow.Item(
+                id = "interface_language",
+                iconRes = android.R.drawable.ic_menu_sort_by_size,
+                title = getString(R.string.interface_language),
+                subtitle = interfazSubtitle,
+                onClick = { showLanguageSelectionDialog() }
+            ),
+
+            SettingsRow.Item(
+                id = "voice_language",
+                iconRes = android.R.drawable.ic_btn_speak_now,
+                title = getString(R.string.voice_language),
+                subtitle = getString(R.string.voice_language_desc),
+                onClick = { startActivity(Intent(this, VoiceLanguageActivity::class.java)) }
+            )
+        )
     }
 
     private fun showLanguageSelectionDialog() {
@@ -52,16 +98,16 @@ class LanguageSettingsActivity : BaseActivity() {
         val languageCodes = arrayOf("es", "en", "pt")
 
         val currentLanguage = sharedPreferences.getString("app_language", "es")
-        val currentIndex = languageCodes.indexOf(currentLanguage)
+        val currentIndex = languageCodes.indexOf(currentLanguage).let { if (it < 0) 0 else it }
 
-        androidx.appcompat.app.AlertDialog.Builder(this)
+        AlertDialog.Builder(this)
             .setTitle(getString(R.string.interface_language))
             .setSingleChoiceItems(languages, currentIndex) { dialog, which ->
                 val selectedLanguage = languageCodes[which]
                 sharedPreferences.edit().putString("app_language", selectedLanguage).apply()
                 dialog.dismiss()
 
-                // Reiniciar la aplicación para aplicar cambios
+                // Reiniciar app para aplicar cambios (como ya lo estabas haciendo)
                 val intent = Intent(this, WelcomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
@@ -71,98 +117,23 @@ class LanguageSettingsActivity : BaseActivity() {
             .show()
     }
 
-    private fun updateCurrentLanguageDisplay() {
-        val currentLanguage = sharedPreferences.getString("app_language", "es")
-        val tvIdiomaInterfazDescripcion = findViewById<TextView>(R.id.tvIdiomaInterfazDescripcion)
-
-        val languageName = when (currentLanguage) {
-            "es" -> getString(R.string.language_spanish)
-            "en" -> getString(R.string.language_english)
-            "pt" -> getString(R.string.language_portuguese)
-            else -> getString(R.string.language_spanish)
-        }
-
-        tvIdiomaInterfazDescripcion.text = getString(R.string.interface_language_desc, languageName)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        aplicarTema()
-        aplicarTamanos()
-        updateCurrentLanguageDisplay()
-    }
-
-    // --------------------------------------------------------------
-    // TEMA / COLORES
-    // --------------------------------------------------------------
-    private fun aplicarTema() {
-        val root = findViewById<ScrollView>(R.id.rootLanguageSettings)
+    private fun aplicarTemaPantalla() {
+        val root = findViewById<ConstraintLayout>(R.id.rootLanguageSettings)
 
         val colorFondo = KiviSettings.getBackgroundColor(this)
-        val colorCard = KiviSettings.getCardColor(this)
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
-        val colorSecundario = KiviSettings.getSecondaryTextColor(this)
-        val colorTema = KiviSettings.getThemeColor(this)
-        val iconColor = KiviSettings.getIconColor(this)
+        val colorSec = KiviSettings.getSecondaryTextColor(this)
+        val iconState = ColorStateList.valueOf(KiviSettings.getIconColor(this))
 
         root.setBackgroundColor(colorFondo)
 
-        // Barra superior
-        val tvTitulo = findViewById<TextView>(R.id.tvTituloLanguageConfig)
-        val btnBack = findViewById<ImageButton>(R.id.btnBackLanguage)
-
-        tvTitulo.setTextColor(colorTexto)
-        btnBack.imageTintList = ColorStateList.valueOf(iconColor)
-
-        // Sección idioma
-        val tvSeccionIdioma = findViewById<TextView>(R.id.tvSeccionIdioma)
-        tvSeccionIdioma.setTextColor(colorSecundario)
-
-        // CARD: Idioma de la interfaz
-        val cardInterfaz = findViewById<MaterialCardView>(R.id.cardIdiomaInterfaz)
-        cardInterfaz.setCardBackgroundColor(colorCard)
-        cardInterfaz.strokeColor = colorTema
-
-        val iconInterfaz = findViewById<ImageView>(R.id.iconIdiomaInterfaz)
-        val iconInterfazNext = findViewById<ImageView>(R.id.iconIdiomaInterfazNext)
-        iconInterfaz.imageTintList = ColorStateList.valueOf(colorTema)
-        iconInterfazNext.imageTintList = ColorStateList.valueOf(colorTema)
-
-        findViewById<TextView>(R.id.tvIdiomaInterfazTitulo).setTextColor(colorTexto)
-        findViewById<TextView>(R.id.tvIdiomaInterfazDescripcion).setTextColor(colorSecundario)
-
-        // CARD: Idioma de voz
-        val cardVoz = findViewById<MaterialCardView>(R.id.cardIdiomaVoz)
-        cardVoz.setCardBackgroundColor(colorCard)
-        cardVoz.strokeColor = colorTema
-
-        val iconVoz = findViewById<ImageView>(R.id.iconIdiomaVoz)
-        val iconVozNext = findViewById<ImageView>(R.id.iconIdiomaVozNext)
-        iconVoz.imageTintList = ColorStateList.valueOf(colorTema)
-        iconVozNext.imageTintList = ColorStateList.valueOf(colorTema)
-
-        findViewById<TextView>(R.id.tvIdiomaVozTitulo).setTextColor(colorTexto)
-        findViewById<TextView>(R.id.tvIdiomaVozDescripcion).setTextColor(colorSecundario)
+        findViewById<TextView>(R.id.tvTituloLanguageConfig).setTextColor(colorTexto)
+        findViewById<ImageButton>(R.id.btnBackLanguage).imageTintList = iconState
+        findViewById<View>(R.id.dividerLanguage).setBackgroundColor(colorSec)
     }
 
-    // --------------------------------------------------------------
-    // TAMAÑO DE TEXTO
-    // --------------------------------------------------------------
-    private fun aplicarTamanos() {
-        fun size(base: Float): Float = KiviSettings.getScaledTextSize(this, base)
-
-        // Título barra superior
+    private fun aplicarTamanosPantalla() {
+        fun size(base: Float) = KiviSettings.getScaledTextSize(this, base)
         findViewById<TextView>(R.id.tvTituloLanguageConfig).textSize = size(22f)
-
-        // Sección
-        findViewById<TextView>(R.id.tvSeccionIdioma).textSize = size(14f)
-
-        // Card Idioma interfaz
-        findViewById<TextView>(R.id.tvIdiomaInterfazTitulo).textSize = size(16f)
-        findViewById<TextView>(R.id.tvIdiomaInterfazDescripcion).textSize = size(12f)
-
-        // Card Idioma voz
-        findViewById<TextView>(R.id.tvIdiomaVozTitulo).textSize = size(16f)
-        findViewById<TextView>(R.id.tvIdiomaVozDescripcion).textSize = size(12f)
     }
 }
