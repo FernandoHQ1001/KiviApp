@@ -146,7 +146,11 @@ class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
         txtEstado.text = texto
     }
 
-    override fun onKiviHablando(texto: String) {}
+    override fun onKiviHablando(texto: String) {
+        runOnUiThread {
+            txtEstado.text = texto
+        }
+    }
 
     override fun onError(mensaje: String) {
         txtEstado.text = getString(R.string.error_format, mensaje)
