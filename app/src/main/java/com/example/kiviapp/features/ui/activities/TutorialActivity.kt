@@ -79,7 +79,8 @@ class TutorialActivity : BaseActivity() {
         val lang = KiviSettings.getAppLanguage(this)
         return when {
             lang.startsWith("en") -> R.raw.tutorial_en
-            else -> R.raw.tutorial_es
+            lang.startsWith("pt") -> R.raw.tutorial_pt
+            else -> R.raw.tutorial_pt
         }
     }
 
