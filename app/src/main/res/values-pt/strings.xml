@@ -181,5 +181,36 @@
     <!-- Language Voice -->
     <string name="voice_language_changed_to">Idioma de voz alterado para %1$s</string>
 
+    <!-- Accounts actions activity -->
+    <string name="account_actions_title">Account</string>
+    <string name="account_actions_desc">Choose an action for your account.</string>
+
+    <string name="logout_button">Sign out</string>
+
+    <string name="delete_account_button">Delete account</string>
+    <string name="delete_account_title">Delete account</string>
+    <string name="delete_account_message">This will delete your account and data. This action cannot be undone.</string>
+    <string name="delete_account_confirm">Delete</string>
+
+    <string name="deleting_account">Deleting account...</string>
+
+    <string name="reauth_required_title">Confirmation required</string>
+    <string name="reauth_required_message">For security reasons, you must confirm your identity to delete the account.</string>
+    <string name="reauth_not_supported">We can’t reauthenticate automatically with this method. Please sign in again and try.</string>
+    <string name="reauth_failed">Could not confirm your identity.</string>
+    <string name="reauth_failed_with_reason">Could not confirm your identity: %1$s</string>
+
+    <string name="reauth_password_title">Confirm password</string>
+    <string name="reauth_password_message">Enter your password for %1$s</string>
+    <string name="password_hintA">Password</string>
+    <string name="password_empty">Password can’t be empty.</string>
+
+    <string name="error_no_user">No active user.</string>
+    <string name="delete_account_firestore_failed">Could not delete your data: %1$s</string>
+    <string name="delete_account_auth_failed">Could not delete your account: %1$s</string>
+
+    <string name="btn_continue">Continue</string>
+    <string name="back">Back</string>
+
 
 </resources>

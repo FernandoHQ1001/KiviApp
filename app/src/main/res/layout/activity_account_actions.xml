@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/rootAccountActions"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A232E">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardAccountActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        app:cardBackgroundColor="#2C3A47"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Header: título + cerrar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvTitleAccountActions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/account_actions_title"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <!-- “Cerrar” como tus pantallas -->
+                <TextView
+                    android:id="@+id/tvCloseAccountActions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/close"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:id="@+id/dividerAccountActions"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#B0BEC5"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/tvDescAccountActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account_actions_desc"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp"
+                android:layout_marginBottom="18dp"/>
+
+            <!-- Botón: Cerrar sesión (filled) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDoLogout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/logout_button"
+                android:textAllCaps="false"
+                app:cornerRadius="18dp"
+                android:backgroundTint="#2979FF"
+                android:textColor="#FFFFFF"
+                app:icon="@android:drawable/ic_lock_power_off"
+                app:iconPadding="10dp"
+                app:iconGravity="textStart"/>
+
+            <!-- Separación -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"/>
+
+            <!-- Botón: Eliminar cuenta (outlined) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDoDeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/delete_account_button"
+                android:textAllCaps="false"
+                app:cornerRadius="18dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="#2979FF"
+                android:textColor="#2979FF"
+                android:backgroundTint="#2C3A47"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconPadding="10dp"
+                app:iconGravity="textStart"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

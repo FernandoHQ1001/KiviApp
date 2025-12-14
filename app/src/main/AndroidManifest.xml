@@ -70,6 +70,9 @@
             android:name=".features.ui.activities.settings.VoiceLanguageActivity"
             android:exported="false" />
         <activity
+            android:name=".features.ui.activities.AccountActionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".features.ui.activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>

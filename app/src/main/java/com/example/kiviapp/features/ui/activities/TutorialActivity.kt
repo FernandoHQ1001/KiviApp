@@ -80,7 +80,7 @@ class TutorialActivity : BaseActivity() {
         return when {
             lang.startsWith("en") -> R.raw.tutorial_en
             lang.startsWith("pt") -> R.raw.tutorial_pt
-            else -> R.raw.tutorial_pt
+            else -> R.raw.tutorial_es
         }
     }
 

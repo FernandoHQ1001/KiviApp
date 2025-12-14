@@ -181,4 +181,36 @@
     <!-- Language Voice -->
     <string name="voice_language_changed_to">Idioma de voz cambiado a %1$s</string>
 
+    <!-- Accounts actions activity -->
+    <string name="account_actions_title">Cuenta</string>
+    <string name="account_actions_desc">Elige una acción para tu cuenta.</string>
+
+    <string name="logout_button">Cerrar sesión</string>
+
+    <string name="delete_account_button">Eliminar cuenta</string>
+    <string name="delete_account_title">Eliminar cuenta</string>
+    <string name="delete_account_message">Esta acción eliminará tu cuenta y tus datos. No se puede deshacer.</string>
+    <string name="delete_account_confirm">Eliminar</string>
+
+    <string name="deleting_account">Eliminando cuenta...</string>
+
+    <string name="reauth_required_title">Confirmación requerida</string>
+    <string name="reauth_required_message">Por seguridad, debes confirmar tu identidad para eliminar la cuenta.</string>
+    <string name="reauth_not_supported">No se puede reautenticar automáticamente con este método. Vuelve a iniciar sesión e inténtalo otra vez.</string>
+    <string name="reauth_failed">No se pudo confirmar tu identidad.</string>
+    <string name="reauth_failed_with_reason">No se pudo confirmar tu identidad: %1$s</string>
+
+    <string name="reauth_password_title">Confirmar contraseña</string>
+    <string name="reauth_password_message">Escribe tu contraseña para %1$s</string>
+    <string name="password_hintA">Contraseña</string>
+    <string name="password_empty">La contraseña no puede estar vacía.</string>
+
+    <string name="error_no_user">No hay un usuario activo.</string>
+    <string name="delete_account_firestore_failed">No se pudo eliminar tus datos: %1$s</string>
+    <string name="delete_account_auth_failed">No se pudo eliminar tu cuenta: %1$s</string>
+
+    <string name="btn_continue">Continuar</string>
+    <string name="back">Volver</string>
+
+
 </resources>

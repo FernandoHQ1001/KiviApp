@@ -96,7 +96,7 @@ class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
         }
 
         btnLogout.setOnClickListener {
-            mostrarDialogoCerrarSesion()
+            startActivity(Intent(this, AccountActionsActivity::class.java))
         }
 
         btnVoiceNav.setOnClickListener {
