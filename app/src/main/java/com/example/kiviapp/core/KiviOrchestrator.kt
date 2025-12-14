@@ -6,10 +6,11 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
-import com.example.kiviapp.features.ui.activities.settings.KiviSettings
+import com.example.kiviapp.R
 import com.example.kiviapp.features.ai.GeminiIntegration
 import com.example.kiviapp.features.speech.TextToSpeechManager
 import com.example.kiviapp.features.speech.VoiceRecognitionManager
+import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class KiviOrchestrator(private val context: Context) {
         // ✅ Escuchamos cuando el TTS esté listo
         boca.onTtsReady = {
             Log.d("KIVI", "✅ TTS está listo para hablar")
-            decir("Hola, soy Kivi. Estoy lista para ayudarte.")
+            decir(context.getString(R.string.kivi_greeting))
         }
     }
 
@@ -44,8 +45,8 @@ class KiviOrchestrator(private val context: Context) {
     // SALUDO
     // ----------------------------------------------------------
     fun saludar() {
-        listener?.onEstadoCambiado("Kivi lista")
-        decir("Hola, soy Kivi. Estoy lista para ayudarte.")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_ready))
+        decir(context.getString(R.string.kivi_greeting))
     }
 
     // ----------------------------------------------------------
@@ -122,14 +123,14 @@ class KiviOrchestrator(private val context: Context) {
     }
 
     fun empezarEscucha(alEscuchar: (String) -> Unit) {
-        listener?.onEstadoCambiado("👂 Escuchando...")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_listening))
         oido.startListening { texto ->
             alEscuchar(texto)
         }
     }
 
     fun detenerEscucha() {
-        listener?.onEstadoCambiado("⏳ Procesando...")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_processing))
         oido.stopListening()
     }
 
@@ -137,7 +138,7 @@ class KiviOrchestrator(private val context: Context) {
     // PROCESAR PREGUNTA (TEXTO + IMAGEN)
     // ----------------------------------------------------------
     fun procesarPregunta(textoUsuario: String, foto: Bitmap?) {
-        listener?.onEstadoCambiado("🧠 Pensando...")
+        listener?.onEstadoCambiado(context.getString(R.string.kivi_thinking))
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
@@ -145,6 +146,7 @@ class KiviOrchestrator(private val context: Context) {
 
                 val respuesta: String = if (foto != null) {
 
+                    // ✅ PROMPT HARDCODEADO (OK)
                     val prompt = """
                         Eres Kivi, un asistente para personas con discapacidad visual.
                         Analiza esta imagen y responde en el idioma configurado para el usuario.
@@ -186,13 +188,13 @@ class KiviOrchestrator(private val context: Context) {
 
                     advertencia = when {
                         hayPeligroSuelo && hayPeligroCabeza ->
-                            "Cuidado: hay obstáculos en el suelo y a la altura de la cabeza."
+                            context.getString(R.string.kivi_warning_both)
 
                         hayPeligroSuelo ->
-                            "Cuidado: hay un obstáculo a nivel del suelo."
+                            context.getString(R.string.kivi_warning_floor)
 
                         hayPeligroCabeza ->
-                            "Cuidado: hay un obstáculo a la altura de la cabeza."
+                            context.getString(R.string.kivi_warning_head)
 
                         else -> null
                     }
@@ -221,8 +223,8 @@ class KiviOrchestrator(private val context: Context) {
 
             } catch (e: Exception) {
                 Log.e("KIVI", "Error procesando pregunta: ${e.message}", e)
-                listener?.onError(e.message ?: "Error desconocido")
-                decir("Tuve un problema.")
+                listener?.onError(e.message ?: context.getString(R.string.kivi_error_unknown))
+                decir(context.getString(R.string.kivi_error_generic))
             }
         }
     }

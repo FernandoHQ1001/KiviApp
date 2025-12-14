@@ -163,4 +163,18 @@
     <string name="tutorial_tap_to_play">Toca para reproducir</string>
     <string name="tutorial_continue">Continuar</string>
 
+    <!-- Kivi Orchestator -->
+    <string name="kivi_greeting">Hola, soy Kivi. Estoy lista para ayudarte.</string>
+    <string name="kivi_ready">Kivi lista</string>
+
+    <string name="kivi_listening">👂 Escuchando...</string>
+    <string name="kivi_processing">⏳ Procesando...</string>
+    <string name="kivi_thinking">🧠 Pensando...</string>
+
+    <string name="kivi_warning_both">Cuidado: hay obstáculos en el suelo y a la altura de la cabeza.</string>
+    <string name="kivi_warning_floor">Cuidado: hay un obstáculo a nivel del suelo.</string>
+    <string name="kivi_warning_head">Cuidado: hay un obstáculo a la altura de la cabeza.</string>
+
+    <string name="kivi_error_generic">Tuve un problema.</string>
+    <string name="kivi_error_unknown">Error desconocido</string>
 </resources>
