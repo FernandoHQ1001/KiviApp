@@ -178,4 +178,7 @@
     <string name="kivi_error_generic">I had a problem.</string>
     <string name="kivi_error_unknown">Unknown error</string>
 
+    <!-- Language Voice -->
+    <string name="voice_language_changed_to">Voice language changed to %1$s</string>
+
 </resources>

@@ -18,7 +18,8 @@ class VoiceLanguageActivity : BaseActivity() {
     // Idiomas de voz disponibles
     private val idiomas = listOf(
         "Español" to "es",
-        "English" to "en"
+        "English" to "en",
+        "Português" to "pt"
         // añade más si quieres: "Français" to "fr", etc.
     )
 
@@ -36,8 +37,10 @@ class VoiceLanguageActivity : BaseActivity() {
         val nombreIdioma = when (langCode) {
             "es" -> getString(R.string.language_spanish)
             "en" -> getString(R.string.language_english)
+            "pt" -> getString(R.string.language_portuguese)
             else -> getString(R.string.language_spanish)
         }
+
         tvIdiomaActual.text = nombreIdioma
 
         val cardSelector =
@@ -58,24 +61,34 @@ class VoiceLanguageActivity : BaseActivity() {
     }
 
     private fun mostrarDialogoIdiomas() {
-        val nombres = arrayOf(getString(R.string.language_spanish), getString(R.string.language_english))
+        val nombres = arrayOf(
+            getString(R.string.language_spanish),
+            getString(R.string.language_english),
+            getString(R.string.language_portuguese)
+        )
+        val codes = arrayOf("es", "en", "pt")
 
         val langCodeActual = KiviSettings.getVoiceLanguage(this)
-        var checkedItem = idiomas.indexOfFirst { it.second == langCodeActual }
+        var checkedItem = codes.indexOf(langCodeActual)
         if (checkedItem < 0) checkedItem = 0
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.voice_language))
             .setSingleChoiceItems(nombres, checkedItem) { dialog, which ->
-                val (_, code) = idiomas[which]
+                val code = codes[which]
                 KiviSettings.setVoiceLanguage(this, code)
                 tvIdiomaActual.text = nombres[which]
-                Toast.makeText(this, "Idioma de voz cambiado a ${nombres[which]}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.voice_language_changed_to, nombres[which]),
+                    Toast.LENGTH_SHORT
+                ).show()
                 dialog.dismiss()
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
+
 
     // --------------------------------------------------------------
     // TEMA / COLORES

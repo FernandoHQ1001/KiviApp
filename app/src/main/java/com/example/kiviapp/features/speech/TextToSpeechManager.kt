@@ -28,7 +28,8 @@ class TextToSpeechManager(context: Context) : TextToSpeech.OnInitListener {
         if (status == TextToSpeech.SUCCESS) {
             Log.d("KIVI_TTS", "TTS inicializado correctamente")
             isReady = true
-            setLanguage()
+
+            applyLanguage() // ✅ aplica idioma actual
 
             // ✅ Notificamos que está listo
             onTtsReady?.invoke()
@@ -43,18 +44,22 @@ class TextToSpeechManager(context: Context) : TextToSpeech.OnInitListener {
         }
     }
 
-    private fun setLanguage() {
+    private fun applyLanguage() {
         val langCode = KiviSettings.getVoiceLanguage(appContext)
+
         val locale = when (langCode) {
             "en" -> Locale.forLanguageTag("en-US")
+            "pt" -> Locale.forLanguageTag("pt-BR") // o "pt-PT" si prefieres Portugal
             else -> Locale.forLanguageTag("es-ES")
         }
 
         val result = tts?.setLanguage(locale)
+
         if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-            Log.e("KIVI_TTS", "El idioma $langCode no está disponible en este dispositivo.")
+            Log.e("KIVI_TTS", "Idioma TTS NO soportado: $langCode ($locale). Usando fallback es-ES.")
+            tts?.setLanguage(Locale.forLanguageTag("es-ES"))
         } else {
-            Log.d("KIVI_TTS", "Idioma TTS aplicado: $langCode")
+            Log.d("KIVI_TTS", "Idioma TTS aplicado: $langCode ($locale)")
         }
     }
 
@@ -65,9 +70,9 @@ class TextToSpeechManager(context: Context) : TextToSpeech.OnInitListener {
         }
 
         if (isReady) {
-            setLanguage()
+            applyLanguage() // ✅ refresca idioma por si cambió en settings
             Log.d("KIVI_TTS", "🔊 Hablando: $text")
-            tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+            tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "kivi_tts")
         } else {
             Log.w("KIVI_TTS", "TTS no listo, guardando texto: $text")
             pendingText = text
