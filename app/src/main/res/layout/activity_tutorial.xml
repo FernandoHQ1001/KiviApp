@@ -2,42 +2,130 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootTutorial"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
     android:background="#1A232E">
 
-    <VideoView
-        android:id="@+id/videoViewTutorial"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+    <!-- Título -->
     <TextView
         android:id="@+id/tvTituloTutorial"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:text="@string/tutorial_title"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/btnOmitir"
-        android:layout_width="wrap_content"
+    <!-- Subtítulo -->
+    <TextView
+        android:id="@+id/tvSubtituloTutorial"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:text="@string/tutorial_button"
-        android:backgroundTint="#FFFFFF"
-        android:textColor="#000000"
+        android:text="@string/tutorial_subtitle"
+        android:textColor="#B0BEC5"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloTutorial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Card del video -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTutorialVideo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="18dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="6dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="#2979FF"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtituloTutorial"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layoutBottom">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/playerViewTutorial"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:use_controller="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/overlayPlay"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#66000000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlay"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text=""
+                app:cornerRadius="36dp"
+                app:icon="@android:drawable/ic_media_play"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="36dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvHintPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial_tap_to_play"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/btnPlay"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Bottom -->
+    <LinearLayout
+        android:id="@+id/layoutBottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnContinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="@string/tutorial_continue"
+            android:textAllCaps="false"
+            app:cornerRadius="18dp"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

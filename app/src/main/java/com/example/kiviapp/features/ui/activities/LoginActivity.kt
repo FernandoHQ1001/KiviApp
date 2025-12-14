@@ -7,9 +7,9 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.example.kiviapp.features.ui.activities.settings.KiviSettings
-import com.example.kiviapp.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -24,7 +24,6 @@ class LoginActivity : BaseActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
-    // Launcher para el flujo de Google
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val data = result.data
@@ -46,7 +45,6 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Firebase
         auth = Firebase.auth
         db = FirebaseFirestore.getInstance()
 
@@ -58,7 +56,6 @@ class LoginActivity : BaseActivity() {
 
         btnBack.setOnClickListener { finish() }
 
-        // ---------- Login con Email/Contraseña ----------
         btnLoginAction.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val pass = etPass.text.toString().trim()
@@ -69,17 +66,13 @@ class LoginActivity : BaseActivity() {
                         if (task.isSuccessful) {
                             Toast.makeText(this, "¡Bienvenido de nuevo!", Toast.LENGTH_SHORT).show()
 
-                            // ⬇️ Cargar settings desde Firebase antes de ir a Main
+                            // ✅ bajar settings (incluye app_language -> KiviAppPrefs)
                             KiviSettings.loadFromCloud(this) {
                                 irAInicio()
                             }
 
                         } else {
-                            Toast.makeText(
-                                this,
-                                "Error: Correo o contraseña incorrectos",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(this, "Error: Correo o contraseña incorrectos", Toast.LENGTH_LONG).show()
                         }
                     }
             } else {
@@ -87,13 +80,9 @@ class LoginActivity : BaseActivity() {
             }
         }
 
-        // ---------- Login con Google ----------
-        btnGoogle.setOnClickListener {
-            iniciarSesionConGoogle()
-        }
+        btnGoogle.setOnClickListener { iniciarSesionConGoogle() }
     }
 
-    // Configura y lanza el intent de Google
     private fun iniciarSesionConGoogle() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -104,7 +93,6 @@ class LoginActivity : BaseActivity() {
         googleSignInLauncher.launch(googleSignInClient.signInIntent)
     }
 
-    // Intercambia el token de Google por un usuario de Firebase
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
@@ -116,13 +104,11 @@ class LoginActivity : BaseActivity() {
                     val currentUser = auth.currentUser
 
                     if (isNewUser && currentUser != null) {
-                        // Crear documento en Firestore igual que en registro normal
                         val uid = currentUser.uid
                         val displayName = currentUser.displayName ?: ""
                         val email = currentUser.email ?: ""
                         val photoUrl = currentUser.photoUrl?.toString()
 
-                        // Separar nombre y apellido de forma simple
                         val partes = displayName.split(" ")
                         val nombre = if (partes.isNotEmpty()) partes.first() else ""
                         val apellido = if (partes.size > 1) partes.drop(1).joinToString(" ") else ""
@@ -132,7 +118,7 @@ class LoginActivity : BaseActivity() {
                             "nombre" to nombre,
                             "apellido" to apellido,
                             "email" to email,
-                            "fechaNacimiento" to "",   // vacío por ahora
+                            "fechaNacimiento" to "",
                             "telefono" to "",
                             "fotoPerfil" to photoUrl
                         )
@@ -140,16 +126,22 @@ class LoginActivity : BaseActivity() {
                         db.collection("usuarios").document(uid)
                             .set(datosUsuario)
                             .addOnSuccessListener {
-                                // opcional: log o mensaje
+                                // ✅ defaults primera vez (incluye app_language global)
+                                KiviSettings.setTutorialVisto(this, false)
+                                KiviSettings.setAppLanguage(this, "es")
+                                KiviSettings.syncToCloud(this)
                             }
                             .addOnFailureListener {
-                                // opcional: log o mensaje
+                                // igual intentamos defaults
+                                KiviSettings.setTutorialVisto(this, false)
+                                KiviSettings.setAppLanguage(this, "es")
+                                KiviSettings.syncToCloud(this)
                             }
                     }
 
                     Toast.makeText(this, "Inicio de sesión con Google correcto", Toast.LENGTH_SHORT).show()
 
-                    // ⬇️ Igual que con email: traer settings de la nube
+                    // ✅ bajar settings y decidir flujo
                     KiviSettings.loadFromCloud(this) {
                         irAInicio()
                     }
@@ -161,20 +153,12 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun irAInicio() {
-        // Verificar si ya vio el tutorial
-        val prefs = getSharedPreferences("KiviPrefs", MODE_PRIVATE)
-        val tutorialVisto = prefs.getBoolean("tutorial_visto", false)
-
-        val intent: Intent
-        if (!tutorialVisto) {
-            // Si NO lo ha visto, vamos al Tutorial
-            intent = Intent(this, TutorialActivity::class.java)
+        val next = if (!KiviSettings.isTutorialVisto(this)) {
+            Intent(this, TutorialActivity::class.java)
         } else {
-            // Si YA lo vio, vamos directo al Main
-            intent = Intent(this, MainActivity::class.java)
+            Intent(this, MainActivity::class.java)
         }
-
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+        next.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(next)
     }
 }

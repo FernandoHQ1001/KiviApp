@@ -51,6 +51,8 @@ dependencies {
 
     implementation(libs.generativeai)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
 
 
     testImplementation(libs.junit)

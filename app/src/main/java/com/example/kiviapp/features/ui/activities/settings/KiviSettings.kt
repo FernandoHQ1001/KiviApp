@@ -13,11 +13,12 @@ object KiviSettings {
     // FIRESTORE
     // --------------------------------------------------------------
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
-
     private fun currentUserId(): String? = Firebase.auth.currentUser?.uid
-
-    // Nombre del campo anidado dentro del documento del usuario
     private const val FIRESTORE_SETTINGS_FIELD = "settings"
+
+    // ✅ Pref global para idioma de interfaz (lo usa BaseActivity)
+    private fun appPrefs(context: Context) =
+        context.getSharedPreferences("KiviAppPrefs", Context.MODE_PRIVATE)
 
     // --------------------------------------------------------------
     // PREFERENCIAS POR USUARIO (UID) - LOCAL
@@ -27,31 +28,41 @@ object KiviSettings {
 
     private fun getPrefsName(): String {
         val user = Firebase.auth.currentUser
-        return if (user != null) {
-            "kivi_prefs_${user.uid}"       // preferencias personales del usuario
-        } else {
-            "kivi_prefs_default"           // antes de iniciar sesión
-        }
+        return if (user != null) "kivi_prefs_${user.uid}" else "kivi_prefs_default"
     }
+
+    // --------------------------------------------------------------
+    // KEYS
+    // --------------------------------------------------------------
+    private const val KEY_DARK_MODE = "dark_mode"
+    private const val KEY_THEME_COLOR = "theme_color"
+    private const val KEY_TEXT_SIZE = "text_size"
+    private const val KEY_VOL_GENERAL = "vol_general"
+    private const val KEY_VOL_VOZ = "vol_voz"
+    private const val KEY_VOICE_ENABLED = "voice_enabled"
+    private const val KEY_HAPTIC_ENABLED = "haptic_enabled"
+    private const val KEY_OBSTACLE_ALERT = "obstacle_alert_main"
+    private const val KEY_OBSTACLE_FLOOR = "obstacle_floor"
+    private const val KEY_OBSTACLE_HEAD = "obstacle_head"
+    private const val KEY_VOICE_LANGUAGE = "voice_language"
+
+    private const val KEY_TUTORIAL_VISTO = "tutorial_visto"
+    private const val KEY_APP_LANGUAGE = "app_language"
 
     // --------------------------------------------------------------
     // MODO OSCURO
     // --------------------------------------------------------------
-    private const val KEY_DARK_MODE = "dark_mode"
-
     fun setDarkMode(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_DARK_MODE, enabled).apply()
         syncToCloud(context)
     }
 
     fun isDarkMode(context: Context): Boolean =
-        prefs(context).getBoolean(KEY_DARK_MODE, true) // por defecto oscuro
+        prefs(context).getBoolean(KEY_DARK_MODE, true)
 
     // --------------------------------------------------------------
     // COLOR PRINCIPAL (tema)
     // --------------------------------------------------------------
-    private const val KEY_THEME_COLOR = "theme_color"
-
     fun setThemeColorName(context: Context, name: String) {
         prefs(context).edit().putString(KEY_THEME_COLOR, name).apply()
         syncToCloud(context)
@@ -64,8 +75,8 @@ object KiviSettings {
     fun getThemeColor(context: Context): Int {
         return when (getThemeColorName(context)) {
             "Morado" -> 0xFF7E57C2.toInt()
-            "Verde"  -> 0xFF43A047.toInt()
-            else     -> 0xFF2979FF.toInt()   // Azul por defecto
+            "Verde" -> 0xFF43A047.toInt()
+            else -> 0xFF2979FF.toInt()
         }
     }
 
@@ -90,8 +101,6 @@ object KiviSettings {
     // --------------------------------------------------------------
     // TAMAÑO DE TEXTO
     // --------------------------------------------------------------
-    private const val KEY_TEXT_SIZE = "text_size"   // 0 pequeño - 1 mediano - 2 grande
-
     fun setTextSizeLevel(context: Context, level: Int) {
         prefs(context).edit().putInt(KEY_TEXT_SIZE, level).apply()
         syncToCloud(context)
@@ -102,18 +111,15 @@ object KiviSettings {
 
     fun getScaledTextSize(context: Context, baseSize: Float): Float {
         return when (getTextSizeLevel(context)) {
-            0 -> baseSize * 0.80f    // pequeño
-            2 -> baseSize * 1.30f    // grande
-            else -> baseSize         // mediano
+            0 -> baseSize * 0.80f
+            2 -> baseSize * 1.30f
+            else -> baseSize
         }
     }
 
     // --------------------------------------------------------------
-    // VOLUMEN GENERAL / VOLUMEN VOZ
+    // VOLUMEN
     // --------------------------------------------------------------
-    private const val KEY_VOL_GENERAL = "vol_general"
-    private const val KEY_VOL_VOZ = "vol_voz"
-
     fun setVolGeneral(context: Context, value: Int) {
         prefs(context).edit().putInt(KEY_VOL_GENERAL, value).apply()
         syncToCloud(context)
@@ -131,11 +137,8 @@ object KiviSettings {
         prefs(context).getInt(KEY_VOL_VOZ, 70)
 
     // --------------------------------------------------------------
-    // MOVILIDAD: voz / háptico
+    // MOVILIDAD
     // --------------------------------------------------------------
-    private const val KEY_VOICE_ENABLED = "voice_enabled"
-    private const val KEY_HAPTIC_ENABLED = "haptic_enabled"
-
     fun setVoiceEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_VOICE_ENABLED, enabled).apply()
         syncToCloud(context)
@@ -153,12 +156,8 @@ object KiviSettings {
         prefs(context).getBoolean(KEY_HAPTIC_ENABLED, true)
 
     // --------------------------------------------------------------
-    // DETECCIÓN DE OBSTÁCULOS
+    // OBSTÁCULOS
     // --------------------------------------------------------------
-    private const val KEY_OBSTACLE_ALERT = "obstacle_alert_main"
-    private const val KEY_OBSTACLE_FLOOR = "obstacle_floor"
-    private const val KEY_OBSTACLE_HEAD  = "obstacle_head"
-
     fun setObstacleAlertEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_OBSTACLE_ALERT, enabled).apply()
         syncToCloud(context)
@@ -184,11 +183,8 @@ object KiviSettings {
         prefs(context).getBoolean(KEY_OBSTACLE_HEAD, true)
 
     // --------------------------------------------------------------
-    // IDIOMA DE VOZ
+    // IDIOMA VOZ
     // --------------------------------------------------------------
-    private const val KEY_VOICE_LANGUAGE = "voice_language"
-
-    // "es" por defecto
     fun getVoiceLanguage(context: Context): String =
         prefs(context).getString(KEY_VOICE_LANGUAGE, "es") ?: "es"
 
@@ -198,7 +194,36 @@ object KiviSettings {
     }
 
     // --------------------------------------------------------------
-    // MAPA DE SETTINGS (para subir/bajar de Firebase)
+    // ✅ IDIOMA INTERFAZ (POR USUARIO) + ✅ PREF GLOBAL
+    // --------------------------------------------------------------
+    fun setAppLanguage(context: Context, langCode: String) {
+        // usuario
+        prefs(context).edit().putString(KEY_APP_LANGUAGE, langCode).apply()
+        // global (para BaseActivity)
+        appPrefs(context).edit().putString(KEY_APP_LANGUAGE, langCode).apply()
+        // nube
+        syncToCloud(context)
+    }
+
+    fun getAppLanguage(context: Context): String {
+        val global = appPrefs(context).getString(KEY_APP_LANGUAGE, null)
+        if (!global.isNullOrBlank()) return global
+        return prefs(context).getString(KEY_APP_LANGUAGE, "es") ?: "es"
+    }
+
+    // --------------------------------------------------------------
+    // ✅ TUTORIAL VISTO
+    // --------------------------------------------------------------
+    fun setTutorialVisto(context: Context, visto: Boolean) {
+        prefs(context).edit().putBoolean(KEY_TUTORIAL_VISTO, visto).apply()
+        syncToCloud(context)
+    }
+
+    fun isTutorialVisto(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_TUTORIAL_VISTO, false)
+
+    // --------------------------------------------------------------
+    // FIRESTORE MAP
     // --------------------------------------------------------------
     private fun buildSettingsMap(context: Context): Map<String, Any> {
         return mapOf(
@@ -212,19 +237,18 @@ object KiviSettings {
             KEY_OBSTACLE_ALERT to isObstacleAlertEnabled(context),
             KEY_OBSTACLE_FLOOR to isObstacleFloorEnabled(context),
             KEY_OBSTACLE_HEAD to isObstacleHeadEnabled(context),
-            KEY_VOICE_LANGUAGE to getVoiceLanguage(context)
+            KEY_VOICE_LANGUAGE to getVoiceLanguage(context),
+            KEY_TUTORIAL_VISTO to isTutorialVisto(context),
+            KEY_APP_LANGUAGE to getAppLanguage(context)
         )
     }
 
     private fun applySettingsMap(context: Context, data: Map<String, Any>) {
         val editor = prefs(context).edit()
 
-        (data[KEY_DARK_MODE] as? Boolean)?.let {
-            editor.putBoolean(KEY_DARK_MODE, it)
-        }
-        (data[KEY_THEME_COLOR] as? String)?.let {
-            editor.putString(KEY_THEME_COLOR, it)
-        }
+        (data[KEY_DARK_MODE] as? Boolean)?.let { editor.putBoolean(KEY_DARK_MODE, it) }
+        (data[KEY_THEME_COLOR] as? String)?.let { editor.putString(KEY_THEME_COLOR, it) }
+
         (data[KEY_TEXT_SIZE] as? Long ?: data[KEY_TEXT_SIZE] as? Int)?.let {
             editor.putInt(KEY_TEXT_SIZE, it.toInt())
         }
@@ -234,52 +258,37 @@ object KiviSettings {
         (data[KEY_VOL_VOZ] as? Long ?: data[KEY_VOL_VOZ] as? Int)?.let {
             editor.putInt(KEY_VOL_VOZ, it.toInt())
         }
-        (data[KEY_VOICE_ENABLED] as? Boolean)?.let {
-            editor.putBoolean(KEY_VOICE_ENABLED, it)
-        }
-        (data[KEY_HAPTIC_ENABLED] as? Boolean)?.let {
-            editor.putBoolean(KEY_HAPTIC_ENABLED, it)
-        }
-        (data[KEY_OBSTACLE_ALERT] as? Boolean)?.let {
-            editor.putBoolean(KEY_OBSTACLE_ALERT, it)
-        }
-        (data[KEY_OBSTACLE_FLOOR] as? Boolean)?.let {
-            editor.putBoolean(KEY_OBSTACLE_FLOOR, it)
-        }
-        (data[KEY_OBSTACLE_HEAD] as? Boolean)?.let {
-            editor.putBoolean(KEY_OBSTACLE_HEAD, it)
-        }
-        (data[KEY_VOICE_LANGUAGE] as? String)?.let {
-            editor.putString(KEY_VOICE_LANGUAGE, it)
+
+        (data[KEY_VOICE_ENABLED] as? Boolean)?.let { editor.putBoolean(KEY_VOICE_ENABLED, it) }
+        (data[KEY_HAPTIC_ENABLED] as? Boolean)?.let { editor.putBoolean(KEY_HAPTIC_ENABLED, it) }
+
+        (data[KEY_OBSTACLE_ALERT] as? Boolean)?.let { editor.putBoolean(KEY_OBSTACLE_ALERT, it) }
+        (data[KEY_OBSTACLE_FLOOR] as? Boolean)?.let { editor.putBoolean(KEY_OBSTACLE_FLOOR, it) }
+        (data[KEY_OBSTACLE_HEAD] as? Boolean)?.let { editor.putBoolean(KEY_OBSTACLE_HEAD, it) }
+
+        (data[KEY_VOICE_LANGUAGE] as? String)?.let { editor.putString(KEY_VOICE_LANGUAGE, it) }
+        (data[KEY_TUTORIAL_VISTO] as? Boolean)?.let { editor.putBoolean(KEY_TUTORIAL_VISTO, it) }
+
+        // ✅ muy importante: al cargar de nube, actualizar el global
+        (data[KEY_APP_LANGUAGE] as? String)?.let {
+            editor.putString(KEY_APP_LANGUAGE, it)
+            appPrefs(context).edit().putString(KEY_APP_LANGUAGE, it).apply()
         }
 
         editor.apply()
     }
 
-    // --------------------------------------------------------------
-    // SINCRONIZAR A FIREBASE (SUBIR)
-    // --------------------------------------------------------------
     fun syncToCloud(context: Context) {
         val uid = currentUserId() ?: return
 
-        val settingsMap = buildSettingsMap(context)
-        val wrapper = mapOf(
-            FIRESTORE_SETTINGS_FIELD to settingsMap
-        )
-
+        val wrapper = mapOf(FIRESTORE_SETTINGS_FIELD to buildSettingsMap(context))
         db.collection("usuarios")
             .document(uid)
             .set(wrapper, SetOptions.merge())
     }
 
-    // --------------------------------------------------------------
-    // CARGAR DESDE FIREBASE (BAJAR)
-    // --------------------------------------------------------------
     fun loadFromCloud(context: Context, onComplete: (Boolean) -> Unit) {
-        val uid = currentUserId() ?: run {
-            onComplete(false)
-            return
-        }
+        val uid = currentUserId() ?: run { onComplete(false); return }
 
         db.collection("usuarios")
             .document(uid)
@@ -288,21 +297,15 @@ object KiviSettings {
                 val settingsAny = snapshot.get(FIRESTORE_SETTINGS_FIELD)
                 if (settingsAny is Map<*, *>) {
                     @Suppress("UNCHECKED_CAST")
-                    val settingsMap = settingsAny as Map<String, Any>
-                    applySettingsMap(context, settingsMap)
+                    applySettingsMap(context, settingsAny as Map<String, Any>)
                     onComplete(true)
                 } else {
                     onComplete(false)
                 }
             }
-            .addOnFailureListener {
-                onComplete(false)
-            }
+            .addOnFailureListener { onComplete(false) }
     }
 
-    // --------------------------------------------------------------
-    // RESET LOCAL (no borra Firebase)
-    // --------------------------------------------------------------
     fun resetCurrentUserSettings(context: Context) {
         prefs(context).edit().clear().apply()
     }

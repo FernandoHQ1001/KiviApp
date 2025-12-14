@@ -1,24 +1,16 @@
 package com.example.kiviapp.features.ui.activities.settings
 
 import android.content.Intent
-import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.R
-import com.example.kiviapp.features.ui.activities.WelcomeActivity
+import com.example.kiviapp.features.ui.activities.MainActivity
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 
 class LanguageSettingsActivity : BaseActivity() {
 
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var rv: RecyclerView
     private lateinit var adapter: SettingsAdapter
 
@@ -26,90 +18,77 @@ class LanguageSettingsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language_settings)
 
-        sharedPreferences = getSharedPreferences("KiviAppPrefs", MODE_PRIVATE)
-
-        findViewById<ImageButton>(R.id.btnBackLanguage).setOnClickListener { finish() }
-
         rv = findViewById(R.id.rvLanguageSettings)
         rv.layoutManager = LinearLayoutManager(this)
 
         adapter = SettingsAdapter(this, buildRows())
         rv.adapter = adapter
-
-        aplicarTemaPantalla()
-        aplicarTamanosPantalla()
     }
 
     override fun onResume() {
         super.onResume()
-        // Re-crear rows para que el subtítulo muestre el idioma actual
+        // refrescar subtítulos con idioma actual
         adapter = SettingsAdapter(this, buildRows())
         rv.adapter = adapter
-
-        aplicarTemaPantalla()
-        aplicarTamanosPantalla()
     }
 
     private fun buildRows(): List<SettingsRow> {
-        val currentLanguage = sharedPreferences.getString("app_language", "es") ?: "es"
-        val languageName = when (currentLanguage) {
+        val appLang = KiviSettings.getAppLanguage(this)
+        val voiceLang = KiviSettings.getVoiceLanguage(this)
+
+        fun name(code: String): String = when (code) {
             "es" -> getString(R.string.language_spanish)
             "en" -> getString(R.string.language_english)
             "pt" -> getString(R.string.language_portuguese)
             else -> getString(R.string.language_spanish)
         }
 
-        // IMPORTANTE: tu string interface_language_desc la estabas usando con formato.
-        // Si NO la tienes como string con %1$s, usa directamente un subtítulo fijo.
-        val interfazSubtitle = try {
-            getString(R.string.interface_language_desc, languageName)
-        } catch (_: Exception) {
-            // fallback por si ese string no es formateable
-            "$languageName"
-        }
-
         return listOf(
             SettingsRow.Header(getString(R.string.language)),
 
+            // ✅ Idioma Interfaz
             SettingsRow.Item(
                 id = "interface_language",
                 iconRes = android.R.drawable.ic_menu_sort_by_size,
                 title = getString(R.string.interface_language),
-                subtitle = interfazSubtitle,
-                onClick = { showLanguageSelectionDialog() }
+                subtitle = name(appLang),
+                onClick = { showInterfaceLanguageDialog() }
             ),
 
+            // ✅ Idioma Voz
             SettingsRow.Item(
                 id = "voice_language",
                 iconRes = android.R.drawable.ic_btn_speak_now,
                 title = getString(R.string.voice_language),
-                subtitle = getString(R.string.voice_language_desc),
-                onClick = { startActivity(Intent(this, VoiceLanguageActivity::class.java)) }
+                subtitle = name(voiceLang),
+                onClick = { showVoiceLanguageDialog() }
             )
         )
     }
 
-    private fun showLanguageSelectionDialog() {
-        val languages = arrayOf(
+    private fun showInterfaceLanguageDialog() {
+        val languageCodes = arrayOf("es", "en", "pt")
+        val languageNames = arrayOf(
             getString(R.string.language_spanish),
             getString(R.string.language_english),
             getString(R.string.language_portuguese)
         )
-        val languageCodes = arrayOf("es", "en", "pt")
 
-        val currentLanguage = sharedPreferences.getString("app_language", "es")
-        val currentIndex = languageCodes.indexOf(currentLanguage).let { if (it < 0) 0 else it }
+        val current = KiviSettings.getAppLanguage(this)
+        val currentIndex = languageCodes.indexOf(current).let { if (it < 0) 0 else it }
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.interface_language))
-            .setSingleChoiceItems(languages, currentIndex) { dialog, which ->
-                val selectedLanguage = languageCodes[which]
-                sharedPreferences.edit().putString("app_language", selectedLanguage).apply()
+            .setSingleChoiceItems(languageNames, currentIndex) { dialog, which ->
+                val selected = languageCodes[which]
                 dialog.dismiss()
 
-                // Reiniciar app para aplicar cambios (como ya lo estabas haciendo)
-                val intent = Intent(this, WelcomeActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                // ✅ guarda local + global + firebase
+                KiviSettings.setAppLanguage(this, selected)
+
+                // ✅ Reinicia task para aplicar Locale en toda la app
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
             }
@@ -117,23 +96,31 @@ class LanguageSettingsActivity : BaseActivity() {
             .show()
     }
 
-    private fun aplicarTemaPantalla() {
-        val root = findViewById<ConstraintLayout>(R.id.rootLanguageSettings)
+    private fun showVoiceLanguageDialog() {
+        val languageCodes = arrayOf("es", "en", "pt")
+        val languageNames = arrayOf(
+            getString(R.string.language_spanish),
+            getString(R.string.language_english),
+            getString(R.string.language_portuguese)
+        )
 
-        val colorFondo = KiviSettings.getBackgroundColor(this)
-        val colorTexto = KiviSettings.getPrimaryTextColor(this)
-        val colorSec = KiviSettings.getSecondaryTextColor(this)
-        val iconState = ColorStateList.valueOf(KiviSettings.getIconColor(this))
+        val current = KiviSettings.getVoiceLanguage(this)
+        val currentIndex = languageCodes.indexOf(current).let { if (it < 0) 0 else it }
 
-        root.setBackgroundColor(colorFondo)
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.voice_language))
+            .setSingleChoiceItems(languageNames, currentIndex) { dialog, which ->
+                val selected = languageCodes[which]
+                dialog.dismiss()
 
-        findViewById<TextView>(R.id.tvTituloLanguageConfig).setTextColor(colorTexto)
-        findViewById<ImageButton>(R.id.btnBackLanguage).imageTintList = iconState
-        findViewById<View>(R.id.dividerLanguage).setBackgroundColor(colorSec)
-    }
+                // ✅ solo cambia voz (no requiere reinicio completo)
+                KiviSettings.setVoiceLanguage(this, selected)
 
-    private fun aplicarTamanosPantalla() {
-        fun size(base: Float) = KiviSettings.getScaledTextSize(this, base)
-        findViewById<TextView>(R.id.tvTituloLanguageConfig).textSize = size(22f)
+                // refrescar lista para que cambie subtítulo
+                adapter = SettingsAdapter(this, buildRows())
+                rv.adapter = adapter
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
     }
 }

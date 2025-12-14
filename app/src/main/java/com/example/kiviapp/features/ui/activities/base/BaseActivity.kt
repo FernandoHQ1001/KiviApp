@@ -2,18 +2,21 @@ package com.example.kiviapp.features.ui.activities.base
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
+import java.util.Locale
 
 open class BaseActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
-        val sharedPreferences = newBase.getSharedPreferences("KiviAppPrefs", MODE_PRIVATE)
-        val languageCode = sharedPreferences.getString("app_language", "es") ?: "es"
-        val locale = Locale(languageCode)
+        // ✅ idioma SIEMPRE desde prefs global
+        val appPrefs = newBase.getSharedPreferences("KiviAppPrefs", Context.MODE_PRIVATE)
+        val langCode = appPrefs.getString("app_language", "es") ?: "es"
+
+        val locale = Locale(langCode)
         Locale.setDefault(locale)
-        val config = android.content.res.Configuration()
+
+        val config = android.content.res.Configuration(newBase.resources.configuration)
         config.setLocale(locale)
-        val context = newBase.createConfigurationContext(config)
-        super.attachBaseContext(context)
+
+        super.attachBaseContext(newBase.createConfigurationContext(config))
     }
 }

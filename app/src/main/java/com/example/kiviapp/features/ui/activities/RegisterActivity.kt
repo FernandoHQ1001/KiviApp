@@ -7,9 +7,9 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.example.kiviapp.features.ui.activities.settings.KiviSettings
-import com.example.kiviapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,16 +24,13 @@ class RegisterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // 1. Iniciamos las herramientas de Firebase
         auth = Firebase.auth
         db = FirebaseFirestore.getInstance()
 
-        // Referencias
         val btnBack = findViewById<ImageButton>(R.id.btnBackRegister)
         val btnRegister = findViewById<Button>(R.id.btnRegisterAction)
         val txtGoLogin = findViewById<TextView>(R.id.txtGoLogin)
 
-        // Campos de texto
         val etNombre = findViewById<EditText>(R.id.etNombre)
         val etApellido = findViewById<EditText>(R.id.etApellido)
         val etEmail = findViewById<EditText>(R.id.etRegEmail)
@@ -56,29 +53,20 @@ class RegisterActivity : BaseActivity() {
             val telefono = etTelefono.text.toString().trim()
             val pass = etPass.text.toString().trim()
 
-            // Validaciones
             if (nombre.isNotEmpty() && apellido.isNotEmpty() && email.isNotEmpty() &&
                 fecha.isNotEmpty() && telefono.isNotEmpty() && pass.isNotEmpty()
             ) {
 
                 if (pass.length < 6) {
-                    Toast.makeText(
-                        this,
-                        "La contraseña debe tener al menos 6 caracteres",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
-                // --- AQUÍ OCURRE LA MAGIA DE FIREBASE ---
-
-                // A. Crear usuario en Authentication (Email/Pass)
                 auth.createUserWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             val userId = auth.currentUser?.uid
 
-                            // B. Guardar datos personales en Firestore (Base de Datos)
                             val datosUsuario = hashMapOf(
                                 "id" to userId,
                                 "nombre" to nombre,
@@ -92,53 +80,46 @@ class RegisterActivity : BaseActivity() {
                                 db.collection("usuarios").document(userId)
                                     .set(datosUsuario)
                                     .addOnSuccessListener {
-                                        // C. Sincronizar settings iniciales del usuario a Firebase
+
+                                        // ✅ defaults primera vez (incluye app_language global)
+                                        KiviSettings.setTutorialVisto(this, false)
+                                        KiviSettings.setAppLanguage(this, "es")
                                         KiviSettings.syncToCloud(this)
 
-                                        Toast.makeText(
-                                            this,
-                                            "¡Bienvenido, $nombre!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        Toast.makeText(this, "¡Bienvenido, $nombre!", Toast.LENGTH_SHORT).show()
                                         irAInicio()
                                     }
                                     .addOnFailureListener {
-                                        // Si falla guardar datos, igual entramos pero avisamos
-                                        Toast.makeText(
-                                            this,
-                                            "Cuenta creada, pero hubo error guardando datos.",
-                                            Toast.LENGTH_LONG
-                                        ).show()
 
-                                        // Igual subimos settings para que estén en la nube
+                                        // igual inicializamos settings
+                                        KiviSettings.setTutorialVisto(this, false)
+                                        KiviSettings.setAppLanguage(this, "es")
                                         KiviSettings.syncToCloud(this)
 
+                                        Toast.makeText(this, "Cuenta creada, pero hubo error guardando datos.", Toast.LENGTH_LONG).show()
                                         irAInicio()
                                     }
                             }
                         } else {
-                            // Error al crear cuenta (ej: correo ya existe)
-                            Toast.makeText(
-                                this,
-                                "Error: ${task.exception?.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                         }
                     }
+
             } else {
-                Toast.makeText(
-                    this,
-                    "Por favor completa todos los campos",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun irAInicio() {
-        val intent = Intent(this, MainActivity::class.java)
-        // Borrar historial para que no pueda volver atrás al registro
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+        // ✅ como es nuevo usuario, normalmente tutorial_visto=false
+        val next = if (!KiviSettings.isTutorialVisto(this)) {
+            Intent(this, TutorialActivity::class.java)
+        } else {
+            Intent(this, MainActivity::class.java)
+        }
+
+        next.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(next)
     }
 }

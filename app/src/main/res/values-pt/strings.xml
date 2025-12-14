@@ -125,7 +125,6 @@
     <string name="color_green">Verde</string>
 
     <!-- Tutorial -->
-    <string name="tutorial_title">Tutorial de Início</string>
     <string name="tutorial_button">Comece a usar o Kivi</string>
 
     <!-- Common Buttons -->
@@ -157,4 +156,11 @@
     <string name="logout_message">Tem certeza de que deseja sair?</string>
     <string name="btn_yes">Sim</string>
     <string name="btn_cancel">Cancelar</string>
+
+    <!-- Tutorial Activity -->
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_subtitle">Assista a este vídeo para aprender a usar a Kivi.</string>
+    <string name="tutorial_tap_to_play">Toque para reproduzir</string>
+    <string name="tutorial_continue">Continuar</string>
+
 </resources>
