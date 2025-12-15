@@ -10,12 +10,20 @@ import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
+/*
+ * Pantalla de configuración de sonido.
+ * Permite ajustar el volumen general y el volumen
+ * específico de la voz del asistente.
+ */
 class SoundSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sound_settings)
 
+        // -----------------------------
+        // Referencias UI
+        // -----------------------------
         val tvCerrar = findViewById<TextView>(R.id.tvCerrarSonido)
         val seekGeneral = findViewById<SeekBar>(R.id.seekVolGeneral)
         val seekVoz = findViewById<SeekBar>(R.id.seekVolVoz)
@@ -33,6 +41,9 @@ class SoundSettingsActivity : BaseActivity() {
         tvGeneral.text = "$volGeneral%"
         tvVoz.text = "$volVoz%"
 
+        // -----------------------------
+        // AudioManager (sistema Android)
+        // -----------------------------
         val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         val maxVol = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
 
@@ -71,6 +82,10 @@ class SoundSettingsActivity : BaseActivity() {
         aplicarTamanos()
     }
 
+
+    /*
+     * Aplica colores del tema actual
+     */
     private fun aplicarTema() {
         val root = findViewById<ConstraintLayout>(R.id.rootSound)
         val card = findViewById<MaterialCardView>(R.id.cardSoundRoot)
@@ -112,6 +127,9 @@ class SoundSettingsActivity : BaseActivity() {
         seekVoz.thumbTintList = temaState
     }
 
+    /*
+     * Aplica tamaños de texto accesibles
+     */
     private fun aplicarTamanos() {
         fun size(base: Float): Float = KiviSettings.getScaledTextSize(this, base)
 

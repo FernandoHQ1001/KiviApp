@@ -9,12 +9,19 @@ import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
+/*
+ * Pantalla que permite ajustar el tamaño del texto
+ * en toda la aplicación para mejorar la accesibilidad.
+ */
 class TextSizeSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_size_settings)
 
+        // -----------------------------
+        // Referencias UI
+        // -----------------------------
         val tvCerrar = findViewById<TextView>(R.id.tvCerrarTexto)
         val tvNivel = findViewById<TextView>(R.id.tvTextoNivel)
         val seek = findViewById<SeekBar>(R.id.seekTextSize)
@@ -24,8 +31,12 @@ class TextSizeSettingsActivity : BaseActivity() {
         seek.progress = nivelGuardado
         tvNivel.text = textoNivel(nivelGuardado)
 
+        // Cerrar pantalla
         tvCerrar.setOnClickListener { finish() }
 
+        // -----------------------------
+        // Listener del SeekBar
+        // -----------------------------
         seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
                 tvNivel.text = textoNivel(progress)
@@ -48,12 +59,19 @@ class TextSizeSettingsActivity : BaseActivity() {
         aplicarTamanos()
     }
 
+    /*
+     * Devuelve el texto descriptivo
+     * según el nivel seleccionado
+     */
     private fun textoNivel(nivel: Int): String = when (nivel) {
         0 -> getString(R.string.text_size_small)
         2 -> getString(R.string.text_size_large)
         else -> getString(R.string.text_size_medium)
     }
 
+    /*
+     * Aplica colores del tema actual
+     */
     private fun aplicarTema() {
 
         val root = findViewById<ConstraintLayout>(R.id.rootTextSize)
@@ -85,6 +103,10 @@ class TextSizeSettingsActivity : BaseActivity() {
         seek.thumbTintList = temaState
     }
 
+    /*
+     * Aplica tamaños de texto escalados
+     * según el nivel configurado
+     */
     private fun aplicarTamanos() {
         fun size(base: Float): Float = KiviSettings.getScaledTextSize(this, base)
 

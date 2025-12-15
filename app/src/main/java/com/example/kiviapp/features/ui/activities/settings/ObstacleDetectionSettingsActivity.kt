@@ -10,6 +10,11 @@ import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 
+/*
+ * Pantalla de configuración de detección de obstáculos.
+ * Permite activar alertas generales y definir
+ * qué tipos de obstáculos deben avisarse.
+ */
 class ObstacleDetectionSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +26,9 @@ class ObstacleDetectionSettingsActivity : BaseActivity() {
             finish()
         }
 
+        // -----------------------------
+        // Switches
+        // -----------------------------
         val switchMain   = findViewById<SwitchMaterial>(R.id.switchObstacleMain)
         val switchFloor  = findViewById<SwitchMaterial>(R.id.switchObstacleFloor)
         val switchHead   = findViewById<SwitchMaterial>(R.id.switchObstacleHead)
@@ -61,6 +69,10 @@ class ObstacleDetectionSettingsActivity : BaseActivity() {
         aplicarTamanos()
     }
 
+    /*
+     * Habilita o deshabilita los switches secundarios
+     * según el estado del switch principal
+     */
     private fun actualizarEstadoHijos(
         mainOn: Boolean,
         switchFloor: SwitchMaterial,
@@ -70,6 +82,9 @@ class ObstacleDetectionSettingsActivity : BaseActivity() {
         switchHead.isEnabled  = mainOn
     }
 
+    /*
+     * Aplica colores y estilos visuales
+     */
     private fun aplicarTema() {
         val root       = findViewById<ConstraintLayout>(R.id.rootObstacleSettings)
         val cardRoot   = findViewById<MaterialCardView>(R.id.cardObstacleRoot)
@@ -84,6 +99,7 @@ class ObstacleDetectionSettingsActivity : BaseActivity() {
         val colorTema       = KiviSettings.getThemeColor(this)
         val temaState       = ColorStateList.valueOf(colorTema)
 
+        // Fondos
         root.setBackgroundColor(colorFondo)
         cardRoot.setCardBackgroundColor(colorCard)
         cardMain.setCardBackgroundColor(colorFondo)
@@ -127,6 +143,10 @@ class ObstacleDetectionSettingsActivity : BaseActivity() {
         switchHead.trackTintList  = temaState
     }
 
+    /*
+     * Aplica tamaños de texto escalados
+     * según accesibilidad
+     */
     private fun aplicarTamanos() {
         fun size(base: Float) = KiviSettings.getScaledTextSize(this, base)
 

@@ -14,18 +14,23 @@ class VoiceRecognitionManager(context: Context) {
 
     private val appContext = context.applicationContext
 
+    // Motor de reconocimiento de voz de Android
     private val speechRecognizer: SpeechRecognizer =
         SpeechRecognizer.createSpeechRecognizer(appContext)
 
+    /**
+     * Crea el Intent de reconocimiento de voz
+     * configurando el idioma según preferencias del usuario
+     */
     private fun createSpeechIntent(): Intent {
-        val langCode = KiviSettings.getVoiceLanguage(appContext)
-        val langTag = if (langCode == "en") "en-US" else "es-ES"
+        val langCode = KiviSettings.getVoiceLanguage(appContext)  // Obtiene el idioma configurado
+        val langTag = if (langCode == "en") "en-US" else "es-ES"  // Traduce el código a un tag compatible con Android
 
         return Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, langTag)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, langTag)
-            putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, langTag)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)  // Modelo libre para reconocer lenguaje natural
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, langTag)  // Idioma principal
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, langTag) // Preferencia de idioma
+            putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, langTag) // Asegura que solo se use ese idioma
         }
     }
 
@@ -35,6 +40,7 @@ class VoiceRecognitionManager(context: Context) {
 
         val speechIntent = createSpeechIntent()
 
+        // Configura el listener de eventos de voz
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) { Log.d("KIVI_VOICE", "Escuchando...") }
             override fun onBeginningOfSpeech() {}
@@ -47,11 +53,13 @@ class VoiceRecognitionManager(context: Context) {
             }
 
             override fun onResults(results: Bundle?) {
+                // Obtiene las posibles transcripciones
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                // Si hay resultados, se toma el más probable
                 if (!matches.isNullOrEmpty()) {
                     val spokenText = matches[0]
                     Log.d("KIVI_VOICE", "Usuario dijo: $spokenText")
-                    onResult(spokenText)
+                    onResult(spokenText)  // Devuelve el texto reconocido
                 }
             }
 
@@ -59,9 +67,11 @@ class VoiceRecognitionManager(context: Context) {
             override fun onEvent(eventType: Int, params: Bundle?) {}
         })
 
+        // Inicia el reconocimiento de voz
         speechRecognizer.startListening(speechIntent)
     }
 
+    // Detiene la escucha del micrófono
     fun stopListening() {
         speechRecognizer.stopListening()
     }

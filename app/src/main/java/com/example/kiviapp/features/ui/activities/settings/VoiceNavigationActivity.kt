@@ -13,6 +13,12 @@ import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 
+/*
+ * Pantalla que agrupa las configuraciones
+ * relacionadas con navegación por voz,
+ * movilidad y detección de obstáculos.
+ */
+
 class VoiceNavigationActivity : BaseActivity() {
 
     private lateinit var adapter: SettingsAdapter
@@ -22,8 +28,10 @@ class VoiceNavigationActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_voice_navigation)
 
+        // Botón volver
         findViewById<ImageButton>(R.id.btnBackVoiceNav).setOnClickListener { finish() }
 
+        // RecyclerView
         rv = findViewById(R.id.rvVoiceNav)
         rv.layoutManager = LinearLayoutManager(this)
 
@@ -37,11 +45,15 @@ class VoiceNavigationActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        // Reaplica estilos por cambios globales
         aplicarTemaPantalla()
         aplicarTamanosPantalla()
         adapter.refreshTheme()
     }
 
+    /*
+     * Construye las opciones de navegación por voz
+     */
     private fun buildRows(): List<SettingsRow> {
         return listOf(
             // Si quieres header:
@@ -68,6 +80,10 @@ class VoiceNavigationActivity : BaseActivity() {
         )
     }
 
+
+    /*
+     * Aplica colores del tema a la pantalla
+     */
     private fun aplicarTemaPantalla() {
         val root = findViewById<ConstraintLayout>(R.id.rootVoiceNav)
 
@@ -84,6 +100,9 @@ class VoiceNavigationActivity : BaseActivity() {
         findViewById<View>(R.id.viewVoiceNavDivider).setBackgroundColor(colorSec)
     }
 
+    /*
+     * Aplica tamaños de texto accesibles
+     */
     private fun aplicarTamanosPantalla() {
         fun size(base: Float) = KiviSettings.getScaledTextSize(this, base)
         findViewById<TextView>(R.id.tvVoiceNavTitle).textSize = size(22f)

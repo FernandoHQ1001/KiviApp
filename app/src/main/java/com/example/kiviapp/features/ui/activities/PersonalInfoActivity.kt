@@ -24,11 +24,26 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import java.io.ByteArrayOutputStream
 
+
+/*
+ * Pantalla donde el usuario puede:
+  - Ver y editar su información personal
+  - Cambiar su foto de perfil
+
+ * Los datos se guardan en Firebase Firestore.
+ * La foto se almacena como Base64 para simplificar la persistencia.
+ */
 class PersonalInfoActivity : BaseActivity() {
 
+    // -----------------------------
+    // FIREBASE
+    // -----------------------------
     private val db = FirebaseFirestore.getInstance()
     private val auth = Firebase.auth
 
+    // -----------------------------
+    // CAMPOS DE LA UI
+    // -----------------------------
     private lateinit var etNombre: EditText
     private lateinit var etApellido: EditText
     private lateinit var etFecha: EditText
@@ -37,6 +52,7 @@ class PersonalInfoActivity : BaseActivity() {
     private lateinit var imgPerfil: ImageView
     private lateinit var tvCambiarFoto: TextView
 
+    // Código para identificar el resultado de la galería
     private val PICK_IMAGE_CODE = 4000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +71,7 @@ class PersonalInfoActivity : BaseActivity() {
         imgPerfil = findViewById(R.id.imgPerfil)
         tvCambiarFoto = findViewById(R.id.tvCambiarFoto)
 
+        // Guardar cambios
         findViewById<MaterialButton>(R.id.btnGuardarPersonal).setOnClickListener {
             guardarCambios()
         }
@@ -75,12 +92,21 @@ class PersonalInfoActivity : BaseActivity() {
         aplicarTamanos()
     }
 
-    // --- Abrir galería ---
+    // =========================================================
+    // SELECCIÓN DE FOTO
+    // =========================================================
+
+    /*
+     * Abre la galería del dispositivo para seleccionar una imagen
+     */
     private fun elegirFotoGaleria() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_CODE)
     }
 
+    /*
+     * Recibe la imagen seleccionada en la galería
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_CODE && resultCode == RESULT_OK) {
@@ -89,19 +115,25 @@ class PersonalInfoActivity : BaseActivity() {
         }
     }
 
-    // --- Subir foto como Base64 a Firestore ---
+    /*
+     * Convierte la imagen a Base64 y la guarda en Firestore
+     */
     private fun subirFotoBase64(uri: Uri) {
         val user = auth.currentUser ?: return
         try {
+            // Convertir URI → Bitmap
             val bmp = MediaStore.Images.Media.getBitmap(contentResolver, uri)
             imgPerfil.setImageBitmap(bmp)
 
+            // Comprimir imagen
             val baos = ByteArrayOutputStream()
             bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos)
             val bytes = baos.toByteArray()
 
+            // Bitmap → Base64
             val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
 
+            // Guardar en Firestore
             db.collection("usuarios").document(user.uid)
                 .update("fotoPerfilBase64", base64)
                 .addOnSuccessListener {
@@ -125,8 +157,10 @@ class PersonalInfoActivity : BaseActivity() {
             return
         }
 
+        // Email viene de Firebase Auth
         tvEmail.text = user.email ?: "Sin email"
 
+        // Datos adicionales desde Firestore
         db.collection("usuarios").document(user.uid)
             .get()
             .addOnSuccessListener { doc ->
@@ -154,7 +188,9 @@ class PersonalInfoActivity : BaseActivity() {
             }
     }
 
-    // --- Guardar cambios en Firestore ---
+    // =========================================================
+    // GUARDAR CAMBIOS
+    // =========================================================
     private fun guardarCambios() {
         val user = auth.currentUser ?: return
 
@@ -186,7 +222,9 @@ class PersonalInfoActivity : BaseActivity() {
             }
     }
 
-    // --- Tema / Colores ---
+    // =========================================================
+    // TEMA / COLORES
+    // =========================================================
     private fun aplicarTema() {
         val root = findViewById<ScrollView>(R.id.rootPersonalInfo)
         val card = findViewById<MaterialCardView>(R.id.cardPersonalInfo)
@@ -225,7 +263,9 @@ class PersonalInfoActivity : BaseActivity() {
         btnGuardar.setTextColor(0xFFFFFFFF.toInt())
     }
 
-    // --- Tamaño de texto dinámico ---
+    // =========================================================
+    // TAMAÑO DE TEXTO (ACCESIBILIDAD)
+    // =========================================================
     private fun aplicarTamanos() {
         fun size(base: Float) = KiviSettings.getScaledTextSize(this, base)
 

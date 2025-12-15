@@ -9,18 +9,31 @@ import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.MainActivity
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 
+/*
+ * Pantalla que permite configurar:
+ * - Idioma de la interfaz
+ * - Idioma de la voz
+ *
+ * Ambos se manejan por separado para mejorar accesibilidad.
+ */
+
 class LanguageSettingsActivity : BaseActivity() {
 
+    // Lista visual de opciones
     private lateinit var rv: RecyclerView
+
+    // Adaptador reutilizable para settings
     private lateinit var adapter: SettingsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_language_settings)
 
+        // Inicializa el RecyclerView
         rv = findViewById(R.id.rvLanguageSettings)
         rv.layoutManager = LinearLayoutManager(this)
 
+        // Crea y asigna el adaptador
         adapter = SettingsAdapter(this, buildRows())
         rv.adapter = adapter
     }
@@ -32,10 +45,15 @@ class LanguageSettingsActivity : BaseActivity() {
         rv.adapter = adapter
     }
 
+    /*
+     * Construye dinámicamente las filas de configuración
+     */
     private fun buildRows(): List<SettingsRow> {
+        // Idiomas actuales guardados
         val appLang = KiviSettings.getAppLanguage(this)
         val voiceLang = KiviSettings.getVoiceLanguage(this)
 
+        // Traduce el código de idioma a texto visible
         fun name(code: String): String = when (code) {
             "es" -> getString(R.string.language_spanish)
             "en" -> getString(R.string.language_english)
@@ -44,6 +62,7 @@ class LanguageSettingsActivity : BaseActivity() {
         }
 
         return listOf(
+            // Título de la sección
             SettingsRow.Header(getString(R.string.language)),
 
             // ✅ Idioma Interfaz
@@ -66,6 +85,10 @@ class LanguageSettingsActivity : BaseActivity() {
         )
     }
 
+    /*
+     * Muestra diálogo para cambiar el idioma de la interfaz
+     * Requiere reiniciar la app para aplicar el Locale
+     */
     private fun showInterfaceLanguageDialog() {
         val languageCodes = arrayOf("es", "en", "pt")
         val languageNames = arrayOf(
@@ -74,6 +97,7 @@ class LanguageSettingsActivity : BaseActivity() {
             getString(R.string.language_portuguese)
         )
 
+        // Idioma actual
         val current = KiviSettings.getAppLanguage(this)
         val currentIndex = languageCodes.indexOf(current).let { if (it < 0) 0 else it }
 
@@ -96,6 +120,10 @@ class LanguageSettingsActivity : BaseActivity() {
             .show()
     }
 
+    /*
+     * Muestra diálogo para cambiar el idioma de la voz
+     * No requiere reiniciar la app
+     */
     private fun showVoiceLanguageDialog() {
         val languageCodes = arrayOf("es", "en", "pt")
         val languageNames = arrayOf(
@@ -104,6 +132,7 @@ class LanguageSettingsActivity : BaseActivity() {
             getString(R.string.language_portuguese)
         )
 
+        // Idioma de voz actual
         val current = KiviSettings.getVoiceLanguage(this)
         val currentIndex = languageCodes.indexOf(current).let { if (it < 0) 0 else it }
 

@@ -10,6 +10,14 @@ import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 
+
+/*
+ * Pantalla de configuración para la asistencia de movilidad.
+ * Permite activar o desactivar:
+ * - Voz de Kivi
+ * - Vibración (alertas hápticas)
+ */
+
 class MobilityAssistanceSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +27,9 @@ class MobilityAssistanceSettingsActivity : BaseActivity() {
         // Cerrar
         findViewById<TextView>(R.id.tvCerrarMobility).setOnClickListener { finish() }
 
+        // -----------------------------
+        // Switches de configuración
+        // -----------------------------
         val switchVoz = findViewById<SwitchMaterial>(R.id.switchVozKivi)
         val switchHaptico = findViewById<SwitchMaterial>(R.id.switchHaptico)
 
@@ -35,6 +46,7 @@ class MobilityAssistanceSettingsActivity : BaseActivity() {
             KiviSettings.setHapticEnabled(this, isChecked)
         }
 
+        // Aplica estilos visuales y tamaños accesibles
         aplicarTema()
         aplicarTamanos()
     }
@@ -45,11 +57,15 @@ class MobilityAssistanceSettingsActivity : BaseActivity() {
         aplicarTamanos()
     }
 
+    /*
+     * Aplica colores y estilos según el tema del usuario
+     */
     private fun aplicarTema() {
         val root = findViewById<ConstraintLayout>(R.id.rootMobilitySettings)
         val cardRoot = findViewById<MaterialCardView>(R.id.cardMobilitySettingsRoot)
         val cardOptions = findViewById<MaterialCardView>(R.id.cardMobilityOptions)
 
+        // Colores definidos por el usuario
         val colorFondo = KiviSettings.getBackgroundColor(this)
         val colorCard = KiviSettings.getCardColor(this)
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
@@ -57,6 +73,7 @@ class MobilityAssistanceSettingsActivity : BaseActivity() {
         val colorTema = KiviSettings.getThemeColor(this)
         val temaState = ColorStateList.valueOf(colorTema)
 
+        // Aplica colores a fondos y tarjetas
         root.setBackgroundColor(colorFondo)
         cardRoot.setCardBackgroundColor(colorCard)
         cardOptions.setCardBackgroundColor(colorFondo)
@@ -86,6 +103,9 @@ class MobilityAssistanceSettingsActivity : BaseActivity() {
         switchHaptico.trackTintList = temaState
     }
 
+    /*
+     * Aplica tamaños de texto escalados para accesibilidad
+     */
     private fun aplicarTamanos() {
         fun size(base: Float) = KiviSettings.getScaledTextSize(this, base)
 

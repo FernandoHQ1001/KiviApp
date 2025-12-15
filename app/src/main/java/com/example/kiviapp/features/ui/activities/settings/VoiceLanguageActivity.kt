@@ -11,8 +11,13 @@ import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 
+/*
+ * Permite seleccionar el idioma de la voz de Kivi (TTS).
+ * No afecta el idioma de la interfaz.
+ */
 class VoiceLanguageActivity : BaseActivity() {
 
+    // Texto que muestra el idioma actual
     private lateinit var tvIdiomaActual: TextView
 
     // Idiomas de voz disponibles
@@ -43,6 +48,7 @@ class VoiceLanguageActivity : BaseActivity() {
 
         tvIdiomaActual.text = nombreIdioma
 
+        // Card que abre el selector
         val cardSelector =
             findViewById<MaterialCardView>(R.id.cardSelectorIdiomaVoz)
 
@@ -60,6 +66,9 @@ class VoiceLanguageActivity : BaseActivity() {
         aplicarTamanos()
     }
 
+    /*
+     * Muestra un diálogo con los idiomas disponibles
+     */
     private fun mostrarDialogoIdiomas() {
         val nombres = arrayOf(
             getString(R.string.language_spanish),
@@ -76,8 +85,14 @@ class VoiceLanguageActivity : BaseActivity() {
             .setTitle(getString(R.string.voice_language))
             .setSingleChoiceItems(nombres, checkedItem) { dialog, which ->
                 val code = codes[which]
+
+                // Guarda el idioma de voz
                 KiviSettings.setVoiceLanguage(this, code)
+
+                // Actualiza texto visible
                 tvIdiomaActual.text = nombres[which]
+
+                // Feedback al usuario
                 Toast.makeText(
                     this,
                     getString(R.string.voice_language_changed_to, nombres[which]),

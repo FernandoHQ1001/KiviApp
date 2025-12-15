@@ -14,12 +14,19 @@ import com.example.kiviapp.features.ui.activities.base.BaseActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 
+/*
+ * Pantalla de configuración visual de Kivi.
+ * Permite personalizar colores, modo oscuro
+ * y tamaños de texto para mejorar la accesibilidad.
+ */
+
 class AppearanceSettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appearance_settings)
 
+        // Referencias a elementos de la interfaz
         val tvCerrar = findViewById<TextView>(R.id.tvCerrarApariencia)
         val switchDark = findViewById<SwitchMaterial>(R.id.switchDarkMode)
         val spinnerColor = findViewById<Spinner>(R.id.spinnerColor)
@@ -28,10 +35,13 @@ class AppearanceSettingsActivity : BaseActivity() {
         tvCerrar.setOnClickListener { finish() }
 
         // ----- Modo oscuro -----
+        // Aplica el estado guardado
         switchDark.isChecked = KiviSettings.isDarkMode(this)
 
+        // Escucha cambios del switch
         switchDark.setOnCheckedChangeListener { _, isChecked ->
-            KiviSettings.setDarkMode(this, isChecked)
+            KiviSettings.setDarkMode(this, isChecked) // Guarda preferencia
+            // Aplica el modo a toda la app
             val modo = if (isChecked)
                 AppCompatDelegate.MODE_NIGHT_YES
             else
@@ -41,7 +51,7 @@ class AppearanceSettingsActivity : BaseActivity() {
         }
 
         // ----- Colores -----
-        val opciones = listOf(getString(R.string.color_blue), getString(R.string.color_purple), getString(R.string.color_green))
+        val opciones = listOf(getString(R.string.color_blue), getString(R.string.color_purple), getString(R.string.color_green)) // Opciones visibles al usuario
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -62,11 +72,13 @@ class AppearanceSettingsActivity : BaseActivity() {
                 position: Int,
                 id: Long
             ) {
+                // Traduce posición a nombre de color
                 val seleccionado = when (position) {
                     1 -> "Morado"
                     2 -> "Verde"
                     else -> "Azul"
                 }
+                // Guarda el color
                 KiviSettings.setThemeColorName(this@AppearanceSettingsActivity, seleccionado)
                 // Reaplicar tema para que el color se vea al instante
                 aplicarTema()
@@ -75,6 +87,7 @@ class AppearanceSettingsActivity : BaseActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        // Aplica tema y tamaños al iniciar
         aplicarTema()
         aplicarTamanos()
     }
@@ -85,10 +98,16 @@ class AppearanceSettingsActivity : BaseActivity() {
         aplicarTamanos()
     }
 
+    /*
+     * Aplica colores de fondo, tarjetas, texto
+     * y componentes según la configuración del usuario
+     */
+
     private fun aplicarTema() {
         val root = findViewById<ConstraintLayout>(R.id.rootAppearance)
         val card = findViewById<MaterialCardView>(R.id.cardAppearanceRoot)
 
+        // Colores desde KiviSettings
         val colorFondo = KiviSettings.getBackgroundColor(this)
         val colorCard = KiviSettings.getCardColor(this)
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
@@ -96,6 +115,7 @@ class AppearanceSettingsActivity : BaseActivity() {
         val colorTema = KiviSettings.getThemeColor(this)
         val temaState = ColorStateList.valueOf(colorTema)
 
+        // Aplica colores
         root.setBackgroundColor(colorFondo)
         card.setCardBackgroundColor(colorCard)
 
@@ -117,6 +137,10 @@ class AppearanceSettingsActivity : BaseActivity() {
         spinnerColor.backgroundTintList = temaState
     }
 
+    /*
+     * Aplica tamaños de texto escalados
+     * según la configuración de accesibilidad
+     */
     private fun aplicarTamanos() {
         fun size(base: Float): Float = KiviSettings.getScaledTextSize(this, base)
 

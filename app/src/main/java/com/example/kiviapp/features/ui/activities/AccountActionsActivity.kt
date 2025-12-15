@@ -27,26 +27,44 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
+/*
+ * Pantalla encargada de acciones críticas de la cuenta:
+ * - Cerrar sesión
+ * - Eliminar cuenta
+ * - Reautenticación segura (Firebase)
+ */
+
 class AccountActionsActivity : BaseActivity() {
 
+    // Flag que indica si, tras reautenticar, se debe borrar la cuenta
     private var pendingDeleteAfterReauth: Boolean = false
 
+    /*
+     * Launcher para manejar el resultado del login con Google
+     * usado durante la reautenticación.
+     */
     private val googleReauthLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             try {
+                // Obtener cuenta de Google
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 val account = task.getResult(ApiException::class.java)
                 val idToken = account.idToken
 
+                // Validación del token
                 if (idToken.isNullOrBlank()) {
                     Toast.makeText(this, getString(R.string.reauth_failed), Toast.LENGTH_LONG).show()
                     pendingDeleteAfterReauth = false
                     return@registerForActivityResult
                 }
 
+                // Crear credencial Firebase con Google
                 val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+                // Reautenticación en Firebase
                 Firebase.auth.currentUser?.reauthenticate(credential)
                     ?.addOnSuccessListener {
+                        // Si estaba pendiente eliminar cuenta, se continúa
                         if (pendingDeleteAfterReauth) {
                             pendingDeleteAfterReauth = false
                             performDeleteAccount()
@@ -71,10 +89,12 @@ class AccountActionsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_actions)
 
+        // Referencias UI
         val tvClose = findViewById<TextView>(R.id.tvCloseAccountActions)
         val btnLogout = findViewById<MaterialButton>(R.id.btnDoLogout)
         val btnDelete = findViewById<MaterialButton>(R.id.btnDoDeleteAccount)
 
+        // Acciones
         tvClose.setOnClickListener { finish() }
         btnLogout.setOnClickListener { confirmarCerrarSesion() }
         btnDelete.setOnClickListener { confirmarEliminarCuenta() }
@@ -89,6 +109,9 @@ class AccountActionsActivity : BaseActivity() {
         aplicarTamanos()
     }
 
+    /*
+     * Diálogo de confirmación para cerrar sesión
+     */
     private fun confirmarCerrarSesion() {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.logout_title))
@@ -98,6 +121,9 @@ class AccountActionsActivity : BaseActivity() {
             .show()
     }
 
+    /*
+     * Diálogo de confirmación para eliminar la cuenta
+     */
     private fun confirmarEliminarCuenta() {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.delete_account_title))
@@ -109,6 +135,12 @@ class AccountActionsActivity : BaseActivity() {
             .show()
     }
 
+    /*
+     * Cierra sesión del usuario:
+     * - Google
+     * - Firebase
+     * - Limpia preferencias locales
+     */
     private fun cerrarSesion() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -118,16 +150,19 @@ class AccountActionsActivity : BaseActivity() {
         GoogleSignIn.getClient(this, gso).signOut()
         Firebase.auth.signOut()
 
+        // Limpia configuración local
         KiviSettings.resetCurrentUserSettings(this)
 
+        // Volver a pantalla inicial
         val intent = Intent(this, WelcomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
 
-    /**
-     * Intenta borrar. Si Firebase exige "recent login", reautentica y vuelve a intentar.
+    /*
+     * Intenta eliminar la cuenta directamente.
+     * Si Firebase exige reautenticación, se solicita.
      */
     private fun eliminarCuentaConReauthSiHaceFalta() {
         val user = Firebase.auth.currentUser
@@ -139,7 +174,7 @@ class AccountActionsActivity : BaseActivity() {
         // Intento directo (rápido): si falla por "recent login", hacemos reauth.
         user.delete()
             .addOnSuccessListener {
-                // Si por alguna razón se eliminó aquí, igual tratamos de limpiar datos locales
+                // Limpieza local en caso de éxito directo
                 KiviSettings.resetCurrentUserSettings(this)
                 Firebase.auth.signOut()
 
@@ -161,7 +196,7 @@ class AccountActionsActivity : BaseActivity() {
             }
     }
 
-    /**
+    /*
      * Reauth según provider y luego hace el borrado completo (Firestore + Auth).
      */
     private fun pedirReautenticacionYLuegoBorrar() {
@@ -185,6 +220,9 @@ class AccountActionsActivity : BaseActivity() {
             .show()
     }
 
+    /*
+     * Reautenticación usando Google
+     */
     private fun reauthWithGoogle() {
         pendingDeleteAfterReauth = true
 
@@ -221,6 +259,9 @@ class AccountActionsActivity : BaseActivity() {
             }
     }
 
+    /**
+     * Reautenticación usando contraseña (Email/Password)
+     */
     private fun reauthWithPasswordThenDelete() {
         val user = Firebase.auth.currentUser ?: return
         val email = user.email
@@ -261,10 +302,11 @@ class AccountActionsActivity : BaseActivity() {
             .show()
     }
 
-    /**
-     * Borrado “completo” recomendado:
-     * 1) borrar Firestore (requiere estar logueado)
-     * 2) borrar Auth (requiere recent login -> ya reautenticado)
+    /*
+     * Borrado completo:
+     * 1) Firestore
+     * 2) Firebase Auth
+     * 3) Preferencias locales
      */
     private fun performDeleteAccount() {
         val user = Firebase.auth.currentUser ?: return
@@ -305,9 +347,9 @@ class AccountActionsActivity : BaseActivity() {
             }
     }
 
-    // --------------------------
-    // Estilo (tema Kivi)
-    // --------------------------
+    /*
+     * Aplica colores y tema visual según configuración del usuario
+     */
     private fun aplicarTema() {
         val root = findViewById<ConstraintLayout>(R.id.rootAccountActions)
         val card = findViewById<MaterialCardView>(R.id.cardAccountActions)
@@ -342,7 +384,9 @@ class AccountActionsActivity : BaseActivity() {
         btnDelete.iconTint = temaState
     }
 
-
+    /*
+     * Aplica escalado de texto para accesibilidad
+     */
     private fun aplicarTamanos() {
         fun size(base: Float) = KiviSettings.getScaledTextSize(this, base)
         findViewById<TextView>(R.id.tvTitleAccountActions).textSize = size(22f)

@@ -7,32 +7,48 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 
+
+/*
+ * Objeto singleton que centraliza TODAS las configuraciones del usuario.
+ * Maneja accesibilidad, personalización, seguridad y sincronización en la nube.
+ */
 object KiviSettings {
 
     // --------------------------------------------------------------
     // FIRESTORE
     // --------------------------------------------------------------
+
+    // Instancia de Firestore (lazy para optimizar recursos)
     private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+
+    // Devuelve el UID del usuario autenticado
     private fun currentUserId(): String? = Firebase.auth.currentUser?.uid
+
+    // Campo donde se guardan los settings en Firestore
     private const val FIRESTORE_SETTINGS_FIELD = "settings"
 
-    // ✅ Pref global para idioma de interfaz (lo usa BaseActivity)
+    // --------------------------------------------------------------
+    // PREFERENCIAS GLOBALES (IDIOMA INTERFAZ)
+    // --------------------------------------------------------------
+    // Estas prefs se usan ANTES de crear la UI (BaseActivity)
     private fun appPrefs(context: Context) =
         context.getSharedPreferences("KiviAppPrefs", Context.MODE_PRIVATE)
 
     // --------------------------------------------------------------
     // PREFERENCIAS POR USUARIO (UID) - LOCAL
     // --------------------------------------------------------------
+    // SharedPreferences dependientes del UID
     private fun prefs(context: Context) =
         context.getSharedPreferences(getPrefsName(), Context.MODE_PRIVATE)
 
+    // Nombre dinámico de prefs según usuario
     private fun getPrefsName(): String {
         val user = Firebase.auth.currentUser
         return if (user != null) "kivi_prefs_${user.uid}" else "kivi_prefs_default"
     }
 
     // --------------------------------------------------------------
-    // KEYS
+    // KEYS DE CONFIGURACIÓN
     // --------------------------------------------------------------
     private const val KEY_DARK_MODE = "dark_mode"
     private const val KEY_THEME_COLOR = "theme_color"
@@ -109,11 +125,12 @@ object KiviSettings {
     fun getTextSizeLevel(context: Context): Int =
         prefs(context).getInt(KEY_TEXT_SIZE, 1)
 
+    // Escala el tamaño base según el nivel elegido
     fun getScaledTextSize(context: Context, baseSize: Float): Float {
         return when (getTextSizeLevel(context)) {
-            0 -> baseSize * 0.80f
-            2 -> baseSize * 1.30f
-            else -> baseSize
+            0 -> baseSize * 0.80f  // pequeño
+            2 -> baseSize * 1.30f // grande
+            else -> baseSize // medio
         }
     }
 
@@ -194,7 +211,7 @@ object KiviSettings {
     }
 
     // --------------------------------------------------------------
-    // ✅ IDIOMA INTERFAZ (POR USUARIO) + ✅ PREF GLOBAL
+    // IDIOMA INTERFAZ (POR USUARIO) + PREF GLOBAL
     // --------------------------------------------------------------
     fun setAppLanguage(context: Context, langCode: String) {
         // usuario
@@ -212,7 +229,7 @@ object KiviSettings {
     }
 
     // --------------------------------------------------------------
-    // ✅ TUTORIAL VISTO
+    // TUTORIAL VISTO
     // --------------------------------------------------------------
     fun setTutorialVisto(context: Context, visto: Boolean) {
         prefs(context).edit().putBoolean(KEY_TUTORIAL_VISTO, visto).apply()
@@ -278,6 +295,9 @@ object KiviSettings {
         editor.apply()
     }
 
+    // --------------------------------------------------------------
+    // SINCRONIZACIÓN CON FIRESTORE
+    // --------------------------------------------------------------
     fun syncToCloud(context: Context) {
         val uid = currentUserId() ?: return
 
@@ -306,6 +326,7 @@ object KiviSettings {
             .addOnFailureListener { onComplete(false) }
     }
 
+    // Limpia preferencias locales del usuario actual
     fun resetCurrentUserSettings(context: Context) {
         prefs(context).edit().clear().apply()
     }

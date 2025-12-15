@@ -12,6 +12,11 @@ import com.example.kiviapp.features.ui.activities.settings.KiviSettings
 import com.example.kiviapp.R
 import com.google.android.material.card.MaterialCardView
 
+/*
+ * Adaptador del RecyclerView que muestra
+ * las opciones de configuración de Kivi.
+ * Soporta encabezados y elementos clickeables.
+ */
 class SettingsAdapter(
     private val context: Context,
     private val rows: List<SettingsRow>
@@ -22,6 +27,9 @@ class SettingsAdapter(
         private const val TYPE_ITEM = 1
     }
 
+    /*
+     * Define el tipo de vista según la fila
+     */
     override fun getItemViewType(position: Int): Int {
         return when (rows[position]) {
             is SettingsRow.Header -> TYPE_HEADER
@@ -29,6 +37,9 @@ class SettingsAdapter(
         }
     }
 
+    /*
+     * Crea el ViewHolder correspondiente
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
@@ -46,6 +57,9 @@ class SettingsAdapter(
 
     override fun getItemCount(): Int = rows.size
 
+    /*
+     * Asigna los datos a cada fila
+     */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val row = rows[position]) {
             is SettingsRow.Header -> (holder as HeaderVH).bind(row)
@@ -53,10 +67,16 @@ class SettingsAdapter(
         }
     }
 
+    /*
+     * Fuerza refresco visual del tema
+     */
     fun refreshTheme() {
         notifyDataSetChanged()
     }
 
+    /*
+     * ViewHolder para encabezados
+     */
     private inner class HeaderVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvHeader: TextView = itemView.findViewById(R.id.tvHeader)
 
@@ -70,6 +90,9 @@ class SettingsAdapter(
         }
     }
 
+    /*
+     * ViewHolder para ítems de configuración
+     */
     private inner class ItemVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val card: MaterialCardView = itemView.findViewById(R.id.cardRoot)
         private val icon: ImageView = itemView.findViewById(R.id.icon)

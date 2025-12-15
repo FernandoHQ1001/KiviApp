@@ -33,6 +33,16 @@ import com.google.firebase.auth.ktx.auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
+
+/*
+ * Pantalla principal de Kivi.
+ * Permite al usuario:
+ * - Hablar con la IA (voz)
+ * - Tomar fotos para análisis visual
+ * - Acceder a perfil, configuración y navegación por voz
+
+ * Funciona como puente entre la UI y el KiviOrchestrator.
+ */
 class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
 
     // UI
@@ -52,6 +62,9 @@ class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
     private val PERMISO_MICROFONO = 100
     private val PERMISO_CAMARA = 101
 
+    /*
+     * Launcher para capturar fotos con la cámara
+     */
     private val tomarFotoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -103,7 +116,7 @@ class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
             startActivity(Intent(this, VoiceNavigationActivity::class.java))
         }
 
-        // 🆕 Botón Idioma → abre pantalla de Idioma
+        // Botón Idioma → abre pantalla de Idioma
         btnIdioma.setOnClickListener {
             startActivity(Intent(this, LanguageSettingsActivity::class.java))
         }
@@ -125,9 +138,9 @@ class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
         // BOTÓN CÁMARA
         btnCamara.setOnClickListener { verificarPermisoCamara() }
 
-        // ❌ Saludo eliminado: ahora se hace automáticamente cuando el TTS esté listo
+        // Saludo eliminado: ahora se hace automáticamente cuando el TTS esté listo
 
-        // ✅ BOTÓN PRUEBA DE VOZ
+        // BOTÓN PRUEBA DE VOZ
         val btnPruebaVoz = findViewById<Button>(R.id.btnPruebaVoz)
         btnPruebaVoz.setOnClickListener {
             orquestador.decir("Esta es una prueba de voz. Si me escuchas, todo funciona.")
@@ -140,8 +153,9 @@ class MainActivity : BaseActivity(), KiviOrchestrator.KiviListener {
         aplicarTamanoTexto()
     }
 
-    // -----------------------------------------------------------------------------------------
-    // RESPUESTAS DESDE EL ORQUESTADOR
+    // =========================================================
+    // CALLBACKS DEL ORQUESTADOR
+    // =========================================================
     override fun onEstadoCambiado(texto: String) {
         txtEstado.text = texto
     }

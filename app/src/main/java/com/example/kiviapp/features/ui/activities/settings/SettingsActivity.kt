@@ -12,8 +12,14 @@ import com.example.kiviapp.R
 import com.example.kiviapp.features.ui.activities.TutorialActivity
 import com.example.kiviapp.features.ui.activities.base.BaseActivity
 
+/*
+ * Pantalla principal de configuración de Kivi.
+ * Desde aquí se accede a todas las opciones
+ * de personalización y accesibilidad.
+ */
 class SettingsActivity : BaseActivity() {
 
+    // Adaptador del menú de configuraciones
     private lateinit var adapter: SettingsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +40,7 @@ class SettingsActivity : BaseActivity() {
         adapter = SettingsAdapter(this, rows)
         rv.adapter = adapter
 
+        // Aplica tema y tamaños accesibles
         aplicarTema()
         aplicarTamanos()
     }
@@ -45,8 +52,14 @@ class SettingsActivity : BaseActivity() {
         adapter.refreshTheme()
     }
 
+    /*
+     * Construye las secciones y opciones del menú
+     */
     private fun buildRows(): List<SettingsRow> {
         return listOf(
+            // -----------------------------
+            // Multimedia
+            // -----------------------------
             SettingsRow.Header(getString(R.string.settings_multimedia)),
             SettingsRow.Item(
                 id = "sound",
@@ -56,6 +69,9 @@ class SettingsActivity : BaseActivity() {
                 onClick = { startActivity(Intent(this, SoundSettingsActivity::class.java)) }
             ),
 
+            // -----------------------------
+            // Accesibilidad
+            // -----------------------------
             SettingsRow.Header(getString(R.string.settings_accessibility)),
             SettingsRow.Item(
                 id = "text_size",
@@ -65,6 +81,9 @@ class SettingsActivity : BaseActivity() {
                 onClick = { startActivity(Intent(this, TextSizeSettingsActivity::class.java)) }
             ),
 
+            // -----------------------------
+            // Personalización
+            // -----------------------------
             SettingsRow.Header(getString(R.string.settings_personalization)),
             SettingsRow.Item(
                 id = "appearance",
@@ -74,6 +93,9 @@ class SettingsActivity : BaseActivity() {
                 onClick = { startActivity(Intent(this, AppearanceSettingsActivity::class.java)) }
             ),
 
+            // -----------------------------
+            // Ayuda
+            // -----------------------------
             SettingsRow.Header(getString(R.string.settings_help)),
             SettingsRow.Item(
                 id = "tutorial",
@@ -85,6 +107,9 @@ class SettingsActivity : BaseActivity() {
         )
     }
 
+    /*
+     * Aplica colores del tema a la pantalla
+     */
     private fun aplicarTema() {
         val root = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.rootSettings)
 
@@ -92,12 +117,17 @@ class SettingsActivity : BaseActivity() {
         val colorTexto = KiviSettings.getPrimaryTextColor(this)
         val iconColor = ColorStateList.valueOf(KiviSettings.getIconColor(this))
 
+        // Fondo
         root.setBackgroundColor(colorFondo)
 
+        // Icono volver y título
         findViewById<ImageButton>(R.id.btnBackSettings).imageTintList = iconColor
         findViewById<TextView>(R.id.tvTituloConfig).setTextColor(colorTexto)
     }
 
+    /*
+     * Aplica tamaños de texto accesibles
+     */
     private fun aplicarTamanos() {
         fun size(base: Float): Float = KiviSettings.getScaledTextSize(this, base)
         findViewById<TextView>(R.id.tvTituloConfig).textSize = size(22f)
