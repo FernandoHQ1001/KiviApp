@@ -21,7 +21,7 @@ class GeminiIntegration {
 
     //  CLAVE DE LA API
     // TODO: REEMPLAZA "TU_API_KEY_AQUI" POR TU CLAVE REAL DE GOOGLE AI STUDIO
-    private val apiKey = "TU_API_KEY_AQUI"
+    private val apiKey = "AIzaSyCiFMh96rAWySM1b3EYSE7yJG_WA32QpvM"
 
     // MODELO: Usamos el 2.5 Flash
     private val modelName = "gemini-2.5-flash"
